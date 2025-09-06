@@ -28,6 +28,7 @@ $routes->post('/incidents/delete/(:num)', 'Incidents::delete/$1');
 // Reports
 // =====================
 $routes->get('/reports', 'Reports::index');
+$routes->get('/reports/generate', 'Reports::index'); // Added route for report generation
 $routes->get('/reports/incidentsExcel', 'Reports::incidentsExcel');
 // kalau mau nanti ditambah PDF
 $routes->get('/reports/incidentsPdf', 'Reports::incidentsPdf');
@@ -135,6 +136,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('/dashboard', 'Dashboard::index');
     $routes->get('/incidents', 'Incidents::index');
     $routes->get('/reports', 'Reports::index');
+    $routes->get('/reports/generate', 'Reports::index'); // Added protected route for report generation
     $routes->get('/asset-management', 'Assets::index');
     $routes->get('/alerts', 'Alerts::index');
     $routes->get('/threats', 'Threats::index');

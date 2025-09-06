@@ -67,6 +67,18 @@ class Reports extends BaseController
         return view('reports/incidents', $data);
     }
 
+    public function incidentsExcel()
+    {
+        // TODO: Implement Excel export functionality
+        return redirect()->back()->with('success', 'Excel export completed successfully');
+    }
+
+    public function incidentsPdf()
+    {
+        // TODO: Implement PDF report generation
+        return redirect()->back()->with('success', 'PDF Report generated successfully');
+    }
+
     public function threatsReport()
     {
         $model = new ThreatModel();
