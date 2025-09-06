@@ -2,52 +2,52 @@
 
 <?= $this->section('content') ?>
 <div class="flex-1 flex flex-col overflow-hidden">
-    <div class="bg-white shadow-sm border-b border-gray-200 p-6">
-        <div class="flex justify-between items-center">
+    <div class="bg-white shadow-sm border-b border-gray-200 p-4 sm:p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-edit text-red-600 mr-3"></i>
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-edit text-red-600 mr-2 sm:mr-3"></i>
                     <?= $title ?>
                 </h1>
-                <p class="text-gray-600 mt-1">Update threat intelligence information and IOC details</p>
+                <p class="text-gray-600 mt-1 text-sm">Update threat intelligence information and IOC details</p>
             </div>
-            <div class="flex space-x-3">
-                <a href="/threats/<?= $threat['id'] ?>" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
-                    <i class="fas fa-eye mr-2"></i>
+            <div class="flex gap-2 sm:gap-3">
+                <a href="/threats/<?= $threat['id'] ?>" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-eye mr-1 sm:mr-2"></i>
                     View Details
                 </a>
-                <a href="/threats" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
-                    <i class="fas fa-arrow-left mr-2"></i>
+                <a href="/threats" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-arrow-left mr-1 sm:mr-2"></i>
                     Back to Threats
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="flex-1 p-6">
+    <div class="flex-1 p-2 sm:p-4 md:p-6">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <i class="fas fa-exclamation-triangle mr-2 text-gray-600"></i>
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+                    <h2 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-1.5 sm:mr-2 text-gray-600"></i>
                         Threat Intelligence Information
                     </h2>
                 </div>
 
-                <form action="/threats/<?= $threat['id'] ?>" method="POST" class="p-6">
+                <form action="/threats/<?= $threat['id'] ?>" method="POST" class="p-3 sm:p-4 md:p-6">
                     <input type="hidden" name="_method" value="PUT">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <!-- IOC Type -->
                         <div>
-                            <label for="ioc_type" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="ioc_type" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 IOC Type <span class="text-red-500">*</span>
                             </label>
                             <select id="ioc_type" 
                                     name="ioc_type" 
                                     required
                                     onchange="updateIOCPlaceholder()"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                    class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                                 <option value="">Select IOC Type</option>
                                 <option value="IP" <?= $threat['ioc_type'] == 'IP' ? 'selected' : '' ?>>IP Address</option>
                                 <option value="Domain" <?= $threat['ioc_type'] == 'Domain' ? 'selected' : '' ?>>Domain</option>
@@ -59,7 +59,7 @@
 
                         <!-- IOC Value -->
                         <div>
-                            <label for="ioc_value" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="ioc_value" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 IOC Value <span class="text-red-500">*</span>
                             </label>
                             <input type="text" 
@@ -68,18 +68,18 @@
                                    value="<?= esc($threat['ioc_value']) ?>"
                                    required
                                    placeholder="Enter IOC value"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                   class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                         </div>
 
                         <!-- Threat Type -->
                         <div>
-                            <label for="threat_type" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="threat_type" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Threat Type <span class="text-red-500">*</span>
                             </label>
                             <select id="threat_type" 
                                     name="threat_type" 
                                     required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                    class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                                 <option value="">Select Threat Type</option>
                                 <option value="Malware C&C" <?= $threat['threat_type'] == 'Malware C&C' ? 'selected' : '' ?>>Malware C&C</option>
                                 <option value="Botnet" <?= $threat['threat_type'] == 'Botnet' ? 'selected' : '' ?>>Botnet</option>
@@ -97,13 +97,13 @@
 
                         <!-- Severity -->
                         <div>
-                            <label for="severity" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="severity" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Severity <span class="text-red-500">*</span>
                             </label>
                             <select id="severity" 
                                     name="severity" 
                                     required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                    class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                                 <option value="">Select Severity</option>
                                 <option value="Low" <?= $threat['severity'] == 'Low' ? 'selected' : '' ?>>Low</option>
                                 <option value="Medium" <?= $threat['severity'] == 'Medium' ? 'selected' : '' ?>>Medium</option>
@@ -114,13 +114,13 @@
 
                         <!-- Confidence -->
                         <div>
-                            <label for="confidence" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="confidence" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Confidence Level <span class="text-red-500">*</span>
                             </label>
                             <select id="confidence" 
                                     name="confidence" 
                                     required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                    class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                                 <option value="">Select Confidence</option>
                                 <option value="Low" <?= $threat['confidence'] == 'Low' ? 'selected' : '' ?>>Low (Unverified)</option>
                                 <option value="Medium" <?= $threat['confidence'] == 'Medium' ? 'selected' : '' ?>>Medium (Likely)</option>
@@ -130,13 +130,13 @@
 
                         <!-- Status -->
                         <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="status" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Status <span class="text-red-500">*</span>
                             </label>
                             <select id="status" 
                                     name="status" 
                                     required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                    class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                                 <option value="">Select Status</option>
                                 <option value="Active" <?= $threat['status'] == 'Active' ? 'selected' : '' ?>>Active</option>
                                 <option value="Inactive" <?= $threat['status'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
@@ -146,7 +146,7 @@
 
                         <!-- Source -->
                         <div>
-                            <label for="source" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="source" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Source
                             </label>
                             <input type="text" 
@@ -154,36 +154,36 @@
                                    name="source"
                                    value="<?= esc($threat['source']) ?>"
                                    placeholder="e.g., VirusTotal, Internal Analysis, MISP"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                   class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                         </div>
 
                         <!-- First Seen -->
                         <div>
-                            <label for="first_seen" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="first_seen" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 First Seen
                             </label>
                             <input type="datetime-local" 
                                    id="first_seen" 
                                    name="first_seen"
                                    value="<?= isset($threat['first_seen']) && $threat['first_seen'] ? date('Y-m-d\TH:i', strtotime($threat['first_seen'])) : '' ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                   class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                         </div>
 
                         <!-- Last Seen -->
                         <div>
-                            <label for="last_seen" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="last_seen" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Last Seen
                             </label>
                             <input type="datetime-local" 
                                    id="last_seen" 
                                    name="last_seen"
                                    value="<?= isset($threat['last_seen']) && $threat['last_seen'] ? date('Y-m-d\TH:i', strtotime($threat['last_seen'])) : '' ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                   class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                         </div>
 
                         <!-- Tags -->
                         <div>
-                            <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="tags" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Tags
                             </label>
                             <input type="text" 
@@ -191,31 +191,31 @@
                                    name="tags"
                                    value="<?= esc($threat['tags']) ?>"
                                    placeholder="e.g., apt29, malware, c2 (comma-separated)"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors">
+                                   class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm">
                         </div>
 
                         <!-- Description -->
                         <div class="md:col-span-2">
-                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="description" class="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                                 Description
                             </label>
                             <textarea id="description" 
                                       name="description" 
-                                      rows="4"
+                                      rows="3"
                                       placeholder="Detailed description of the threat, context, and any additional information..."
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors"><?= esc($threat['description']) ?></textarea>
+                                      class="w-full px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors text-sm"><?= esc($threat['description']) ?></textarea>
                         </div>
                     </div>
 
                     <!-- Threat History -->
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center">
-                            <i class="fas fa-history text-blue-600 mr-2"></i>
+                    <div class="mt-4 sm:mt-6 md:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+                        <h3 class="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4 flex items-center">
+                            <i class="fas fa-history text-blue-600 mr-1.5 sm:mr-2"></i>
                             Threat History
                         </h3>
                         
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-gray-50 rounded-lg p-3 sm:p-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
                                 <div>
                                     <span class="font-medium text-gray-600">Created:</span>
                                     <div class="text-gray-900">
@@ -237,25 +237,25 @@
                     </div>
 
                     <!-- Form Actions -->
-                    <div class="mt-8 pt-6 border-t border-gray-200">
-                        <div class="flex justify-between">
+                    <div class="mt-4 sm:mt-6 md:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
                             <button type="button" 
                                     onclick="if(confirm('Are you sure you want to delete this threat IOC?')) { 
                                         window.location.href='/threats/<?= $threat['id'] ?>/delete' 
                                     }"
-                                    class="px-6 py-3 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 transition-colors flex items-center">
-                                <i class="fas fa-trash mr-2"></i>
+                                    class="px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center text-sm">
+                                <i class="fas fa-trash mr-1 sm:mr-2"></i>
                                 Delete Threat IOC
                             </button>
                             
-                            <div class="flex space-x-4">
+                            <div class="flex gap-2 sm:gap-4">
                                 <a href="/threats" 
-                                   class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                   class="px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm text-center">
                                     Cancel
                                 </a>
                                 <button type="submit" 
-                                        class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center">
-                                    <i class="fas fa-save mr-2"></i>
+                                        class="px-3 py-1.5 sm:px-4 sm:py-2 md:px-6 md:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center text-sm">
+                                    <i class="fas fa-save mr-1 sm:mr-2"></i>
                                     Update Threat IOC
                                 </button>
                             </div>
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form submission handling
     form.addEventListener('submit', function(e) {
         const submitBtn = this.querySelector('button[type="submit"]');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Updating Threat IOC...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1 sm:mr-2"></i>Updating Threat IOC...';
         submitBtn.disabled = true;
     });
 });

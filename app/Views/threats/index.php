@@ -22,58 +22,58 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="card bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-            <div class="card-content p-6">
+            <div class="card-content p-4 sm:p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-blue-100 text-sm font-medium">Total IOCs</p>
-                        <p class="text-3xl font-bold"><?= $stats['total_iocs'] ?></p>
+                        <p class="text-2xl sm:text-3xl font-bold"><?= $stats['total_iocs'] ?></p>
                     </div>
-                    <div class="w-12 h-12 bg-blue-400 bg-opacity-30 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-database text-xl"></i>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-400 bg-opacity-30 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-database text-lg sm:text-xl"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card bg-gradient-to-r from-green-500 to-green-600 text-white">
-            <div class="card-content p-6">
+            <div class="card-content p-4 sm:p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-green-100 text-sm font-medium">Active Threats</p>
-                        <p class="text-3xl font-bold"><?= $stats['active_threats'] ?></p>
+                        <p class="text-2xl sm:text-3xl font-bold"><?= $stats['active_threats'] ?></p>
                     </div>
-                    <div class="w-12 h-12 bg-green-400 bg-opacity-30 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-shield-alt text-xl"></i>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-400 bg-opacity-30 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-lg sm:text-xl"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card bg-gradient-to-r from-red-500 to-red-600 text-white">
-            <div class="card-content p-6">
+            <div class="card-content p-4 sm:p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-red-100 text-sm font-medium">High Severity</p>
-                        <p class="text-3xl font-bold"><?= $stats['high_severity'] ?></p>
+                        <p class="text-2xl sm:text-3xl font-bold"><?= $stats['high_severity'] ?></p>
                     </div>
-                    <div class="w-12 h-12 bg-red-400 bg-opacity-30 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-red-400 bg-opacity-30 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-lg sm:text-xl"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
-            <div class="card-content p-6">
+            <div class="card-content p-4 sm:p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-yellow-100 text-sm font-medium">Recent (24h)</p>
-                        <p class="text-3xl font-bold"><?= $stats['recent_24h'] ?></p>
+                        <p class="text-2xl sm:text-3xl font-bold"><?= $stats['recent_24h'] ?></p>
                     </div>
-                    <div class="w-12 h-12 bg-yellow-400 bg-opacity-30 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-clock text-xl"></i>
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-400 bg-opacity-30 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clock text-lg sm:text-xl"></i>
                     </div>
                 </div>
             </div>
@@ -82,13 +82,13 @@
 
     <!-- Search and Filters -->
     <div class="card">
-        <div class="card-content p-6">
-            <div class="flex flex-col sm:flex-row gap-4">
+        <div class="card-content p-4 sm:p-6">
+            <div class="flex flex-col sm:flex-row gap-3">
                 <div class="flex-1">
                     <input type="text" id="searchIOC" placeholder="Search IOCs..." 
                            class="form-input w-full" onkeyup="searchThreats()">
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 flex-wrap">
                     <select id="filterType" class="form-select" onchange="filterThreats()">
                         <option value="">All Types</option>
                         <option value="IP">IP Address</option>
@@ -118,76 +118,76 @@
             </h3>
         </div>
         <div class="card-content">
-            <div class="table-wrapper">
+            <div class="overflow-x-auto">
                 <table class="table w-full">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IOC</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Threat</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Confidence</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Seen</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IOC</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Threat</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Confidence</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Seen</th>
+                            <th class="px-2 py-2 sm:px-3 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200" id="threatsTableBody">
                         <?php foreach ($threats as $threat): ?>
                         <tr class="hover:bg-gray-50" data-type="<?= $threat['ioc_type'] ?>" data-severity="<?= $threat['severity'] ?>">
-                            <td class="px-6 py-4">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3 max-w-[120px] sm:max-w-xs">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 w-8 h-8 mr-3">
-                                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                            <i class="<?= getIOCIcon($threat['ioc_type']) ?> text-sm text-gray-600"></i>
+                                    <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 mr-1 sm:mr-2">
+                                        <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                            <i class="<?= getIOCIcon($threat['ioc_type']) ?> text-xs sm:text-sm text-gray-600"></i>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?= esc(substr($threat['ioc_value'], 0, 50)) ?><?= strlen($threat['ioc_value']) > 50 ? '...' : '' ?>
+                                    <div class="min-w-0">
+                                        <div class="text-xs sm:text-sm font-medium text-gray-900 truncate">
+                                            <?= esc(substr($threat['ioc_value'], 0, 20)) ?><?= strlen($threat['ioc_value']) > 20 ? '...' : '' ?>
                                         </div>
-                                        <div class="text-sm text-gray-500"><?= esc($threat['source']) ?></div>
+                                        <div class="text-xs text-gray-500 truncate hidden sm:block"><?= esc($threat['source']) ?></div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3">
+                                <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
                                     <?= esc($threat['ioc_type']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900"><?= esc($threat['threat_type']) ?></td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getSeverityClass($threat['severity']) ?>">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3 text-xs sm:text-sm text-gray-900 max-w-[100px] sm:max-w-xs truncate"><?= esc(substr($threat['threat_type'], 0, 15)) ?><?= strlen($threat['threat_type']) > 15 ? '...' : '' ?></td>
+                            <td class="px-2 py-2 sm:px-3 sm:py-3">
+                                <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full <?= getSeverityClass($threat['severity']) ?>">
                                     <?= esc($threat['severity']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3">
                                 <div class="flex items-center">
-                                    <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="<?= getConfidenceColor($threat['confidence']) ?> h-2 rounded-full" 
+                                    <div class="w-8 sm:w-12 bg-gray-200 rounded-full h-1 mr-1">
+                                        <div class="<?= getConfidenceColor($threat['confidence']) ?> h-1 rounded-full" 
                                              style="width: <?= getConfidenceWidth($threat['confidence']) ?>%"></div>
                                     </div>
-                                    <span class="text-sm text-gray-600"><?= esc($threat['confidence']) ?></span>
+                                    <span class="text-xs text-gray-600 hidden sm:inline"><?= esc($threat['confidence']) ?></span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getStatusClass($threat['status']) ?>">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3">
+                                <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full <?= getStatusClass($threat['status']) ?>">
                                     <?= esc($threat['status']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3 text-xs text-gray-900 whitespace-nowrap">
                                 <?= $threat['last_seen'] ? date('M j, Y', strtotime($threat['last_seen'])) : 'N/A' ?>
                             </td>
-                            <td class="px-6 py-4 text-sm space-x-2">
-                                <a href="/threats/show/<?= $threat['id'] ?>" class="text-blue-600 hover:text-blue-800">
+                            <td class="px-2 py-2 sm:px-3 sm:py-3 text-sm space-x-1">
+                                <a href="/threats/show/<?= $threat['id'] ?>" class="text-blue-600 hover:text-blue-800 p-1">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="/threats/edit/<?= $threat['id'] ?>" class="text-green-600 hover:text-green-800">
+                                <a href="/threats/edit/<?= $threat['id'] ?>" class="text-green-600 hover:text-green-800 p-1">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a href="/threats/delete/<?= $threat['id'] ?>" 
                                    onclick="return confirm('Are you sure you want to delete this IOC?')"
-                                   class="text-red-600 hover:text-red-800">
+                                   class="text-red-600 hover:text-red-800 p-1">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>

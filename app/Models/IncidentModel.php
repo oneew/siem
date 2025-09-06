@@ -9,23 +9,17 @@ class IncidentModel extends Model
     protected $table = 'incidents';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'title', 'description', 'source_ip', 'attack_type', 'attack_vector',
-        'severity', 'impact', 'status', 'priority', 'assigned_to',
-        'resolution_notes', 'resolved_at', 'first_detected', 'containment_time',
-        'eradication_time', 'recovery_time', 'lessons_learned', 'tags',
-        'affected_systems', 'evidence_collected', 'created_at', 'updated_at'
+        'title', 'description', 'source_ip', 'severity', 'status', 
+        'resolution_notes', 'resolved_at', 'evidence_collected', 
+        'created_at', 'updated_at'
     ];
     protected $useTimestamps = true;
     
     protected $validationRules = [
         'title' => 'required|max_length[255]',
         'description' => 'required',
-        'attack_type' => 'in_list[Malware,Phishing,DDoS,Data Breach,Insider Threat,Advanced Persistent Threat,Ransomware,Social Engineering,Physical Security,Other]',
-        'attack_vector' => 'in_list[Email,Web Application,Network,USB/Removable Media,Social Engineering,Physical Access,Third Party,Unknown,Other]',
         'severity' => 'required|in_list[Low,Medium,High,Critical]',
-        'impact' => 'in_list[None,Low,Medium,High,Critical]',
-        'status' => 'required|in_list[New,Assigned,In Progress,Contained,Eradicated,Recovered,Closed]',
-        'priority' => 'in_list[Low,Medium,High,Critical]',
+        'status' => 'required|in_list[Open,In Progress,Closed]',
         'source_ip' => 'valid_ip'
     ];
     
@@ -43,7 +37,7 @@ class IncidentModel extends Model
         ],
         'status' => [
             'required' => 'Status is required',
-            'in_list' => 'Status must be valid incident response status'
+            'in_list' => 'Status must be one of: Open, In Progress, Closed'
         ],
         'source_ip' => [
             'valid_ip' => 'Please provide a valid IP address'
