@@ -3,6 +3,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
     const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+
+    // Check for saved theme preference or respect OS preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    // Apply theme
+    applyTheme(initialTheme);
+    
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeToggle.title = 'Switch to light mode';
+            }
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeToggle.title = 'Switch to dark mode';
+            }
+        }
+        localStorage.setItem('theme', theme);
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    }
 
     const toggleSidebar = () => {
         sidebar.classList.toggle('open');
@@ -30,13 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
     
         overlay.addEventListener('click', toggleSidebar);
     }
+    
+    // Add theme toggle event listener
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 
     // Close sidebar when clicking outside on larger screens
     document.addEventListener('click', (e) => {
         const isClickInsideSidebar = sidebar.contains(e.target);
         const isClickOnMenuToggle = menuToggle && menuToggle.contains(e.target);
+        const isClickOnThemeToggle = themeToggle && themeToggle.contains(e.target);
         
-        if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('open')) {
+        if (!isClickInsideSidebar && !isClickOnMenuToggle && !isClickOnThemeToggle && sidebar.classList.contains('open')) {
             closeSidebar();
         }
     });

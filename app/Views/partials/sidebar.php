@@ -134,5 +134,9 @@
             <p class="text-white font-medium truncate"><?= session()->get('username') ?></p>
             <p class="text-gray-400 text-sm truncate"><?= session()->get('role') ?></p>
         </div>
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+            <i class="fas fa-moon"></i>
+        </button>
     </div>
 </aside>

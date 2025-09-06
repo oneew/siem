@@ -16,6 +16,25 @@
   --danger-color: #ef4444; /* Red-500 */
 }
 
+/* Dark theme variables */
+[data-theme="dark"] {
+  --sidebar-bg: #0f172a; /* Darker blue-gray */
+  --main-bg: #020617;    /* Very dark blue */
+  --card-bg: #1e293b;    /* Dark card background */
+  --text-main: #f1f5f9;  /* Light text */
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --primary-color: #60a5fa; /* Lighter blue */
+  --primary-hover: #3b82f6; /* Blue-500 */
+  --danger-color: #f87171; /* Lighter red */
+}
+
+/* Ensure dark theme is applied properly */
+[data-theme="dark"] body {
+  background-color: var(--main-bg);
+  color: var(--text-main);
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--main-bg);
@@ -85,6 +104,7 @@ body {
 
 .sidebar-footer {
   flex-shrink: 0;
+  background-color: var(--sidebar-bg); /* Ensure footer matches sidebar background */
 }
 
 /* Custom scrollbar for sidebar */
@@ -114,6 +134,11 @@ body {
   color: #6b7280;
 }
 
+/* Dark theme adjustments for nav section title */
+[data-theme="dark"] .nav-section-title {
+  color: #94a3b8;
+}
+
 .nav-link {
   display: flex;
   align-items: center;
@@ -123,6 +148,7 @@ body {
   font-weight: 500;
   transition: all 0.2s ease;
   color: #d1d5db; /* Lighter text for better contrast on dark bg */
+  background-color: transparent;
 }
 
 .nav-link:hover {
@@ -141,6 +167,38 @@ body {
   width: 20px;
   text-align: center;
   font-size: 0.875rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Dark theme adjustments for theme toggle */
+[data-theme="dark"] .theme-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 /* === DASHBOARD & CARDS === */
@@ -169,6 +227,7 @@ body {
 .card-title {
   font-size: 1.125rem;
   font-weight: 600;
+  color: var(--text-main);
 }
 
 .card-content {
@@ -187,6 +246,12 @@ body {
   cursor: pointer;
   border: none;
   outline: none;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
 }
 
 .btn-primary {
@@ -207,21 +272,23 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-main);
 }
 
 .form-label.required::after {
   content: " *";
-  color: #ef4444;
+  color: var(--danger-color);
 }
 
 .form-input,
 .form-select {
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-color);
   border-radius: 0.375rem;
   transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: var(--card-bg);
+  color: var(--text-main);
 }
 
 .form-input:focus,
@@ -231,11 +298,20 @@ body {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
+/* Dark theme form adjustments */
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select {
+  border-color: var(--border-color);
+}
+
 /* === ALERTS === */
 .alert {
   padding: 1rem;
   border-radius: 0.375rem;
   margin-bottom: 1rem;
+  color: var(--text-main);
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
 }
 
 .alert-success {
@@ -254,6 +330,59 @@ body {
   background-color: #dbeafe;
   border: 1px solid #bfdbfe;
   color: #1e40af;
+}
+
+/* Dark theme alerts */
+[data-theme="dark"] .alert-success {
+  background-color: #065f46;
+  border-color: #047857;
+  color: #d1fae5;
+}
+
+[data-theme="dark"] .alert-error {
+  background-color: #7f1d1d;
+  border-color: #b91c1c;
+  color: #fecaca;
+}
+
+[data-theme="dark"] .alert-info {
+  background-color: #1e3a8a;
+  border-color: #1d4ed8;
+  color: #bfdbfe;
+}
+
+/* === TABLES === */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-main);
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--card-bg);
+}
+
+.table tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Dark theme tables */
+[data-theme="dark"] .table th {
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .table tr:hover {
+  background-color: rgba(59, 130, 246, 0.1);
 }
 
 /* === RESPONSIVE === */
