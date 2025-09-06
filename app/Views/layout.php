@@ -1,13 +1,37 @@
-<div class="admin-layout">
-  <?= $this->include('partials/header') ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= esc($title ?? 'SIEM Platform') ?></title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
+</head>
+<body class="bg-gray-100">
 
-  <?= $this->include('partials/sidebar') ?>
+    <div class="admin-layout">
+        <?= $this->include('partials/sidebar') ?>
 
-  <div class="main-content bg-gray-50 flex-1 overflow-auto">
-    <?= $this->include('partials/navbar') ?>
+        <div class="main-content">
+            <main class="page-content">
+                <?= $this->renderSection('content') ?>
+            </main>
+        </div>
+    </div>
+    
+    <div class="sidebar-overlay hidden lg:hidden" id="sidebar-overlay"></div>
 
-    <?= $this->include('partials/content') ?>
-
-    <?= $this->include('partials/footer') ?>
-  </div>
-</div>
+    <script src="<?= base_url('assets/js/main.js') ?>"></script>
+    
+    <!-- Additional scripts can be added here -->
+    <?= $this->renderSection('scripts') ?>
+</body>
+</html>

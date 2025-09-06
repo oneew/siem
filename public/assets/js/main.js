@@ -1,31 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const pageContent = document.getElementById('pageContent');
-  const pageTitle = document.getElementById('pageTitle');
-  const navLinks = document.querySelectorAll('.nav-link');
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const body = document.body;
 
-  function loadPage(page, title) {
-    fetch(`pages/${page}.html`)
-      .then(res => res.text())
-      .then(html => {
-        pageContent.innerHTML = html;
-        pageTitle.textContent = title;
-      })
-      .catch(() => {
-        pageContent.innerHTML = `<p class="text-red-500">Gagal memuat halaman ${page}</p>`;
-      });
-  }
+    const toggleSidebar = () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+        
+        // Prevent body scroll when sidebar is open on mobile
+        if (sidebar.classList.contains('open')) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = '';
+        }
+    };
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      navLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      const page = link.dataset.page;
-      const title = link.textContent.trim();
-      loadPage(page, title);
+    const closeSidebar = () => {
+        sidebar.classList.remove('open');
+        overlay.classList.add('hidden');
+        body.style.overflow = '';
+    };
+
+    if (menuToggle && sidebar && overlay) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+    
+        overlay.addEventListener('click', toggleSidebar);
+    }
+
+    // Close sidebar when clicking outside on larger screens
+    document.addEventListener('click', (e) => {
+        const isClickInsideSidebar = sidebar.contains(e.target);
+        const isClickOnMenuToggle = menuToggle && menuToggle.contains(e.target);
+        
+        if (!isClickInsideSidebar && !isClickOnMenuToggle && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
     });
-  });
 
-  // Default: buka dashboard
-  loadPage('dashboard', 'Dashboard');
+    // Close sidebar on escape key press
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            closeSidebar();
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+            // On large screens, ensure sidebar is visible and reset body overflow
+            sidebar.classList.remove('open');
+            overlay.classList.add('hidden');
+            body.style.overflow = '';
+        }
+    });
 });
