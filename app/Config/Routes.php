@@ -9,6 +9,16 @@ $routes->get('/', 'Home::index');
 // $routes->get('/demo-info', 'Home::demoInfo');
 
 // =====================
+// Test Comment
+// =====================
+$routes->get('/test-comment', 'TestComment::insertTestComment');
+
+// =====================
+// Test Comment
+// =====================
+$routes->get('/test-comment', 'TestComment::insertTestComment');
+
+// =====================
 // Dashboard
 // =====================
 $routes->get('/dashboard', 'Dashboard::index');
@@ -23,6 +33,7 @@ $routes->get('/incidents/show/(:num)', 'Incidents::show/$1');
 $routes->get('/incidents/edit/(:num)', 'Incidents::edit/$1');
 $routes->post('/incidents/update/(:num)', 'Incidents::update/$1');
 $routes->post('/incidents/delete/(:num)', 'Incidents::delete/$1');
+$routes->post('/incidents/add-comment', 'Incidents::addComment');
 
 // =====================
 // Reports

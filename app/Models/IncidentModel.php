@@ -20,7 +20,7 @@ class IncidentModel extends Model
         'description' => 'required',
         'severity' => 'required|in_list[Low,Medium,High,Critical]',
         'status' => 'required|in_list[Open,In Progress,Closed]',
-        'source_ip' => 'valid_ip'
+        'source_ip' => 'required|valid_ip'
     ];
     
     protected $validationMessages = [
@@ -40,7 +40,32 @@ class IncidentModel extends Model
             'in_list' => 'Status must be one of: Open, In Progress, Closed'
         ],
         'source_ip' => [
+            'required' => 'Source IP address is required',
             'valid_ip' => 'Please provide a valid IP address'
         ]
     ];
+    
+    // Override the insert method to add better error handling
+    public function insert($data = null, bool $returnID = true)
+    {
+        // Log the data being inserted
+        log_message('debug', 'Attempting to insert incident data: ' . json_encode($data));
+        
+        try {
+            $result = parent::insert($data, $returnID);
+            
+            if ($result === false) {
+                // Log the errors
+                $errors = $this->errors();
+                log_message('error', 'Failed to insert incident. Validation errors: ' . json_encode($errors));
+                return false;
+            }
+            
+            log_message('debug', 'Incident inserted successfully with ID: ' . $result);
+            return $result;
+        } catch (\Exception $e) {
+            log_message('error', 'Exception during incident insert: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

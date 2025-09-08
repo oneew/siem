@@ -14,6 +14,21 @@
     </div>
 </div>
 
+<!-- Flash Messages -->
+<?= $this->include('components/flash_messages') ?>
+
+<!-- Validation Errors -->
+<?php if (session()->getFlashdata('errors')): ?>
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded" role="alert">
+        <p class="font-bold">Validation Errors</p>
+        <ul class="list-disc list-inside mt-2">
+            <?php foreach (session()->getFlashdata('errors') as $field => $error): ?>
+                <li><?= esc($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
 <!-- Create Incident Form -->
 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
     <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
@@ -34,7 +49,8 @@
                            name="title" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                            required 
-                           placeholder="Brief but descriptive title">
+                           placeholder="Brief but descriptive title"
+                           value="<?= old('title') ?>">
                     <p class="mt-1 text-sm text-gray-500">Provide a clear and concise title for the incident</p>
                 </div>
                 
@@ -46,19 +62,21 @@
                     <textarea name="description" 
                               rows="4" 
                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
-                              placeholder="Detailed description of the incident..." required></textarea>
+                              placeholder="Detailed description of the incident..." required><?= old('description') ?></textarea>
                     <p class="mt-1 text-sm text-gray-500">Include all relevant details about the incident</p>
                 </div>
 
                 <!-- Source IP Field -->
                 <div class="form-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2 required">
                         Source IP Address
                     </label>
                     <input type="text" 
                            name="source_ip" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
-                           placeholder="192.168.1.100">
+                           required
+                           placeholder="192.168.1.100"
+                           value="<?= old('source_ip') ?>">
                     <p class="mt-1 text-sm text-gray-500">IP address of the threat source</p>
                 </div>
                 
@@ -71,10 +89,10 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                             required>
                         <option value="">Select Severity</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                        <option value="Critical">Critical</option>
+                        <option value="Low" <?= old('severity') == 'Low' ? 'selected' : '' ?>>Low</option>
+                        <option value="Medium" <?= old('severity') == 'Medium' ? 'selected' : '' ?>>Medium</option>
+                        <option value="High" <?= old('severity') == 'High' ? 'selected' : '' ?>>High</option>
+                        <option value="Critical" <?= old('severity') == 'Critical' ? 'selected' : '' ?>>Critical</option>
                     </select>
                     <p class="mt-1 text-sm text-gray-500">Assess the impact level of this incident</p>
                 </div>
@@ -88,9 +106,9 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                             required>
                         <option value="">Select Status</option>
-                        <option value="Open" selected>Open</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Closed">Closed</option>
+                        <option value="Open" <?= old('status') == 'Open' || !old('status') ? 'selected' : '' ?>>Open</option>
+                        <option value="In Progress" <?= old('status') == 'In Progress' ? 'selected' : '' ?>>In Progress</option>
+                        <option value="Closed" <?= old('status') == 'Closed' ? 'selected' : '' ?>>Closed</option>
                     </select>
                     <p class="mt-1 text-sm text-gray-500">Initial status of the incident</p>
                 </div>
@@ -125,7 +143,7 @@
                     <textarea name="resolution_notes" 
                               rows="3" 
                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
-                              placeholder="Any additional information or initial observations..."></textarea>
+                              placeholder="Any additional information or initial observations..."><?= old('resolution_notes') ?></textarea>
                     <p class="mt-1 text-sm text-gray-500">Optional notes about the incident</p>
                 </div>
             </div>

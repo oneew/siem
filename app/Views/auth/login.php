@@ -145,9 +145,9 @@
     <!-- Header -->
     <div class="text-center mb-8">
       <div class="login-logo">
-        <img src="<?= base_url('assets/images/LOGO_BSSN.png') ?>" alt="Logo" class="h-16 w-auto mx-auto">
+        <img src="<?= base_url('assets/images/monumen.png') ?>" alt="Logo" class="h-16 w-auto mx-auto">
       </div>
-      <h1 class="text-3xl font-bold text-gray-800 mb-2 mt-4">SIEM Platform</h1>
+      <!-- <h1 class="text-3xl font-bold text-gray-800 mb-2 mt-4">SIEM Platform</h1> -->
       <div class="flex items-center justify-center space-x-4 text-sm text-gray-500">
         <span><i class="fas fa-lock mr-1"></i>Secure</span>
         <span><i class="fas fa-eye mr-1"></i>Monitor</span>
