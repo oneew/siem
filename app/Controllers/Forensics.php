@@ -78,36 +78,99 @@ class Forensics extends BaseController
         return view('forensics/show', $data);
     }
 
+    // Added update method for forensics cases
+    public function update($id)
+    {
+        $model = new ForensicsModel();
+        $case = $model->find($id);
+        
+        if (!$case) {
+            return redirect()->to('/forensics')->with('error', 'Forensics case not found');
+        }
+        
+        $data = [
+            'case_name' => $this->request->getPost('case_name'),
+            'case_type' => $this->request->getPost('case_type'),
+            'priority' => $this->request->getPost('priority'),
+            'status' => $this->request->getPost('status'),
+            'assigned_investigator' => $this->request->getPost('assigned_investigator'),
+            'incident_date' => $this->request->getPost('incident_date'),
+            'description' => $this->request->getPost('description'),
+            'findings' => $this->request->getPost('findings'),
+            'recommendations' => $this->request->getPost('recommendations'),
+            'evidence_count' => $this->request->getPost('evidence_count'),
+            'closed_date' => $this->request->getPost('closed_date')
+        ];
+        
+        if ($model->update($id, $data)) {
+            return redirect()->to('/forensics/show/' . $id)->with('success', 'Forensics case updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update forensics case');
+        }
+    }
+
     public function addEvidence($caseId)
     {
+        $model = new ForensicsModel();
+        $case = $model->find($caseId);
+        
+        if (!$case) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Forensics case not found');
+        }
+        
         $data['title'] = 'Add Evidence';
-        $data['case_id'] = $caseId;
+        $data['case'] = $case;
         return view('forensics/add_evidence', $data);
     }
 
     public function storeEvidence($caseId)
     {
         // TODO: Implement actual file uploads and evidence storage
+        // For now, just increment the evidence count
+        $model = new ForensicsModel();
+        $case = $model->find($caseId);
+        
+        if (!$case) {
+            return redirect()->to('/forensics')->with('error', 'Forensics case not found');
+        }
+        
+        // Increment evidence count
+        $newCount = ($case['evidence_count'] ?? 0) + 1;
+        $model->update($caseId, ['evidence_count' => $newCount]);
+        
         return redirect()->to('/forensics/show/' . $caseId)->with('success', 'Evidence added successfully');
     }
 
     public function generateReport($id)
     {
+        $model = new ForensicsModel();
+        $case = $model->find($id);
+        
+        if (!$case) {
+            return redirect()->to('/forensics')->with('error', 'Forensics case not found');
+        }
+        
         // TODO: Implement comprehensive forensics report generation
-        return redirect()->back()->with('success', 'Forensics report generated successfully');
+        return redirect()->to('/forensics/show/' . $id)->with('success', 'Forensics report generation initiated. The report will be available shortly.');
     }
 
-    public function downloadEvidence($caseId, $evidenceId)
+    public function download($id)
     {
         // TODO: Implement evidence download functionality
-        return redirect()->back()->with('success', 'Evidence download initiated');
+        return redirect()->to('/forensics/show/' . $id)->with('success', 'Evidence download initiated');
     }
 
     public function closeCase($id)
     {
         $model = new ForensicsModel();
+        $case = $model->find($id);
+        
+        if (!$case) {
+            return redirect()->to('/forensics')->with('error', 'Forensics case not found');
+        }
+        
         $model->update($id, ['status' => 'Completed', 'closed_date' => date('Y-m-d H:i:s')]);
-        return redirect()->back()->with('success', 'Case closed successfully');
+        return redirect()->to('/forensics/show/' . $id)->with('success', 'Case closed successfully');
     }
 
     public function delete($id)

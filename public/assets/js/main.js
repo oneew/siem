@@ -99,3 +99,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// SweetAlert2 helper functions
+function showSuccessAlert(title, text = '') {
+    Swal.fire({
+        icon: 'success',
+        title: title,
+        text: text,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+}
+
+function showErrorAlert(title, text = '') {
+    Swal.fire({
+        icon: 'error',
+        title: title,
+        text: text,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+}
+
+function showInfoAlert(title, text = '') {
+    Swal.fire({
+        icon: 'info',
+        title: title,
+        text: text,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+}
+
+function showWarningAlert(title, text = '') {
+    Swal.fire({
+        icon: 'warning',
+        title: title,
+        text: text,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
+}
+
+function showConfirmAlert(title, text = '', confirmCallback) {
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed && confirmCallback) {
+            confirmCallback();
+        }
+    });
+}

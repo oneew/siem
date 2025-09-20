@@ -9,7 +9,8 @@
 </div>
 
 <div class="bg-white rounded-lg shadow-md p-6">
-    <form action="<?= base_url('/playbooks/update/' . $playbook['id']) ?>" method="post">
+    <form action="<?= base_url('/playbooks/' . $playbook['id']) ?>" method="post">
+        <input type="hidden" name="_method" value="PUT">
         <?= csrf_field() ?>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

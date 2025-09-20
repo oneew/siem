@@ -84,6 +84,7 @@ class Playbooks extends BaseController
         return view('playbooks/edit', $data);
     }
 
+    // Updated to match the new route: /playbooks/(:num) with POST method and _method=PUT
     public function update($id)
     {
         $model = new PlaybookModel();
@@ -109,6 +110,7 @@ class Playbooks extends BaseController
         }
     }
 
+    // Updated to match the new route: /playbooks/delete/(:num) with GET method
     public function delete($id)
     {
         $model = new PlaybookModel();

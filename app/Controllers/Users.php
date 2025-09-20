@@ -60,6 +60,7 @@ class Users extends BaseController
         return view('users/edit', $data);
     }
 
+    // Updated to match the new route: /users/(:num) with POST method and _method=PUT
     public function update($id)
     {
         helper(['form']);
@@ -128,6 +129,7 @@ class Users extends BaseController
         }
     }
 
+    // Updated to match the new route: /users/delete/(:num) with GET method
     public function delete($id)
     {
         // Prevent deleting the current user

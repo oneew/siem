@@ -34,7 +34,7 @@
                     </h2>
                 </div>
 
-                <form action="/assets/<?= $asset['id'] ?>" method="POST" class="p-6">
+                <form action="/asset-management/<?= $asset['id'] ?>" method="POST" class="p-6">
                     <input type="hidden" name="_method" value="PUT">
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

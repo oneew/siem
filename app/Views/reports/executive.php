@@ -357,12 +357,12 @@ new Chart(trendsCtx, {
 
 // Executive functions
 function scheduleReport() {
-    alert('Executive report scheduling configured (Demo Mode)\n\nReports will be automatically generated and sent to executives monthly.');
+    showInfoAlert('Schedule Report', 'Executive report scheduling configured (Demo Mode)\n\nReports will be automatically generated and sent to executives monthly.');
 }
 
 function exportExecutive(type) {
     if (type === 'pdf') {
-        alert('Exporting executive dashboard to PDF format (Demo Mode)');
+        showInfoAlert('Export Dashboard', 'Exporting executive dashboard to PDF format (Demo Mode)');
         // In production: window.location.href = '/reports/executive/export/pdf';
     }
 }

@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
     actionButtons.forEach(button => {
         button.addEventListener('click', function() {
             const action = this.querySelector('span').textContent;
-            alert(`${action} functionality would be implemented in production environment.`);
+            showInfoAlert('Asset Management', `${action} functionality would be implemented in production environment.`);
         });
     });
 });

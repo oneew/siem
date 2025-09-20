@@ -289,22 +289,19 @@
     </div>
 </div>
 
+<!-- Hidden form for delete action -->
+<form id="delete-form" method="post" action="">
+    <?= csrf_field() ?>
+</form>
+
 <script>
 function confirmDelete(id) {
     if (confirm('Are you sure you want to delete this incident? This action cannot be undone.')) {
-        // Create a form dynamically and submit it
-        const form = document.createElement('form');
-        form.method = 'POST';
+        // Set the form action
+        const form = document.getElementById('delete-form');
         form.action = `/incidents/delete/${id}`;
         
-        // Add CSRF token if needed
-        const csrfField = document.createElement('input');
-        csrfField.type = 'hidden';
-        csrfField.name = '<?= csrf_token() ?>';
-        csrfField.value = '<?= csrf_hash() ?>';
-        form.appendChild(csrfField);
-        
-        document.body.appendChild(form);
+        // Submit the form
         form.submit();
     }
 }
@@ -370,14 +367,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     // Show success message
-                    alert('Comment added successfully!');
+                    showSuccessAlert('Comment Added', 'Comment added successfully!');
                 } else {
-                    alert('Failed to add comment: ' + (data.message || 'Unknown error'));
+                    showErrorAlert('Error', 'Failed to add comment: ' + (data.message || 'Unknown error'));
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to add comment. Please try again.');
+                showErrorAlert('Error', 'Failed to add comment. Please try again.');
             })
             .finally(() => {
                 // Restore button state

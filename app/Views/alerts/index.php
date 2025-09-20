@@ -3,27 +3,41 @@
 
 <!-- Security Alerts Dashboard -->
 <div class="space-y-6">
-    <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<!-- Header Section -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h2 class="text-2xl font-bold text-gray-900">Security Alerts</h2>
-            <p class="text-gray-600 mt-1">Real-time security monitoring and alerting system</p>
+            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                <i class="fas fa-solid fa-skull-crossbones text-red-600 mr-3"></i>
+                Security Alerts
+            </h1>
+            <p class="text-gray-600 mt-2">Real-time security monitoring and alerting system</p>
         </div>
         <div class="flex gap-3">
-            <a href="/alerts/create" class="btn btn-primary">
+            <a href="/alerts/create" class="btn btn-primary flex items-center">
                 <i class="fas fa-plus mr-2"></i>
                 Create Alert
             </a>
-            <button onclick="refreshAlerts()" class="btn btn-secondary">
+            <!-- Only show clear button in development mode -->
+            <?php if (ENVIRONMENT === 'development'): ?>
+            <a href="/alerts/clear-all" 
+               class="btn btn-danger flex items-center"
+               onclick="return confirm('Are you sure you want to clear all alerts? This cannot be undone.')">
+                <i class="fas fa-trash mr-2"></i>
+                Clear All Alerts
+            </a>
+            <?php endif; ?>
+            <button onclick="refreshAlerts()" class="btn btn-secondary flex items-center">
                 <i class="fas fa-sync-alt mr-2"></i>
                 Refresh
             </button>
         </div>
     </div>
+</div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="card bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -37,7 +51,7 @@
             </div>
         </div>
 
-        <div class="card bg-gradient-to-r from-red-500 to-red-600 text-white">
+        <div class="card bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -51,7 +65,7 @@
             </div>
         </div>
 
-        <div class="card bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+        <div class="card bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -65,7 +79,7 @@
             </div>
         </div>
 
-        <div class="card bg-gradient-to-r from-green-500 to-green-600 text-white">
+        <div class="card bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -81,29 +95,33 @@
     </div>
 
     <!-- Filter Section -->
-    <div class="card">
+    <div class="card rounded-xl shadow-sm border border-gray-200">
         <div class="card-content p-6">
-            <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex-1">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-1">
                     <input type="text" id="searchAlert" placeholder="Search alerts..." 
-                           class="form-input w-full" onkeyup="searchAlerts()">
+                           class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onkeyup="searchAlerts()">
                 </div>
-                <div class="flex gap-2">
-                    <select id="filterPriority" class="form-select" onchange="filterAlerts()">
+                <div>
+                    <select id="filterPriority" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
                         <option value="">All Priorities</option>
                         <option value="Critical">Critical</option>
                         <option value="High">High</option>
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                     </select>
-                    <select id="filterStatus" class="form-select" onchange="filterAlerts()">
+                </div>
+                <div>
+                    <select id="filterStatus" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
                         <option value="">All Status</option>
                         <option value="Active">Active</option>
                         <option value="Investigating">Investigating</option>
                         <option value="Closed">Closed</option>
                         <option value="False Positive">False Positive</option>
                     </select>
-                    <select id="filterType" class="form-select" onchange="filterAlerts()">
+                </div>
+                <div>
+                    <select id="filterType" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
                         <option value="">All Types</option>
                         <option value="Authentication">Authentication</option>
                         <option value="Network">Network</option>
@@ -118,15 +136,15 @@
     </div>
 
     <!-- Alerts Table -->
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">
+    <div class="card rounded-xl shadow-sm border border-gray-200">
+        <div class="card-header border-b border-gray-200 p-6">
+            <h3 class="card-title text-lg font-semibold text-gray-800">
                 <i class="fas fa-bell mr-2"></i>
                 Active Security Alerts
             </h3>
         </div>
         <div class="card-content">
-            <div class="table-wrapper">
+            <div class="overflow-x-auto">
                 <table class="table w-full">
                     <thead>
                         <tr class="bg-gray-50">
@@ -145,7 +163,7 @@
                             data-priority="<?= $alert['priority'] ?>" 
                             data-status="<?= $alert['status'] ?>" 
                             data-type="<?= $alert['alert_type'] ?>">
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <?php if (!$alert['acknowledged']): ?>
                                         <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-3"></div>
@@ -156,51 +174,51 @@
                                         <div class="text-sm font-medium text-gray-900">
                                             <?= esc($alert['alert_name']) ?>
                                         </div>
-                                        <div class="text-sm text-gray-500">
+                                        <div class="text-sm text-gray-500 truncate max-w-xs">
                                             Rule: <?= esc($alert['rule_name'] ?? 'N/A') ?>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertTypeClass($alert['alert_type']) ?>">
                                     <i class="<?= getAlertTypeIcon($alert['alert_type']) ?> mr-1"></i>
                                     <?= esc($alert['alert_type']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getPriorityClass($alert['priority']) ?>">
                                     <?= esc($alert['priority']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 <?= esc($alert['source_ip'] ?? 'Unknown') ?>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertStatusClass($alert['status']) ?>">
                                     <?= esc($alert['status']) ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 <?= date('M j, H:i', strtotime($alert['created_at'])) ?>
                             </td>
-                            <td class="px-6 py-4 text-sm space-x-2">
-                                <a href="/alerts/show/<?= $alert['id'] ?>" class="text-blue-600 hover:text-blue-800" title="View Details">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                <a href="/alerts/show/<?= $alert['id'] ?>" class="text-blue-600 hover:text-blue-800 p-1 rounded hover:bg-blue-50" title="View Details">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <?php if (!$alert['acknowledged']): ?>
-                                <a href="/alerts/acknowledge/<?= $alert['id'] ?>" class="text-green-600 hover:text-green-800" title="Acknowledge">
+                                <a href="/alerts/acknowledge/<?= $alert['id'] ?>" class="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50" title="Acknowledge">
                                     <i class="fas fa-check"></i>
                                 </a>
                                 <?php endif; ?>
                                 <?php if ($alert['status'] === 'Active'): ?>
-                                <a href="/alerts/close/<?= $alert['id'] ?>" class="text-orange-600 hover:text-orange-800" title="Close Alert">
+                                <a href="/alerts/close/<?= $alert['id'] ?>" class="text-orange-600 hover:text-orange-800 p-1 rounded hover:bg-orange-50" title="Close Alert">
                                     <i class="fas fa-times-circle"></i>
                                 </a>
                                 <?php endif; ?>
                                 <a href="/alerts/delete/<?= $alert['id'] ?>" 
                                    onclick="return confirm('Are you sure you want to delete this alert?')"
-                                   class="text-red-600 hover:text-red-800" title="Delete">
+                                   class="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50" title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -299,7 +317,7 @@ function filterAlerts() {
 
 function refreshAlerts() {
     // Show loading state
-    const button = event.target;
+    const button = event.target.closest('button');
     const originalText = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Refreshing...';
     button.disabled = true;
@@ -308,7 +326,7 @@ function refreshAlerts() {
     setTimeout(() => {
         button.innerHTML = originalText;
         button.disabled = false;
-        showAdvancedToast('success', 'Success', 'Security alerts refreshed successfully');
+        // In a real implementation, you would reload the data here
         location.reload();
     }, 1500);
 }

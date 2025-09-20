@@ -12,7 +12,7 @@
                 <p class="text-gray-600 mt-1">Update alert information and response settings</p>
             </div>
             <div class="flex space-x-3">
-                <a href="/alerts/<?= $alert['id'] ?>" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
+                <a href="/alerts/show/<?= $alert['id'] ?>" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-eye mr-2"></i>
                     View Details
                 </a>
@@ -239,7 +239,7 @@
                         <div class="flex justify-between">
                             <button type="button" 
                                     onclick="if(confirm('Are you sure you want to delete this alert?')) { 
-                                        window.location.href='/alerts/<?= $alert['id'] ?>/delete' 
+                                        window.location.href='/alerts/delete/<?= $alert['id'] ?>' 
                                     }"
                                     class="px-6 py-3 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 transition-colors flex items-center">
                                 <i class="fas fa-trash mr-2"></i>
@@ -320,26 +320,51 @@ document.addEventListener('DOMContentLoaded', function() {
 // Quick action functions
 function acknowledgeAlert() {
     document.getElementById('acknowledged').checked = true;
-    alert('Alert marked as acknowledged (Demo Mode)');
+    // Submit the form to save the acknowledgment
+    document.querySelector('form').submit();
 }
 
 function escalateAlert() {
-    document.getElementById('priority').value = 'Critical';
-    document.getElementById('priority').dispatchEvent(new Event('change'));
-    alert('Alert escalated to Critical priority (Demo Mode)');
+    const prioritySelect = document.getElementById('priority');
+    // Escalate priority: Low -> Medium, Medium -> High, High -> Critical
+    const currentPriority = prioritySelect.value;
+    let newPriority = currentPriority;
+    
+    switch(currentPriority) {
+        case 'Low':
+            newPriority = 'Medium';
+            break;
+        case 'Medium':
+            newPriority = 'High';
+            break;
+        case 'High':
+            newPriority = 'Critical';
+            break;
+        case 'Critical':
+            // Already at highest priority
+            showInfoAlert('Alert Priority', 'Alert is already at Critical priority');
+            return;
+    }
+    
+    prioritySelect.value = newPriority;
+    prioritySelect.dispatchEvent(new Event('change'));
+    // Submit the form to save the escalation
+    document.querySelector('form').submit();
 }
 
 function createIncident() {
-    if (confirm('Create a new incident based on this alert?')) {
-        alert('Incident created successfully (Demo Mode)\nIncident ID: INC-2024-001');
-    }
+    showConfirmAlert('Create Incident', 'Create a new incident based on this alert?', () => {
+        // Redirect to create incident page
+        window.location.href = '/alerts/create-incident/<?= $alert['id'] ?>';
+    });
 }
 
 function markFalsePositive() {
-    if (confirm('Mark this alert as a false positive? This action cannot be undone.')) {
+    showConfirmAlert('Mark as False Positive', 'Mark this alert as a false positive? This action cannot be undone.', () => {
         document.getElementById('status').value = 'False Positive';
-        alert('Alert marked as false positive (Demo Mode)');
-    }
+        // Submit the form to save the status change
+        document.querySelector('form').submit();
+    });
 }
 </script>
 

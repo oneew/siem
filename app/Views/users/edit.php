@@ -29,7 +29,8 @@
         </h2>
     </div>
     <div class="p-6">
-        <form method="post" action="/users/update/<?= $user['id'] ?>" class="space-y-6" enctype="multipart/form-data">
+        <form method="post" action="/users/<?= $user['id'] ?>" class="space-y-6" enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="PUT">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Profile Picture Section -->
                 <div class="md:col-span-2">

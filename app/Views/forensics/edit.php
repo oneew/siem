@@ -52,7 +52,8 @@
                     </div>
                 </div>
 
-                <form id="editCaseForm" action="/forensics/update/<?= $case['id'] ?>" method="POST" class="p-6">
+                <form id="editCaseForm" action="/forensics/<?= $case['id'] ?>" method="POST" class="p-6">
+                    <input type="hidden" name="_method" value="PUT">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Case Identification -->
                         <div class="space-y-4">
@@ -266,15 +267,15 @@ document.getElementById('editCaseForm').addEventListener('submit', function(e) {
     
     if (!isValid) {
         e.preventDefault();
-        alert('Please fill in all required fields.');
+        showErrorAlert('Validation Error', 'Please fill in all required fields.');
         return false;
     }
     
     // Confirm update in demo mode
-    if (!confirm('Update forensics case? (Demo Mode - No actual database changes)')) {
-        e.preventDefault();
-        return false;
-    }
+    e.preventDefault();
+    showConfirmAlert('Update Forensics Case', 'Update forensics case? (Demo Mode - No actual database changes)', () => {
+        showSuccessAlert('Case Updated', 'Forensics case updated successfully (Demo Mode)');
+    });
 });
 
 // Initialize case type info

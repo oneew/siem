@@ -1,6 +1,6 @@
 <?= $this->extend('layout') ?>
-
 <?= $this->section('content') ?>
+
 <div class="flex-1 flex flex-col overflow-hidden">
     <div class="bg-white shadow-sm border-b border-gray-200 p-6">
         <div class="flex justify-between items-center">
@@ -12,7 +12,7 @@
                 <p class="text-gray-600 mt-1">Comprehensive alert information and response actions</p>
             </div>
             <div class="flex space-x-3">
-                <a href="/alerts/<?= $alert['id'] ?>/edit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
+                <a href="/alerts/edit/<?= $alert['id'] ?>" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-edit mr-2"></i>
                     Edit Alert
                 </a>
@@ -239,30 +239,33 @@
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <button onclick="acknowledgeAlert()" 
-                                class="bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center"
-                                <?= $alert['acknowledged'] ? 'disabled' : '' ?>>
+                        <a href="/alerts/acknowledge/<?= $alert['id'] ?>" 
+                           class="bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center <?= $alert['acknowledged'] ? 'opacity-50 cursor-not-allowed' : '' ?>"
+                           <?= $alert['acknowledged'] ? 'aria-disabled="true" tabindex="-1"' : '' ?>>
                             <i class="fas fa-check text-xl mb-2"></i>
                             <span class="text-sm font-medium"><?= $alert['acknowledged'] ? 'Acknowledged' : 'Acknowledge' ?></span>
-                        </button>
+                        </a>
                         
-                        <button onclick="escalateAlert()" 
-                                class="bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
+                        <a href="/alerts/escalate/<?= $alert['id'] ?>" 
+                           onclick="return confirm('Escalate this alert to higher priority?')"
+                           class="bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
                             <i class="fas fa-arrow-up text-xl mb-2"></i>
                             <span class="text-sm font-medium">Escalate</span>
-                        </button>
-                        
-                        <button onclick="createIncident()" 
-                                class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
+                        </a>
+
+                        <a href="/alerts/create-incident/<?= $alert['id'] ?>" 
+                           onclick="return confirm('Create a new security incident based on this alert?')"
+                           class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
                             <i class="fas fa-exclamation-triangle text-xl mb-2"></i>
                             <span class="text-sm font-medium">Create Incident</span>
-                        </button>
-                        
-                        <button onclick="closeAlert()" 
-                                class="bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
+                        </a>
+
+                        <a href="/alerts/close/<?= $alert['id'] ?>" 
+                           onclick="return confirm('Are you sure you want to close this alert?')"
+                           class="bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
                             <i class="fas fa-times-circle text-xl mb-2"></i>
                             <span class="text-sm font-medium">Close Alert</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -286,10 +289,10 @@
                                         <div class="font-medium text-blue-900">IP Geolocation</div>
                                         <div class="text-sm text-blue-800"><?= esc($alert['source_ip']) ?></div>
                                     </div>
-                                    <button onclick="lookupIP('<?= esc($alert['source_ip']) ?>')" 
-                                            class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                                    <a href="https://ipinfo.io/<?= esc($alert['source_ip']) ?>" target="_blank"
+                                       class="text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
                                 </div>
                             </div>
                             <?php endif; ?>
@@ -298,12 +301,21 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <div class="font-medium text-green-900">Similar Alerts</div>
-                                        <div class="text-sm text-green-800">3 similar alerts in last 24h</div>
+                                        <div class="text-sm text-green-800">
+                                            <?php
+                                            // Count similar alerts in the last 24 hours
+                                            $model = new \App\Models\AlertModel();
+                                            $similarCount = $model->where('alert_type', $alert['alert_type'])
+                                                ->where('created_at >=', date('Y-m-d H:i:s', strtotime('-24 hours')))
+                                                ->countAllResults();
+                                            ?>
+                                            <?= $similarCount ?> similar alerts in last 24h
+                                        </div>
                                     </div>
-                                    <button onclick="viewSimilarAlerts()" 
-                                            class="text-green-600 hover:text-green-800">
+                                    <a href="/alerts?filter_type=<?= urlencode($alert['alert_type']) ?>" 
+                                       class="text-green-600 hover:text-green-800">
                                         <i class="fas fa-eye"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             
@@ -311,12 +323,12 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <div class="font-medium text-purple-900">Threat Intelligence</div>
-                                        <div class="text-sm text-purple-800">Check IOC databases</div>
+                                        <div class="text-sm text-purple-800">Check threat database</div>
                                     </div>
-                                    <button onclick="checkThreatIntel()" 
-                                            class="text-purple-600 hover:text-purple-800">
+                                    <a href="/threats?search=<?= urlencode($alert['source_ip'] ?? '') ?>" 
+                                       class="text-purple-600 hover:text-purple-800">
                                         <i class="fas fa-shield-alt"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -392,49 +404,18 @@
 
 <script>
 // Alert management functions
-function acknowledgeAlert() {
-    if (confirm('Acknowledge this security alert?')) {
-        alert('Alert acknowledged successfully (Demo Mode)');
-        // In production: send AJAX request to update alert
-        document.querySelector('[onclick="acknowledgeAlert()"]').disabled = true;
-        document.querySelector('[onclick="acknowledgeAlert()"] span').textContent = 'Acknowledged';
-    }
-}
-
 function escalateAlert() {
-    if (confirm('Escalate this alert to higher priority and notify management?')) {
-        alert('Alert escalated successfully (Demo Mode)\nNotifications sent to security team leads.');
-    }
+    showInfoAlert('Alert Escalation', 'Alert escalation functionality would be implemented here.\nIn a production environment, this would update the alert priority and notify the appropriate team.');
 }
 
 function createIncident() {
-    if (confirm('Create a new security incident based on this alert?')) {
-        alert('Security incident created successfully (Demo Mode)\nIncident ID: INC-2024-' + Math.floor(Math.random() * 1000));
-    }
-}
-
-function closeAlert() {
-    if (confirm('Mark this alert as resolved and close it?')) {
-        alert('Alert closed successfully (Demo Mode)');
-        window.location.href = '/alerts';
-    }
-}
-
-function lookupIP(ip) {
-    alert(`IP Geolocation lookup for ${ip} (Demo Mode)\n\nLocation: Unknown\nISP: Demo ISP\nThreat Level: Medium`);
-}
-
-function viewSimilarAlerts() {
-    alert('Displaying similar alerts (Demo Mode)\n\n3 similar authentication alerts found in the last 24 hours.');
-}
-
-function checkThreatIntel() {
-    alert('Threat Intelligence Check (Demo Mode)\n\nChecking IOC databases...\nNo matches found in threat intelligence feeds.');
+    showInfoAlert('Create Incident', 'Incident creation functionality would be implemented here.\nIn a production environment, this would create a new incident record linked to this alert.');
 }
 
 // Auto-refresh alert status
 setInterval(function() {
-    console.log('Alert status refresh triggered');
+    console.log('Alert status refresh check');
+    // In a real implementation, this would check for updates
 }, 30000);
 </script>
 

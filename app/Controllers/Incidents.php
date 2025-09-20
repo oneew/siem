@@ -172,6 +172,7 @@ class Incidents extends BaseController
         return view('incidents/edit', ['incident' => $incident]);
     }
 
+    // Updated to match the new route: /incidents/update/(:num) with POST method (no method spoofing)
     public function update($id)
     {
         helper(['form']);
@@ -262,6 +263,7 @@ class Incidents extends BaseController
         }
     }
 
+    // Updated to match the new route: /incidents/delete/(:num) with POST method (form submission)
     public function delete($id)
     {
         $model = new IncidentModel();

@@ -315,13 +315,13 @@
 <script>
 // Threat intelligence actions
 function blockThreat() {
-    if (confirm('Are you sure you want to block this IOC across all security systems?')) {
-        alert('IOC blocking request sent to security systems (Demo Mode)');
-    }
+    showConfirmAlert('Block Threat', 'Are you sure you want to block this IOC across all security systems?', () => {
+        showInfoAlert('Block Threat', 'IOC blocking request sent to security systems (Demo Mode)');
+    });
 }
 
 function analyzeIOC() {
-    alert('Deep analysis initiated. Results will be available in the threat analysis dashboard (Demo Mode)');
+    showInfoAlert('Analyze IOC', 'Deep analysis initiated. Results will be available in the threat analysis dashboard (Demo Mode)');
 }
 
 function exportIOC() {
@@ -347,7 +347,7 @@ function exportIOC() {
 }
 
 function shareIOC() {
-    alert('Threat intelligence sharing initiated with partner organizations (Demo Mode)');
+    showInfoAlert('Share IOC', 'Threat intelligence sharing initiated with partner organizations (Demo Mode)');
 }
 
 // Auto-refresh threat status

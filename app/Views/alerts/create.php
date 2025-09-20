@@ -28,7 +28,7 @@
                     </h2>
                 </div>
 
-                <form action="/alerts" method="POST" class="p-6">
+                <form action="/alerts/store" method="POST" class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Alert Name -->
                         <div class="md:col-span-2">

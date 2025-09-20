@@ -132,9 +132,9 @@ document.getElementById('confirm_execution').addEventListener('change', function
 });
 
 document.getElementById('execute_btn').addEventListener('click', function() {
-    if (confirm('Are you sure you want to execute this playbook?')) {
+    showConfirmAlert('Execute Playbook', 'Are you sure you want to execute this playbook?', () => {
         // In a real implementation, this would trigger the actual playbook execution
-        alert('Playbook execution started. In a real implementation, this would trigger the automated steps.');
+        showInfoAlert('Playbook Execution', 'Playbook execution started. In a real implementation, this would trigger the automated steps.');
         
         // Update execution count and last executed time
         fetch(`<?= base_url('/playbooks/execute/' . $playbook['id']) ?>`, {
@@ -150,14 +150,14 @@ document.getElementById('execute_btn').addEventListener('click', function() {
             if (data.success) {
                 window.location.href = '<?= base_url('/playbooks/show/' . $playbook['id']) ?>';
             } else {
-                alert('Error executing playbook: ' + data.message);
+                showErrorAlert('Error', 'Error executing playbook: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while executing the playbook.');
+            showErrorAlert('Error', 'An error occurred while executing the playbook.');
         });
-    }
+    });
 });
 </script>
 

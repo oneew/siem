@@ -82,6 +82,7 @@ class Threats extends BaseController
         return view('threats/edit', $data);
     }
 
+    // Updated to match the new route: /threats/(:num) with POST method and _method=PUT
     public function update($id)
     {
         $model = new ThreatModel();
@@ -107,6 +108,7 @@ class Threats extends BaseController
         }
     }
 
+    // Updated to match the new route: /threats/delete/(:num) with GET method
     public function delete($id)
     {
         $model = new ThreatModel();

@@ -357,60 +357,63 @@
 <script>
 // Quick action functions
 function updateStatus() {
-    const newStatus = prompt('Enter new status (Active, In Progress, On Hold, Completed, Archived):');
-    if (newStatus) {
-        alert(`Case status updated to: ${newStatus} (Demo Mode)`);
-        // In production: make API call to update status
-    }
+    Swal.fire({
+        title: 'Update Status',
+        input: 'text',
+        inputLabel: 'Enter new status (Active, In Progress, On Hold, Completed, Archived):',
+        inputPlaceholder: 'Enter status...',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Update',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            showSuccessAlert('Status Updated', `Case status updated to: ${result.value} (Demo Mode)`);
+            // In production: make API call to update status
+        }
+    });
 }
 
 function assignInvestigator() {
-    const investigator = prompt('Enter investigator name:');
-    if (investigator) {
-        alert(`Case assigned to: ${investigator} (Demo Mode)`);
-        // In production: make API call to assign investigator
-    }
+    Swal.fire({
+        title: 'Assign Investigator',
+        input: 'text',
+        inputLabel: 'Enter investigator name:',
+        inputPlaceholder: 'Enter investigator name...',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Assign',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            showSuccessAlert('Investigator Assigned', `Case assigned to: ${result.value} (Demo Mode)`);
+            // In production: make API call to assign investigator
+        }
+    });
 }
 
 function generateReport() {
-    alert('Generating forensics report... (Demo Mode)\n\nReport will include case summary, evidence analysis, and recommendations.');
-    // In production: redirect to report generation
+    // Redirect to the actual report generation route
+    window.location.href = '/forensics/report/<?= $case['id'] ?>';
 }
 
 function closeCase() {
-    if (confirm('Are you sure you want to close this case? This action cannot be undone.')) {
-        alert('Case marked as closed (Demo Mode)');
-        // In production: make API call to close case
-    }
+    showConfirmAlert('Close Case', 'Are you sure you want to close this case? This action cannot be undone.', () => {
+        // Redirect to the actual close case route
+        window.location.href = '/forensics/close/<?= $case['id'] ?>';
+    });
 }
 
 function addEvidence() {
-    const evidenceName = prompt('Enter evidence item name:');
-    if (evidenceName) {
-        const evidenceList = document.getElementById('evidenceList');
-        const newEvidence = document.createElement('div');
-        newEvidence.className = 'border border-gray-200 rounded-lg p-4 bg-gray-50';
-        newEvidence.innerHTML = `
-            <div class="flex justify-between items-start">
-                <div class="flex-1">
-                    <h4 class="font-medium text-gray-900">${evidenceName}</h4>
-                    <p class="text-sm text-gray-600 mt-1">New evidence item added</p>
-                    <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                        <span><i class="fas fa-calendar mr-1"></i>Collected: ${new Date().toLocaleString()}</span>
-                        <span><i class="fas fa-shield-alt mr-1"></i>Hash: Pending</span>
-                    </div>
-                </div>
-                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">Pending</span>
-            </div>
-        `;
-        evidenceList.appendChild(newEvidence);
-        alert('Evidence item added (Demo Mode)');
-    }
+    // Redirect to the actual add evidence route
+    window.location.href = '/forensics/add-evidence/<?= $case['id'] ?>';
 }
 
 function exportCase(format) {
     if (format === 'pdf') {
-        alert('Exporting case to PDF format (Demo Mode)\n\nReport will include all case details, timeline, and evidence chain.');
+        showInfoAlert('Export Case', 'Exporting case to PDF format (Demo Mode)\n\nReport will include all case details, timeline, and evidence chain.');
         // In production: generate and download PDF
     }
 }

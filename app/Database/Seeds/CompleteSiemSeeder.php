@@ -8,6 +8,13 @@ class CompleteSiemSeeder extends Seeder
 {
     public function run()
     {
+        // Check if we want to clear existing data first
+        $clearData = (bool) $this->cli->getOption('clear');
+        
+        if ($clearData) {
+            $this->clearAllData();
+        }
+        
         // Seed Users first (for relationships)
         $this->seedUsers();
         
@@ -17,8 +24,10 @@ class CompleteSiemSeeder extends Seeder
         // Seed Threats
         $this->seedThreats();
         
-        // Seed Alerts
-        $this->seedAlerts();
+        // Seed Alerts (only if not clearing)
+        if (!$clearData) {
+            $this->seedAlerts();
+        }
         
         // Seed Incidents
         $this->seedIncidents();
@@ -34,6 +43,39 @@ class CompleteSiemSeeder extends Seeder
         
         // Seed Relationships
         $this->seedRelationships();
+    }
+
+    private function clearAllData()
+    {
+        echo "Clearing all existing data...\n";
+        
+        // Clear tables in reverse order of dependencies
+        $tables = [
+            'comments',
+            'incident_assets', 
+            'incident_threats',
+            'incident_evidence',
+            'incident_playbooks',
+            'evidence',
+            'forensics_cases',
+            'incident_responses',
+            'incidents',
+            'alert_assets',
+            'threat_assets',
+            'alerts',
+            'threats',
+            'assets',
+            'playbook_steps',
+            'playbooks',
+            'users'
+        ];
+        
+        foreach ($tables as $table) {
+            $this->db->table($table)->truncate();
+            echo "Cleared table: $table\n";
+        }
+        
+        echo "All data cleared successfully.\n\n";
     }
 
     private function seedUsers()

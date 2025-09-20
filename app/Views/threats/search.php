@@ -377,9 +377,9 @@ function quickSearch(term) {
 }
 
 function blockThreat(threatId) {
-    if (confirm('Are you sure you want to block this threat IOC?')) {
-        alert('Threat IOC blocking initiated (Demo Mode)');
-    }
+    showConfirmAlert('Block Threat', 'Are you sure you want to block this threat IOC?', () => {
+        showInfoAlert('Block Threat', 'Threat IOC blocking initiated (Demo Mode)');
+    });
 }
 
 // Enhanced search with Enter key

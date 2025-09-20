@@ -181,7 +181,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button onclick="if(confirm('Are you sure you want to delete this playbook?')) { 
-                                                window.location.href='/playbooks/<?= $playbook['id'] ?>/delete' 
+                                                window.location.href='/playbooks/delete/<?= $playbook['id'] ?>' 
                                             }"
                                             class="text-red-600 hover:text-red-800 transition-colors" 
                                             title="Delete Playbook">
