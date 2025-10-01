@@ -5,13 +5,13 @@
     <h1 class="text-2xl font-bold text-gray-900"><?= esc($title) ?></h1>
     <div class="flex space-x-2">
         <a href="<?= base_url('/playbooks') ?>" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-            <i class="fas fa-arrow-left"></i> Back to Playbooks
+            <i class="fas fa-arrow-left"></i> Kembali ke Playbook
         </a>
         <a href="<?= base_url('/playbooks/edit/' . $playbook['id']) ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <i class="fas fa-edit"></i> Edit
         </a>
         <button onclick="confirmDelete(<?= $playbook['id'] ?>)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-            <i class="fas fa-trash"></i> Delete
+            <i class="fas fa-trash"></i> Hapus
         </button>
     </div>
 </div>
@@ -24,31 +24,31 @@
             
             <div class="space-y-3">
                 <div class="flex items-center">
-                    <span class="font-medium text-gray-700 w-32">Category:</span>
+                    <span class="font-medium text-gray-700 w-32">Kategori:</span>
                     <span class="text-gray-900"><?= esc($playbook['category']) ?></span>
                 </div>
                 <div class="flex items-center">
-                    <span class="font-medium text-gray-700 w-32">Type:</span>
+                    <span class="font-medium text-gray-700 w-32">Tipe:</span>
                     <span class="px-2 py-1 rounded text-sm font-medium 
                         <?= $playbook['type'] == 'Automated' ? 'bg-green-100 text-green-800' : 
                            ($playbook['type'] == 'Manual' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800') ?>">
-                        <?= esc($playbook['type']) ?>
+                        <?= $playbook['type'] === 'Automated' ? 'Otomatis' : ($playbook['type'] === 'Manual' ? 'Manual' : 'Semi-Otomatis') ?>
                     </span>
                 </div>
                 <div class="flex items-center">
-                    <span class="font-medium text-gray-700 w-32">Severity:</span>
+                    <span class="font-medium text-gray-700 w-32">Keparahan:</span>
                     <span class="px-2 py-1 rounded text-sm font-medium 
                         <?= $playbook['severity_level'] == 'Critical' ? 'bg-red-100 text-red-800' : 
                            ($playbook['severity_level'] == 'High' ? 'bg-orange-100 text-orange-800' : 
                            ($playbook['severity_level'] == 'Medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800')) ?>">
-                        <?= esc($playbook['severity_level']) ?>
+                        <?= $playbook['severity_level'] === 'Critical' ? 'Kritis' : ($playbook['severity_level'] === 'High' ? 'Tinggi' : ($playbook['severity_level'] === 'Medium' ? 'Sedang' : ($playbook['severity_level'] === 'Low' ? 'Rendah' : esc($playbook['severity_level'])))) ?>
                     </span>
                 </div>
                 <div class="flex items-center">
                     <span class="font-medium text-gray-700 w-32">Status:</span>
                     <span class="px-2 py-1 rounded text-sm font-medium 
                         <?= $playbook['status'] == 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' ?>">
-                        <?= esc($playbook['status']) ?>
+                        <?= $playbook['status'] === 'Active' ? 'Aktif' : ($playbook['status'] === 'Inactive' ? 'Tidak Aktif' : ($playbook['status'] === 'Draft' ? 'Draf' : esc($playbook['status']))) ?>
                     </span>
                 </div>
             </div>
@@ -56,40 +56,40 @@
         
         <div class="space-y-3">
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Created By:</span>
+                <span class="font-medium text-gray-700 w-32">Dibuat Oleh:</span>
                 <span class="text-gray-900"><?= esc($playbook['created_by'] ?? 'System') ?></span>
             </div>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Created At:</span>
+                <span class="font-medium text-gray-700 w-32">Dibuat Pada:</span>
                 <span class="text-gray-900"><?= date('M j, Y H:i', strtotime($playbook['created_at'])) ?></span>
             </div>
             <?php if (!empty($playbook['updated_at']) && $playbook['updated_at'] != $playbook['created_at']): ?>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Updated At:</span>
+                <span class="font-medium text-gray-700 w-32">Diperbarui Pada:</span>
                 <span class="text-gray-900"><?= date('M j, Y H:i', strtotime($playbook['updated_at'])) ?></span>
             </div>
             <?php endif; ?>
             <?php if (!empty($playbook['updated_by'])): ?>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Updated By:</span>
+                <span class="font-medium text-gray-700 w-32">Diperbarui Oleh:</span>
                 <span class="text-gray-900"><?= esc($playbook['updated_by']) ?></span>
             </div>
             <?php endif; ?>
             <?php if (!empty($playbook['estimated_time'])): ?>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Est. Time:</span>
+                <span class="font-medium text-gray-700 w-32">Perkiraan Waktu:</span>
                 <span class="text-gray-900"><?= esc($playbook['estimated_time']) ?></span>
             </div>
             <?php endif; ?>
             <?php if (!empty($playbook['execution_count'])): ?>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Executions:</span>
+                <span class="font-medium text-gray-700 w-32">Eksekusi:</span>
                 <span class="text-gray-900"><?= esc($playbook['execution_count']) ?></span>
             </div>
             <?php endif; ?>
             <?php if (!empty($playbook['success_rate'])): ?>
             <div class="flex items-center">
-                <span class="font-medium text-gray-700 w-32">Success Rate:</span>
+                <span class="font-medium text-gray-700 w-32">Tingkat Keberhasilan:</span>
                 <span class="text-gray-900"><?= esc($playbook['success_rate']) ?>%</span>
             </div>
             <?php endif; ?>
@@ -97,17 +97,17 @@
     </div>
     
     <div class="border-t border-gray-200 pt-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Trigger Conditions</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Kondisi Pemicu</h3>
         <p class="text-gray-700"><?= esc($playbook['trigger_conditions']) ?></p>
     </div>
     
     <div class="border-t border-gray-200 pt-6 mt-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Required Tools</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Alat yang Diperlukan</h3>
         <p class="text-gray-700"><?= esc($playbook['required_tools']) ?></p>
     </div>
     
     <div class="border-t border-gray-200 pt-6 mt-6">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">Execution Steps</h3>
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Langkah-langkah Eksekusi</h3>
         <?php if (!empty($playbook['steps'])): ?>
             <?php 
             $steps = json_decode($playbook['steps'], true);
@@ -122,7 +122,7 @@
                             <div class="flex-1">
                                 <h4 class="font-medium text-gray-900"><?= esc($step['action'] ?? '') ?></h4>
                                 <?php if (!empty($step['estimated_time'])): ?>
-                                    <p class="text-sm text-gray-600">Est. time: <?= esc($step['estimated_time']) ?></p>
+                                    <p class="text-sm text-gray-600">Perkiraan waktu: <?= esc($step['estimated_time']) ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -132,20 +132,20 @@
                 <p class="text-gray-700"><?= esc($playbook['steps']) ?></p>
             <?php endif; ?>
         <?php else: ?>
-            <p class="text-gray-500 italic">No steps defined for this playbook.</p>
+            <p class="text-gray-500 italic">Tidak ada langkah yang didefinisikan untuk playbook ini.</p>
         <?php endif; ?>
     </div>
     
     <div class="border-t border-gray-200 pt-6 mt-6">
         <a href="<?= base_url('/playbooks/execute/' . $playbook['id']) ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            <i class="fas fa-play"></i> Execute Playbook
+            <i class="fas fa-play"></i> Jalankan Playbook
         </a>
     </div>
 </div>
 
 <script>
 function confirmDelete(id) {
-    if (confirm('Are you sure you want to delete this playbook? This action cannot be undone.')) {
+    if (confirm('Apakah Anda yakin ingin menghapus playbook ini? Tindakan ini tidak dapat dibatalkan.')) {
         // Create a form dynamically to submit the delete request
         var form = document.createElement('form');
         form.method = 'POST';

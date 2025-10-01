@@ -3,37 +3,37 @@
 
 <!-- Security Alerts Dashboard -->
 <div class="space-y-6">
-<!-- Header Section -->
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                <i class="fas fa-solid fa-skull-crossbones text-red-600 mr-3"></i>
-                Security Alerts
-            </h1>
-            <p class="text-gray-600 mt-2">Real-time security monitoring and alerting system</p>
-        </div>
-        <div class="flex gap-3">
-            <a href="/alerts/create" class="btn btn-primary flex items-center">
-                <i class="fas fa-plus mr-2"></i>
-                Create Alert
-            </a>
-            <!-- Only show clear button in development mode -->
-            <?php if (ENVIRONMENT === 'development'): ?>
-            <a href="/alerts/clear-all" 
-               class="btn btn-danger flex items-center"
-               onclick="return confirm('Are you sure you want to clear all alerts? This cannot be undone.')">
-                <i class="fas fa-trash mr-2"></i>
-                Clear All Alerts
-            </a>
-            <?php endif; ?>
-            <button onclick="refreshAlerts()" class="btn btn-secondary flex items-center">
-                <i class="fas fa-sync-alt mr-2"></i>
-                Refresh
-            </button>
+    <!-- Header Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-solid fa-skull-crossbones text-red-600 mr-3"></i>
+                    Peringatan Keamanan
+                </h1>
+                <p class="text-gray-600 mt-2">Sistem pemantauan dan peringatan keamanan real-time</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="/alerts/create" class="btn btn-primary flex items-center">
+                    <i class="fas fa-plus mr-2"></i>
+                    Buat Peringatan
+                </a>
+                <!-- Only show clear button in development mode -->
+                <?php if (ENVIRONMENT === 'development'): ?>
+                    <a href="/alerts/clear-all"
+                        class="btn btn-danger flex items-center"
+                        onclick="return confirm('Apakah Anda yakin ingin menghapus semua peringatan? Ini tidak dapat dibatalkan.')">
+                        <i class="fas fa-trash mr-2"></i>
+                        Hapus Semua Peringatan
+                    </a>
+                <?php endif; ?>
+                <button onclick="refreshAlerts()" class="btn btn-secondary flex items-center">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Segarkan
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -41,7 +41,7 @@
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-blue-100 text-sm font-medium">Total Alerts</p>
+                        <p class="text-blue-100 text-sm font-medium">Total Peringatan</p>
                         <p class="text-3xl font-bold"><?= $stats['total_alerts'] ?></p>
                     </div>
                     <div class="w-12 h-12 bg-blue-400 bg-opacity-30 rounded-lg flex items-center justify-center">
@@ -55,7 +55,7 @@
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-red-100 text-sm font-medium">Active Alerts</p>
+                        <p class="text-red-100 text-sm font-medium">Peringatan Aktif</p>
                         <p class="text-3xl font-bold"><?= $stats['active_alerts'] ?></p>
                     </div>
                     <div class="w-12 h-12 bg-red-400 bg-opacity-30 rounded-lg flex items-center justify-center">
@@ -69,7 +69,7 @@
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-orange-100 text-sm font-medium">High Priority</p>
+                        <p class="text-orange-100 text-sm font-medium">Prioritas Tinggi</p>
                         <p class="text-3xl font-bold"><?= $stats['high_priority'] ?></p>
                     </div>
                     <div class="w-12 h-12 bg-orange-400 bg-opacity-30 rounded-lg flex items-center justify-center">
@@ -83,7 +83,7 @@
             <div class="card-content p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-green-100 text-sm font-medium">Last 24h</p>
+                        <p class="text-green-100 text-sm font-medium">24 Jam Terakhir</p>
                         <p class="text-3xl font-bold"><?= $stats['recent_24h'] ?></p>
                     </div>
                     <div class="w-12 h-12 bg-green-400 bg-opacity-30 rounded-lg flex items-center justify-center">
@@ -99,36 +99,36 @@
         <div class="card-content p-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="md:col-span-1">
-                    <input type="text" id="searchAlert" placeholder="Search alerts..." 
-                           class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onkeyup="searchAlerts()">
+                    <input type="text" id="searchAlert" placeholder="Cari peringatan..."
+                        class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onkeyup="searchAlerts()">
                 </div>
                 <div>
                     <select id="filterPriority" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
-                        <option value="">All Priorities</option>
-                        <option value="Critical">Critical</option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
+                        <option value="">Semua Prioritas</option>
+                        <option value="Critical">Kritis</option>
+                        <option value="High">Tinggi</option>
+                        <option value="Medium">Sedang</option>
+                        <option value="Low">Rendah</option>
                     </select>
                 </div>
                 <div>
                     <select id="filterStatus" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
-                        <option value="">All Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Investigating">Investigating</option>
-                        <option value="Closed">Closed</option>
-                        <option value="False Positive">False Positive</option>
+                        <option value="">Semua Status</option>
+                        <option value="Active">Aktif</option>
+                        <option value="Investigating">Dalam Investigasi</option>
+                        <option value="Closed">Ditutup</option>
+                        <option value="False Positive">Positif Palsu</option>
                     </select>
                 </div>
                 <div>
                     <select id="filterType" class="form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" onchange="filterAlerts()">
-                        <option value="">All Types</option>
-                        <option value="Authentication">Authentication</option>
-                        <option value="Network">Network</option>
+                        <option value="">Semua Jenis</option>
+                        <option value="Authentication">Autentikasi</option>
+                        <option value="Network">Jaringan</option>
                         <option value="Malware">Malware</option>
-                        <option value="Data Breach">Data Breach</option>
-                        <option value="Intrusion">Intrusion</option>
-                        <option value="System">System</option>
+                        <option value="Data Breach">Pelanggaran Data</option>
+                        <option value="Intrusion">Penyusupan</option>
+                        <option value="System">Sistem</option>
                     </select>
                 </div>
             </div>
@@ -140,7 +140,7 @@
         <div class="card-header border-b border-gray-200 p-6">
             <h3 class="card-title text-lg font-semibold text-gray-800">
                 <i class="fas fa-bell mr-2"></i>
-                Active Security Alerts
+                Peringatan Keamanan Aktif
             </h3>
         </div>
         <div class="card-content">
@@ -148,81 +148,81 @@
                 <table class="table w-full">
                     <thead>
                         <tr class="bg-gray-50">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alert</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peringatan</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prioritas</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sumber</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200" id="alertsTableBody">
                         <?php foreach ($alerts as $alert): ?>
-                        <tr class="hover:bg-gray-50 <?= !$alert['acknowledged'] ? 'bg-red-50' : '' ?>" 
-                            data-priority="<?= $alert['priority'] ?>" 
-                            data-status="<?= $alert['status'] ?>" 
-                            data-type="<?= $alert['alert_type'] ?>">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <?php if (!$alert['acknowledged']): ?>
-                                        <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-3"></div>
-                                    <?php else: ?>
-                                        <div class="w-2 h-2 bg-gray-300 rounded-full mr-3"></div>
-                                    <?php endif; ?>
-                                    <div>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?= esc($alert['alert_name']) ?>
-                                        </div>
-                                        <div class="text-sm text-gray-500 truncate max-w-xs">
-                                            Rule: <?= esc($alert['rule_name'] ?? 'N/A') ?>
+                            <tr class="hover:bg-gray-50 <?= !$alert['acknowledged'] ? 'bg-red-50' : '' ?>"
+                                data-priority="<?= $alert['priority'] ?>"
+                                data-status="<?= $alert['status'] ?>"
+                                data-type="<?= $alert['alert_type'] ?>">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <?php if (!$alert['acknowledged']): ?>
+                                            <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-3"></div>
+                                        <?php else: ?>
+                                            <div class="w-2 h-2 bg-gray-300 rounded-full mr-3"></div>
+                                        <?php endif; ?>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">
+                                                <?= esc($alert['alert_name']) ?>
+                                            </div>
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">
+                                                Aturan: <?= esc($alert['rule_name'] ?? 'N/A') ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertTypeClass($alert['alert_type']) ?>">
-                                    <i class="<?= getAlertTypeIcon($alert['alert_type']) ?> mr-1"></i>
-                                    <?= esc($alert['alert_type']) ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getPriorityClass($alert['priority']) ?>">
-                                    <?= esc($alert['priority']) ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <?= esc($alert['source_ip'] ?? 'Unknown') ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertStatusClass($alert['status']) ?>">
-                                    <?= esc($alert['status']) ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <?= date('M j, H:i', strtotime($alert['created_at'])) ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
-                                <a href="/alerts/show/<?= $alert['id'] ?>" class="text-blue-600 hover:text-blue-800 p-1 rounded hover:bg-blue-50" title="View Details">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <?php if (!$alert['acknowledged']): ?>
-                                <a href="/alerts/acknowledge/<?= $alert['id'] ?>" class="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50" title="Acknowledge">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                                <?php endif; ?>
-                                <?php if ($alert['status'] === 'Active'): ?>
-                                <a href="/alerts/close/<?= $alert['id'] ?>" class="text-orange-600 hover:text-orange-800 p-1 rounded hover:bg-orange-50" title="Close Alert">
-                                    <i class="fas fa-times-circle"></i>
-                                </a>
-                                <?php endif; ?>
-                                <a href="/alerts/delete/<?= $alert['id'] ?>" 
-                                   onclick="return confirm('Are you sure you want to delete this alert?')"
-                                   class="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertTypeClass($alert['alert_type']) ?>">
+                                        <i class="<?= getAlertTypeIcon($alert['alert_type']) ?> mr-1"></i>
+                                        <?= esc($alert['alert_type']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getPriorityClass($alert['priority']) ?>">
+                                        <?= esc($alert['priority']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?= esc($alert['source_ip'] ?? 'Tidak Diketahui') ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= getAlertStatusClass($alert['status']) ?>">
+                                        <?= esc($alert['status']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?= date('j M, H:i', strtotime($alert['created_at'])) ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                    <a href="/alerts/show/<?= $alert['id'] ?>" class="text-blue-600 hover:text-blue-800 p-1 rounded hover:bg-blue-50" title="Lihat Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <?php if (!$alert['acknowledged']): ?>
+                                        <a href="/alerts/acknowledge/<?= $alert['id'] ?>" class="text-green-600 hover:text-green-800 p-1 rounded hover:bg-green-50" title="Terima">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if ($alert['status'] === 'Active'): ?>
+                                        <a href="/alerts/close/<?= $alert['id'] ?>" class="text-orange-600 hover:text-orange-800 p-1 rounded hover:bg-orange-50" title="Tutup Peringatan">
+                                            <i class="fas fa-times-circle"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <a href="/alerts/delete/<?= $alert['id'] ?>"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus peringatan ini?')"
+                                        class="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -232,110 +232,138 @@
 </div>
 
 <?php
-function getAlertTypeClass($type) {
-    switch($type) {
-        case 'Authentication': return 'bg-blue-100 text-blue-800';
-        case 'Network': return 'bg-purple-100 text-purple-800';
-        case 'Malware': return 'bg-red-100 text-red-800';
-        case 'Data Breach': return 'bg-pink-100 text-pink-800';
-        case 'Intrusion': return 'bg-orange-100 text-orange-800';
-        case 'System': return 'bg-gray-100 text-gray-800';
-        default: return 'bg-gray-100 text-gray-800';
+function getAlertTypeClass($type)
+{
+    switch ($type) {
+        case 'Authentication':
+            return 'bg-blue-100 text-blue-800';
+        case 'Network':
+            return 'bg-purple-100 text-purple-800';
+        case 'Malware':
+            return 'bg-red-100 text-red-800';
+        case 'Data Breach':
+            return 'bg-pink-100 text-pink-800';
+        case 'Intrusion':
+            return 'bg-orange-100 text-orange-800';
+        case 'System':
+            return 'bg-gray-100 text-gray-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
     }
 }
 
-function getAlertTypeIcon($type) {
-    switch($type) {
-        case 'Authentication': return 'fas fa-user-shield';
-        case 'Network': return 'fas fa-network-wired';
-        case 'Malware': return 'fas fa-virus';
-        case 'Data Breach': return 'fas fa-database';
-        case 'Intrusion': return 'fas fa-door-open';
-        case 'System': return 'fas fa-server';
-        default: return 'fas fa-question';
+function getAlertTypeIcon($type)
+{
+    switch ($type) {
+        case 'Authentication':
+            return 'fas fa-user-shield';
+        case 'Network':
+            return 'fas fa-network-wired';
+        case 'Malware':
+            return 'fas fa-virus';
+        case 'Data Breach':
+            return 'fas fa-database';
+        case 'Intrusion':
+            return 'fas fa-door-open';
+        case 'System':
+            return 'fas fa-server';
+        default:
+            return 'fas fa-question';
     }
 }
 
-function getPriorityClass($priority) {
-    switch($priority) {
-        case 'Critical': return 'bg-red-100 text-red-800';
-        case 'High': return 'bg-orange-100 text-orange-800';
-        case 'Medium': return 'bg-yellow-100 text-yellow-800';
-        case 'Low': return 'bg-green-100 text-green-800';
-        default: return 'bg-gray-100 text-gray-800';
+function getPriorityClass($priority)
+{
+    switch ($priority) {
+        case 'Critical':
+            return 'bg-red-100 text-red-800';
+        case 'High':
+            return 'bg-orange-100 text-orange-800';
+        case 'Medium':
+            return 'bg-yellow-100 text-yellow-800';
+        case 'Low':
+            return 'bg-green-100 text-green-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
     }
 }
 
-function getAlertStatusClass($status) {
-    switch($status) {
-        case 'Active': return 'bg-red-100 text-red-800';
-        case 'Investigating': return 'bg-yellow-100 text-yellow-800';
-        case 'Closed': return 'bg-green-100 text-green-800';
-        case 'False Positive': return 'bg-gray-100 text-gray-800';
-        default: return 'bg-gray-100 text-gray-800';
+function getAlertStatusClass($status)
+{
+    switch ($status) {
+        case 'Active':
+            return 'bg-red-100 text-red-800';
+        case 'Investigating':
+            return 'bg-yellow-100 text-yellow-800';
+        case 'Closed':
+            return 'bg-green-100 text-green-800';
+        case 'False Positive':
+            return 'bg-gray-100 text-gray-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
     }
 }
 ?>
 
 <script>
-function searchAlerts() {
-    const searchTerm = document.getElementById('searchAlert').value.toLowerCase();
-    const rows = document.querySelectorAll('#alertsTableBody tr');
-    
-    rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        if (text.includes(searchTerm)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
+    function searchAlerts() {
+        const searchTerm = document.getElementById('searchAlert').value.toLowerCase();
+        const rows = document.querySelectorAll('#alertsTableBody tr');
 
-function filterAlerts() {
-    const priorityFilter = document.getElementById('filterPriority').value;
-    const statusFilter = document.getElementById('filterStatus').value;
-    const typeFilter = document.getElementById('filterType').value;
-    const rows = document.querySelectorAll('#alertsTableBody tr');
-    
-    rows.forEach(row => {
-        const priority = row.dataset.priority;
-        const status = row.dataset.status;
-        const type = row.dataset.type;
-        
-        const priorityMatch = !priorityFilter || priority === priorityFilter;
-        const statusMatch = !statusFilter || status === statusFilter;
-        const typeMatch = !typeFilter || type === typeFilter;
-        
-        if (priorityMatch && statusMatch && typeMatch) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 
-function refreshAlerts() {
-    // Show loading state
-    const button = event.target.closest('button');
-    const originalText = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Refreshing...';
-    button.disabled = true;
-    
-    // Simulate refresh
-    setTimeout(() => {
-        button.innerHTML = originalText;
-        button.disabled = false;
-        // In a real implementation, you would reload the data here
-        location.reload();
-    }, 1500);
-}
+    function filterAlerts() {
+        const priorityFilter = document.getElementById('filterPriority').value;
+        const statusFilter = document.getElementById('filterStatus').value;
+        const typeFilter = document.getElementById('filterType').value;
+        const rows = document.querySelectorAll('#alertsTableBody tr');
 
-// Auto-refresh every 30 seconds
-setInterval(() => {
-    // In production, this would make an AJAX call to refresh data
-    console.log('Auto-refreshing alerts...');
-}, 30000);
+        rows.forEach(row => {
+            const priority = row.dataset.priority;
+            const status = row.dataset.status;
+            const type = row.dataset.type;
+
+            const priorityMatch = !priorityFilter || priority === priorityFilter;
+            const statusMatch = !statusFilter || status === statusFilter;
+            const typeMatch = !typeFilter || type === typeFilter;
+
+            if (priorityMatch && statusMatch && typeMatch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function refreshAlerts() {
+        // Show loading state
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menyegarkan...';
+        button.disabled = true;
+
+        // Simulate refresh
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.disabled = false;
+            // In a real implementation, you would reload the data here
+            location.reload();
+        }, 1500);
+    }
+
+    // Auto-refresh every 30 seconds
+    setInterval(() => {
+        // In production, this would make an AJAX call to refresh data
+        console.log('Menyegarkan peringatan secara otomatis...');
+    }, 30000);
 </script>
 
 <?= $this->endSection() ?>

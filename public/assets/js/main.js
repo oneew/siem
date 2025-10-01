@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
     const body = document.body;
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
 
-    // Check for saved theme preference or respect OS preference
+    // Periksa preferensi tema yang disimpan atau ikuti preferensi OS
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     
-    // Apply theme
+    // Terapkan tema
     applyTheme(initialTheme);
     
     function applyTheme(theme) {
@@ -20,14 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (themeIcon) {
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
-                themeToggle.title = 'Switch to light mode';
+                themeToggle.title = 'Beralih ke mode terang';
             }
         } else {
             document.documentElement.removeAttribute('data-theme');
             if (themeIcon) {
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
-                themeToggle.title = 'Switch to dark mode';
+                themeToggle.title = 'Beralih ke mode gelap';
             }
         }
         localStorage.setItem('theme', theme);
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.classList.toggle('open');
         overlay.classList.toggle('hidden');
         
-        // Prevent body scroll when sidebar is open on mobile
+        // Cegah scroll body saat sidebar terbuka di perangkat mobile
         if (sidebar.classList.contains('open')) {
             body.style.overflow = 'hidden';
         } else {
@@ -57,8 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
         body.style.overflow = '';
     };
 
-    if (menuToggle && sidebar && overlay) {
-        menuToggle.addEventListener('click', (e) => {
+    // Handle both old and new menu toggle buttons
+    if ((menuToggle || mobileMenuToggle) && sidebar && overlay) {
+        const toggleButton = menuToggle || mobileMenuToggle;
+        
+        toggleButton.addEventListener('click', (e) => {
             e.stopPropagation();
             toggleSidebar();
         });
@@ -66,15 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', toggleSidebar);
     }
     
-    // Add theme toggle event listener
+    // Tambahkan event listener untuk toggle tema
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
 
-    // Close sidebar when clicking outside on larger screens
+    // Tutup sidebar saat mengklik di luar pada layar besar
     document.addEventListener('click', (e) => {
         const isClickInsideSidebar = sidebar.contains(e.target);
-        const isClickOnMenuToggle = menuToggle && menuToggle.contains(e.target);
+        const isClickOnMenuToggle = (menuToggle && menuToggle.contains(e.target)) || 
+                                   (mobileMenuToggle && mobileMenuToggle.contains(e.target));
         const isClickOnThemeToggle = themeToggle && themeToggle.contains(e.target);
         
         if (!isClickInsideSidebar && !isClickOnMenuToggle && !isClickOnThemeToggle && sidebar.classList.contains('open')) {
@@ -82,17 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Close sidebar on escape key press
+    // Tutup sidebar saat menekan tombol escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && sidebar.classList.contains('open')) {
             closeSidebar();
         }
     });
 
-    // Handle window resize
+    // Tangani perubahan ukuran jendela
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 1024) {
-            // On large screens, ensure sidebar is visible and reset body overflow
+            // Pada layar besar, pastikan sidebar terlihat dan reset overflow body
             sidebar.classList.remove('open');
             overlay.classList.add('hidden');
             body.style.overflow = '';
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// SweetAlert2 helper functions
+// Fungsi bantu SweetAlert2
 function showSuccessAlert(title, text = '') {
     Swal.fire({
         icon: 'success',
@@ -149,8 +154,8 @@ function showConfirmAlert(title, text = '', confirmCallback) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No'
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
     }).then((result) => {
         if (result.isConfirmed && confirmCallback) {
             confirmCallback();

@@ -28,7 +28,6 @@ $routes->get('/incidents/show/(:num)', 'Incidents::show/$1');
 $routes->get('/incidents/edit/(:num)', 'Incidents::edit/$1');
 $routes->post('/incidents/update/(:num)', 'Incidents::update/$1');  // Changed from PUT to POST to match form method
 $routes->post('/incidents/delete/(:num)', 'Incidents::delete/$1');  // Changed from GET to POST to match form method
-
 $routes->post('/incidents/add-comment', 'Incidents::addComment');
 
 // =====================
@@ -77,15 +76,17 @@ $routes->get('/asset-management', 'Assets::index');
 $routes->get('/asset-management/create', 'Assets::create');
 $routes->post('/asset-management/store', 'Assets::store');
 $routes->get('/asset-management/show/(:num)', 'Assets::show/$1');
+$routes->get('/asset-management/(:num)', 'Assets::show/$1');  // Added route for showing asset details without "show"
 $routes->get('/asset-management/edit/(:num)', 'Assets::edit/$1');
+$routes->get('/asset-management/(:num)/edit', 'Assets::edit/$1');  // Added route for editing asset details with ID first
 $routes->post('/asset-management/(:num)', 'Assets::update/$1');  // Fixed: Changed from /asset-management/update/(:num) to /asset-management/(:num) to match form action
 $routes->get('/asset-management/delete/(:num)', 'Assets::delete/$1');  // Changed from POST to GET to match link usage
-
 // =====================
 // Digital Forensics
 // =====================
 $routes->get('/forensics', 'Forensics::index');
 $routes->get('/forensics/create', 'Forensics::create');
+$routes->get('/forensics/edit/(:num)', 'Forensics::edit/$1');
 $routes->post('/forensics/store', 'Forensics::store');
 $routes->get('/forensics/show/(:num)', 'Forensics::show/$1');
 $routes->post('/forensics/(:num)', 'Forensics::update/$1');  // Added route for updating forensics cases
@@ -118,7 +119,10 @@ $routes->post('/playbooks/execute/(:num)', 'Playbooks::execute/$1');
 $routes->get('/users', 'Users::index');
 $routes->get('/users/create', 'Users::create');
 $routes->post('/users/store', 'Users::store');
+$routes->get('/users/show/(:num)', 'Users::show/$1');
+$routes->get('/users/(:num)', 'Users::show/$1');  // Added route for showing user details
 $routes->get('/users/edit/(:num)', 'Users::edit/$1');
+$routes->get('/users/(:num)/edit', 'Users::edit/$1');  // Added route for editing users with ID first
 $routes->post('/users/(:num)', 'Users::update/$1');  // Fixed: Changed from /users/update/(:num) to /users/(:num) to match form action
 $routes->get('/users/delete/(:num)', 'Users::delete/$1');  // Changed from POST to GET to match link usage
 $routes->get('/users/reset/(:num)', 'Users::resetPassword/$1');
@@ -151,7 +155,7 @@ $routes->post('/profile/update', 'Auth::updateProfile', ['filter' => 'auth']);
 $routes->post('/profile/change-password', 'Auth::changePassword', ['filter' => 'auth']);
 
 // Protected routes
-$routes->group('', ['filter' => 'auth'], function($routes) {
+$routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/dashboard', 'Dashboard::index');
     $routes->get('/incidents', 'Incidents::index');
     $routes->get('/reports', 'Reports::index');
@@ -165,8 +169,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('/css-test', 'CssTest::index');
 
     // Only admin
-    $routes->group('', ['filter' => 'auth:Admin'], function($routes) {
-        $routes->get('/users', 'Users::index');
+    $routes->group('', ['filter' => 'auth:Admin'], function ($routes) {
         $routes->get('/settings', 'Settings::index');
     });
 });

@@ -8,18 +8,18 @@
             <div>
                 <h1 class="text-3xl font-bold text-gray-900 flex items-center">
                     <i class="fas fa-book text-green-600 mr-3"></i>
-                    Incident Playbooks
+                    Playbook Insiden
                 </h1>
-                <p class="text-gray-600 mt-1">Automated and manual response procedures for security incidents</p>
+                <p class="text-gray-600 mt-1">Prosedur respons otomatis dan manual untuk insiden keamanan</p>
             </div>
             <div class="flex space-x-3">
                 <a href="/playbooks/create" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-plus mr-2"></i>
-                    Create Playbook
+                    Buat Playbook
                 </a>
                 <a href="/playbooks/import" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-upload mr-2"></i>
-                    Import
+                    Impor
                 </a>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-green-100 text-sm font-medium">Total Playbooks</h3>
+                        <h3 class="text-green-100 text-sm font-medium">Total Playbook</h3>
                         <p class="text-3xl font-bold"><?= $stats['total_playbooks'] ?></p>
                     </div>
                     <div class="bg-green-400 bg-opacity-30 p-3 rounded-lg">
@@ -43,7 +43,7 @@
             <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-blue-100 text-sm font-medium">Active Playbooks</h3>
+                        <h3 class="text-blue-100 text-sm font-medium">Playbook Aktif</h3>
                         <p class="text-3xl font-bold"><?= $stats['active_playbooks'] ?></p>
                     </div>
                     <div class="bg-blue-400 bg-opacity-30 p-3 rounded-lg">
@@ -55,7 +55,7 @@
             <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-purple-100 text-sm font-medium">Automated</h3>
+                        <h3 class="text-purple-100 text-sm font-medium">Otomatis</h3>
                         <p class="text-3xl font-bold"><?= $stats['automated_playbooks'] ?></p>
                     </div>
                     <div class="bg-purple-400 bg-opacity-30 p-3 rounded-lg">
@@ -82,7 +82,7 @@
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-900 flex items-center">
                     <i class="fas fa-list mr-2 text-gray-600"></i>
-                    Response Playbooks
+                    Playbook Respons
                 </h2>
             </div>
 
@@ -90,13 +90,13 @@
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Playbook Details</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Severity</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Detail Playbook</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tipe</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kategori</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tingkat Keparahan</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Usage</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Penggunaan</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -106,7 +106,7 @@
                                 <div>
                                     <div class="font-medium text-gray-900"><?= esc($playbook['name']) ?></div>
                                     <div class="text-sm text-gray-500"><?= esc(substr($playbook['description'], 0, 80)) ?>...</div>
-                                    <div class="text-xs text-gray-400">Est. Time: <?= esc($playbook['estimated_time']) ?: 'N/A' ?></div>
+                                    <div class="text-xs text-gray-400">Perkiraan Waktu: <?= esc($playbook['estimated_time']) ?: 'Tidak Ada' ?></div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
@@ -120,7 +120,7 @@
                                     }
                                     ?>">
                                     <i class="fas <?= $playbook['type'] === 'Automated' ? 'fa-robot' : ($playbook['type'] === 'Manual' ? 'fa-user' : 'fa-cogs') ?> text-xs mr-1"></i>
-                                    <?= esc($playbook['type']) ?>
+                                    <?= $playbook['type'] === 'Automated' ? 'Otomatis' : ($playbook['type'] === 'Manual' ? 'Manual' : 'Semi-Otomatis') ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -138,7 +138,7 @@
                                     }
                                     ?>">
                                     <i class="fas fa-circle text-xs mr-1"></i>
-                                    <?= esc($playbook['severity_level']) ?>
+                                    <?= $playbook['severity_level'] === 'Critical' ? 'Kritis' : ($playbook['severity_level'] === 'High' ? 'Tinggi' : ($playbook['severity_level'] === 'Medium' ? 'Sedang' : ($playbook['severity_level'] === 'Low' ? 'Rendah' : esc($playbook['severity_level'])))) ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -152,27 +152,27 @@
                                     }
                                     ?>">
                                     <i class="fas fa-circle text-xs mr-1"></i>
-                                    <?= esc($playbook['status']) ?>
+                                    <?= $playbook['status'] === 'Active' ? 'Aktif' : ($playbook['status'] === 'Inactive' ? 'Tidak Aktif' : ($playbook['status'] === 'Draft' ? 'Draf' : esc($playbook['status']))) ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
-                                    <?= $playbook['execution_count'] ?? 0 ?> executions
+                                    <?= $playbook['execution_count'] ?? 0 ?> eksekusi
                                 </div>
                                 <div class="text-xs text-gray-500">
-                                    <?= $playbook['success_rate'] ?? 0 ?>% success rate
+                                    <?= $playbook['success_rate'] ?? 0 ?>% tingkat keberhasilan
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex space-x-2">
                                     <a href="/playbooks/<?= $playbook['id'] ?>" 
                                        class="text-blue-600 hover:text-blue-800 transition-colors" 
-                                       title="View Details">
+                                       title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="/playbooks/<?= $playbook['id'] ?>/execute" 
                                        class="text-green-600 hover:text-green-800 transition-colors" 
-                                       title="Execute Playbook">
+                                       title="Jalankan Playbook">
                                         <i class="fas fa-play"></i>
                                     </a>
                                     <a href="/playbooks/<?= $playbook['id'] ?>/edit" 
@@ -180,11 +180,11 @@
                                        title="Edit Playbook">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="if(confirm('Are you sure you want to delete this playbook?')) { 
+                                    <button onclick="if(confirm('Apakah Anda yakin ingin menghapus playbook ini?')) { 
                                                 window.location.href='/playbooks/delete/<?= $playbook['id'] ?>' 
                                             }"
                                             class="text-red-600 hover:text-red-800 transition-colors" 
-                                            title="Delete Playbook">
+                                            title="Hapus Playbook">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -197,8 +197,8 @@
                             <td colspan="7" class="px-6 py-12 text-center">
                                 <div class="text-gray-400">
                                     <i class="fas fa-book text-4xl mb-4"></i>
-                                    <p class="text-lg font-medium">No playbooks found</p>
-                                    <p class="text-sm">Start by creating your first incident response playbook</p>
+                                    <p class="text-lg font-medium">Tidak ada playbook ditemukan</p>
+                                    <p class="text-sm">Mulai dengan membuat playbook respons insiden pertama Anda</p>
                                 </div>
                             </td>
                         </tr>

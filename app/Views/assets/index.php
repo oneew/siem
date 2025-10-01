@@ -9,11 +9,11 @@
                     <i class="fas fa-server text-blue-600 mr-3"></i>
                     <?= $title ?>
                 </h1>
-                <p class="text-gray-600 mt-1">Manage and monitor network assets and endpoints</p>
+                <p class="text-gray-600 mt-1">Kelola dan pantau aset jaringan dan endpoint</p>
             </div>
             <a href="/asset-management/create" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
                 <i class="fas fa-plus mr-2"></i>
-                Add New Asset
+                Tambah Aset Baru
             </a>
         </div>
     </div>
@@ -24,7 +24,7 @@
             <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-blue-100 text-sm font-medium">Total Assets</h3>
+                        <h3 class="text-blue-100 text-sm font-medium">Total Aset</h3>
                         <p class="text-3xl font-bold"><?= $stats['total_assets'] ?></p>
                     </div>
                     <div class="bg-blue-400 bg-opacity-30 p-3 rounded-lg">
@@ -36,7 +36,7 @@
             <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-green-100 text-sm font-medium">Online Assets</h3>
+                        <h3 class="text-green-100 text-sm font-medium">Aset Online</h3>
                         <p class="text-3xl font-bold"><?= $stats['online_assets'] ?></p>
                     </div>
                     <div class="bg-green-400 bg-opacity-30 p-3 rounded-lg">
@@ -48,7 +48,7 @@
             <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-red-100 text-sm font-medium">Critical Assets</h3>
+                        <h3 class="text-red-100 text-sm font-medium">Aset Kritis</h3>
                         <p class="text-3xl font-bold"><?= $stats['critical_assets'] ?></p>
                     </div>
                     <div class="bg-red-400 bg-opacity-30 p-3 rounded-lg">
@@ -60,7 +60,7 @@
             <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl p-6 shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-orange-100 text-sm font-medium">Vulnerabilities</h3>
+                        <h3 class="text-orange-100 text-sm font-medium">Kerentanan</h3>
                         <p class="text-3xl font-bold"><?= $stats['vulnerabilities'] ?></p>
                     </div>
                     <div class="bg-orange-400 bg-opacity-30 p-3 rounded-lg">
@@ -75,7 +75,7 @@
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-900 flex items-center">
                     <i class="fas fa-list mr-2 text-gray-600"></i>
-                    Asset Inventory
+                    Inventori Aset
                 </h2>
             </div>
 
@@ -83,14 +83,14 @@
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Asset Info</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">IP Address</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Info Aset</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tipe</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Alamat IP</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Criticality</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Vulnerability</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Last Scan</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kritikalitas</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kerentanan</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scan Terakhir</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -115,7 +115,31 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['asset_type']) ?>
+                                    <?php
+                                        switch ($asset['asset_type']) {
+                                            case 'Server':
+                                                echo 'Server';
+                                                break;
+                                            case 'Endpoint':
+                                                echo 'Endpoint';
+                                                break;
+                                            case 'Network Device':
+                                                echo 'Perangkat Jaringan';
+                                                break;
+                                            case 'Mobile':
+                                                echo 'Perangkat Mobile';
+                                                break;
+                                            case 'IoT Device':
+                                                echo 'Perangkat IoT';
+                                                break;
+                                            case 'Database':
+                                                echo 'Database';
+                                                break;
+                                            default:
+                                                echo esc($asset['asset_type']);
+                                                break;
+                                        }
+                                    ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -134,7 +158,7 @@
                                     }
                                     ?>">
                                     <i class="fas fa-circle text-xs mr-1"></i>
-                                    <?= esc($asset['status']) ?>
+                                    <?= $asset['status'] === 'Online' ? 'Online' : ($asset['status'] === 'Offline' ? 'Offline' : ($asset['status'] === 'Maintenance' ? 'Pemeliharaan' : ($asset['status'] === 'Decommissioned' ? 'Didekomisioner' : esc($asset['status'])))) ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -148,7 +172,7 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['criticality']) ?>
+                                    <?= $asset['criticality'] === 'Critical' ? 'Kritis' : ($asset['criticality'] === 'High' ? 'Tinggi' : ($asset['criticality'] === 'Medium' ? 'Sedang' : ($asset['criticality'] === 'Low' ? 'Rendah' : esc($asset['criticality'])))) ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -162,12 +186,12 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['vulnerability_status']) ?>
+                                    <?= $asset['vulnerability_status'] === 'Vulnerable' ? 'Rentan' : ($asset['vulnerability_status'] === 'Secure' ? 'Aman' : ($asset['vulnerability_status'] === 'Patching Required' ? 'Perlu Patch' : ($asset['vulnerability_status'] === 'Unknown' ? 'Tidak Diketahui' : esc($asset['vulnerability_status'])))) ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
-                                    <?= isset($asset['last_scan']) ? date('M j, Y', strtotime($asset['last_scan'])) : 'Never' ?>
+                                    <?= isset($asset['last_scan']) ? date('M j, Y', strtotime($asset['last_scan'])) : 'Tidak Pernah' ?>
                                 </div>
                                 <div class="text-xs text-gray-500">
                                     <?= isset($asset['last_scan']) ? date('H:i', strtotime($asset['last_scan'])) : '' ?>
@@ -177,19 +201,19 @@
                                 <div class="flex space-x-2">
                                     <a href="/asset-management/<?= $asset['id'] ?>" 
                                        class="text-blue-600 hover:text-blue-800 transition-colors" 
-                                       title="View Details">
+                                       title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="/asset-management/<?= $asset['id'] ?>/edit" 
                                        class="text-yellow-600 hover:text-yellow-800 transition-colors" 
-                                       title="Edit Asset">
+                                       title="Edit Aset">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="if(confirm('Are you sure you want to delete this asset?')) { 
+                                    <button onclick="if(confirm('Apakah Anda yakin ingin menghapus aset ini?')) { 
                                                 window.location.href='/asset-management/<?= $asset['id'] ?>/delete' 
                                             }"
                                             class="text-red-600 hover:text-red-800 transition-colors" 
-                                            title="Delete Asset">
+                                            title="Hapus Aset">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -202,8 +226,8 @@
                             <td colspan="8" class="px-6 py-12 text-center">
                                 <div class="text-gray-400">
                                     <i class="fas fa-server text-4xl mb-4"></i>
-                                    <p class="text-lg font-medium">No assets found</p>
-                                    <p class="text-sm">Start by adding your first network asset or endpoint</p>
+                                    <p class="text-lg font-medium">Tidak ada aset ditemukan</p>
+                                    <p class="text-sm">Mulai dengan menambahkan aset jaringan atau endpoint pertama Anda</p>
                                 </div>
                             </td>
                         </tr>

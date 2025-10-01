@@ -17,9 +17,24 @@ class Settings extends BaseController
     public function update()
     {
         $model = new SettingModel();
-        foreach ($this->request->getPost() as $key => $value) {
-            $model->where('key', $key)->set(['value' => $value])->update();
+
+        try {
+            foreach ($this->request->getPost() as $key => $value) {
+                // Check if setting exists
+                $setting = $model->where('key', $key)->first();
+
+                if ($setting) {
+                    // Update existing setting
+                    $model->where('key', $key)->set(['value' => $value])->update();
+                } else {
+                    // Create new setting if it doesn't exist
+                    $model->insert(['key' => $key, 'value' => $value]);
+                }
+            }
+
+            return redirect()->to('/settings')->with('success', 'Pengaturan berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->to('/settings')->with('error', 'Gagal memperbarui pengaturan: ' . $e->getMessage());
         }
-        return redirect()->to('/settings');
     }
 }

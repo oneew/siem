@@ -12,7 +12,7 @@ class Forensics extends BaseController
             $model = new ForensicsModel();
             $data['title'] = 'Digital Forensics';
             $data['cases'] = $model->orderBy('created_at', 'DESC')->findAll();
-            
+
             // Get statistics with error handling
             $data['stats'] = [
                 'total_cases' => $model->countAll(),
@@ -20,7 +20,7 @@ class Forensics extends BaseController
                 'completed_cases' => $this->getStatusCount($model, 'Completed'),
                 'evidence_items' => $this->getTotalEvidenceCount($model)
             ];
-            
+
             return view('forensics/index', $data);
         } catch (\Exception $e) {
             log_message('error', 'Forensics index error: ' . $e->getMessage());
@@ -37,10 +37,10 @@ class Forensics extends BaseController
     public function store()
     {
         $model = new ForensicsModel();
-        
+
         // Generate case number
         $caseNumber = 'FOR-' . date('Y') . '-' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
-        
+
         $data = [
             'case_number' => $caseNumber,
             'case_name' => $this->request->getPost('case_name'),
@@ -52,7 +52,7 @@ class Forensics extends BaseController
             'description' => $this->request->getPost('description'),
             'evidence_count' => 0
         ];
-        
+
         if ($model->insert($data)) {
             return redirect()->to('/forensics')->with('success', 'Forensics case created successfully');
         } else {
@@ -64,18 +64,32 @@ class Forensics extends BaseController
     {
         $model = new ForensicsModel();
         $case = $model->find($id);
-        
+
         if (!$case) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Forensics case not found');
         }
-        
+
         $data['title'] = 'Forensics Case Details';
         $data['case'] = $case;
-        
+
         // TODO: Load actual evidence items from database
         $data['evidence_items'] = [];
-        
+
         return view('forensics/show', $data);
+    }
+
+    public function edit($id)
+    {
+        $model = new ForensicsModel();
+        $case = $model->find($id);
+
+        if (!$case) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Forensics case not found');
+        }
+
+        $data['title'] = 'Edit Forensics Case';
+        $data['case'] = $case;
+        return view('forensics/edit', $data);
     }
 
     // Added update method for forensics cases
@@ -83,11 +97,11 @@ class Forensics extends BaseController
     {
         $model = new ForensicsModel();
         $case = $model->find($id);
-        
+
         if (!$case) {
             return redirect()->to('/forensics')->with('error', 'Forensics case not found');
         }
-        
+
         $data = [
             'case_name' => $this->request->getPost('case_name'),
             'case_type' => $this->request->getPost('case_type'),
@@ -101,7 +115,7 @@ class Forensics extends BaseController
             'evidence_count' => $this->request->getPost('evidence_count'),
             'closed_date' => $this->request->getPost('closed_date')
         ];
-        
+
         if ($model->update($id, $data)) {
             return redirect()->to('/forensics/show/' . $id)->with('success', 'Forensics case updated successfully');
         } else {
@@ -113,11 +127,11 @@ class Forensics extends BaseController
     {
         $model = new ForensicsModel();
         $case = $model->find($caseId);
-        
+
         if (!$case) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Forensics case not found');
         }
-        
+
         $data['title'] = 'Add Evidence';
         $data['case'] = $case;
         return view('forensics/add_evidence', $data);
@@ -129,15 +143,15 @@ class Forensics extends BaseController
         // For now, just increment the evidence count
         $model = new ForensicsModel();
         $case = $model->find($caseId);
-        
+
         if (!$case) {
             return redirect()->to('/forensics')->with('error', 'Forensics case not found');
         }
-        
+
         // Increment evidence count
         $newCount = ($case['evidence_count'] ?? 0) + 1;
         $model->update($caseId, ['evidence_count' => $newCount]);
-        
+
         return redirect()->to('/forensics/show/' . $caseId)->with('success', 'Evidence added successfully');
     }
 
@@ -145,11 +159,11 @@ class Forensics extends BaseController
     {
         $model = new ForensicsModel();
         $case = $model->find($id);
-        
+
         if (!$case) {
             return redirect()->to('/forensics')->with('error', 'Forensics case not found');
         }
-        
+
         // TODO: Implement comprehensive forensics report generation
         return redirect()->to('/forensics/show/' . $id)->with('success', 'Forensics report generation initiated. The report will be available shortly.');
     }
@@ -164,11 +178,11 @@ class Forensics extends BaseController
     {
         $model = new ForensicsModel();
         $case = $model->find($id);
-        
+
         if (!$case) {
             return redirect()->to('/forensics')->with('error', 'Forensics case not found');
         }
-        
+
         $model->update($id, ['status' => 'Completed', 'closed_date' => date('Y-m-d H:i:s')]);
         return redirect()->to('/forensics/show/' . $id)->with('success', 'Case closed successfully');
     }
