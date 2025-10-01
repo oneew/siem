@@ -6,6 +6,8 @@ use App\Models\IncidentModel;
 use App\Models\AlertModel;
 use App\Models\ThreatModel;
 use App\Models\AssetModel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Reports extends BaseController
 {
@@ -15,12 +17,12 @@ class Reports extends BaseController
         $alertModel = new AlertModel();
         $threatModel = new ThreatModel();
         $assetModel = new AssetModel();
-        
+
         $data['title'] = 'Advanced Reports & Analytics';
-        
+
         // Get incidents data for the view
         $data['incidents'] = $incidentModel->orderBy('created_at', 'DESC')->findAll();
-        
+
         // Executive Summary Statistics
         $data['executive_summary'] = [
             'total_incidents' => $incidentModel->countAll(),
@@ -33,13 +35,13 @@ class Reports extends BaseController
             'total_assets' => $assetModel->countAll(),
             'vulnerable_assets' => $assetModel->where('vulnerability_status', 'Vulnerable')->countAllResults()
         ];
-        
+
         // Trend Data (Last 30 days)
         $data['trend_data'] = $this->generateTrendData($incidentModel, $alertModel);
-        
+
         // Risk Assessment
         $data['risk_metrics'] = $this->calculateRiskMetrics($incidentModel, $alertModel, $assetModel);
-        
+
         return view('reports/index', $data);
     }
 
@@ -48,7 +50,7 @@ class Reports extends BaseController
         $model = new IncidentModel();
         $data['title'] = 'Incidents Report';
         $data['incidents'] = $model->orderBy('created_at', 'DESC')->findAll();
-        
+
         // Generate statistics
         $data['stats'] = [
             'by_severity' => [
@@ -63,14 +65,77 @@ class Reports extends BaseController
                 'Closed' => $model->where('status', 'Closed')->countAllResults()
             ]
         ];
-        
+
         return view('reports/incidents', $data);
     }
 
     public function incidentsExcel()
     {
-        // TODO: Implement Excel export functionality
-        return redirect()->back()->with('success', 'Excel export completed successfully');
+        $model = new IncidentModel();
+        $incidents = $model->orderBy('created_at', 'DESC')->findAll();
+
+        // Create new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set document properties
+        $spreadsheet->getProperties()
+            ->setCreator('SIEM Platform')
+            ->setTitle('Incidents Report')
+            ->setSubject('Security Incidents Report');
+
+        // Add headers
+        $sheet->setCellValue('A1', 'ID')
+            ->setCellValue('B1', 'Title')
+            ->setCellValue('C1', 'Severity')
+            ->setCellValue('D1', 'Status')
+            ->setCellValue('E1', 'Attack Type')
+            ->setCellValue('F1', 'Description')
+            ->setCellValue('G1', 'Created At')
+            ->setCellValue('H1', 'Updated At');
+
+        // Make header row bold
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'rgb' => 'E2E8F0'
+                ]
+            ]
+        ];
+        $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
+
+        // Add data
+        $row = 2;
+        foreach ($incidents as $incident) {
+            $sheet->setCellValue('A' . $row, $incident['id'])
+                ->setCellValue('B' . $row, $incident['title'])
+                ->setCellValue('C' . $row, $incident['severity'])
+                ->setCellValue('D' . $row, $incident['status'])
+                ->setCellValue('E' . $row, $incident['attack_type'])
+                ->setCellValue('F' . $row, $incident['description'])
+                ->setCellValue('G' . $row, $incident['created_at'])
+                ->setCellValue('H' . $row, $incident['updated_at']);
+            $row++;
+        }
+
+        // Auto-size columns
+        foreach (range('A', 'H') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Set header for download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="incidents_report.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        // Write file to output
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
     public function incidentsPdf()
@@ -84,7 +149,7 @@ class Reports extends BaseController
         $model = new ThreatModel();
         $data['title'] = 'Threat Intelligence Report';
         $data['threats'] = $model->orderBy('created_at', 'DESC')->limit(50)->findAll();
-        
+
         $data['stats'] = [
             'by_type' => [
                 'IP' => $model->where('ioc_type', 'IP')->countAllResults(),
@@ -93,25 +158,25 @@ class Reports extends BaseController
                 'URL' => $model->where('ioc_type', 'URL')->countAllResults()
             ]
         ];
-        
+
         return view('reports/threats', $data);
     }
 
     public function executiveDashboard()
     {
         $data['title'] = 'Executive Security Dashboard';
-        
+
         // Get high-level metrics for executives
         $incidentModel = new IncidentModel();
         $alertModel = new AlertModel();
-        
+
         $data['metrics'] = [
             'security_incidents' => $incidentModel->countAll(),
             'critical_alerts' => $alertModel->where('priority', 'Critical')->countAllResults(),
             'resolved_incidents' => $incidentModel->where('status', 'Closed')->countAllResults(),
             'avg_response_time' => '2.3 hours'
         ];
-        
+
         return view('reports/executive', $data);
     }
 
@@ -133,20 +198,23 @@ class Reports extends BaseController
         $days = [];
         $incidents = [];
         $alerts = [];
-        
+
         for ($i = 6; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime("-$i days"));
             $days[] = date('D', strtotime($date));
-            
+
             $incidents[] = $incidentModel->where("DATE(created_at) = '$date'")->countAllResults();
             $alerts[] = $alertModel->where("DATE(created_at) = '$date'")->countAllResults();
         }
-        
+
+        // Return arrays directly instead of JSON encoding them
         return [
-            'dates' => json_encode($days),
-            'incidents_trend' => json_encode($incidents),
-            'alerts_trend' => json_encode($alerts),
-            'threats_trend' => json_encode(array_map(function() { return rand(10, 30); }, range(1, 7)))
+            'dates' => $days,
+            'incidents_trend' => $incidents,
+            'alerts_trend' => $alerts,
+            'threats_trend' => array_map(function () {
+                return rand(10, 30);
+            }, range(1, 7))
         ];
     }
 
@@ -157,10 +225,10 @@ class Reports extends BaseController
         $activeAlerts = $alertModel->where('status', 'Active')->countAllResults();
         $vulnerableAssets = $assetModel->where('vulnerability_status', 'Vulnerable')->countAllResults();
         $totalAssets = $assetModel->countAll();
-        
+
         $riskScore = ($criticalIncidents * 2 + $activeAlerts * 0.5 + $vulnerableAssets * 1.5) / 10;
         $riskScore = min(10, max(0, $riskScore));
-        
+
         return [
             'overall_risk_score' => round($riskScore, 1),
             'security_posture' => $riskScore < 3 ? 'Good' : ($riskScore < 7 ? 'Moderate' : 'High Risk'),

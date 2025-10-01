@@ -12,10 +12,10 @@
                 <p class="text-gray-600 mt-1">Comprehensive analysis of security incidents and trends</p>
             </div>
             <div class="flex space-x-3">
-                <button onclick="exportReport('excel')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
+                <a href="/reports/incidentsExcel" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-file-excel mr-2"></i>
                     Export Excel
-                </button>
+                </a>
                 <button onclick="exportReport('pdf')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-file-pdf mr-2"></i>
                     Export PDF
@@ -132,59 +132,77 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <?php foreach ($incidents as $incident): ?>
-                            <tr class="hover:bg-gray-50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div>
-                                        <div class="font-medium text-gray-900"><?= esc($incident['title']) ?></div>
-                                        <div class="text-sm text-gray-500">#<?= $incident['id'] ?></div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                        <?php 
-                                        switch($incident['severity']) {
-                                            case 'Critical': echo 'bg-red-100 text-red-800'; break;
-                                            case 'High': echo 'bg-orange-100 text-orange-800'; break;
-                                            case 'Medium': echo 'bg-yellow-100 text-yellow-800'; break;
-                                            case 'Low': echo 'bg-blue-100 text-blue-800'; break;
-                                            default: echo 'bg-gray-100 text-gray-800'; break;
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <div class="font-medium text-gray-900"><?= esc($incident['title']) ?></div>
+                                            <div class="text-sm text-gray-500">#<?= $incident['id'] ?></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
+                                        <?php
+                                        switch ($incident['severity']) {
+                                            case 'Critical':
+                                                echo 'bg-red-100 text-red-800';
+                                                break;
+                                            case 'High':
+                                                echo 'bg-orange-100 text-orange-800';
+                                                break;
+                                            case 'Medium':
+                                                echo 'bg-yellow-100 text-yellow-800';
+                                                break;
+                                            case 'Low':
+                                                echo 'bg-blue-100 text-blue-800';
+                                                break;
+                                            default:
+                                                echo 'bg-gray-100 text-gray-800';
+                                                break;
                                         }
                                         ?>">
-                                        <?= esc($incident['severity']) ?>
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                        <?php 
-                                        switch($incident['status']) {
-                                            case 'New': echo 'bg-blue-100 text-blue-800'; break;
-                                            case 'In Progress': echo 'bg-yellow-100 text-yellow-800'; break;
-                                            case 'Closed': echo 'bg-green-100 text-green-800'; break;
-                                            default: echo 'bg-gray-100 text-gray-800'; break;
+                                            <?= esc($incident['severity']) ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
+                                        <?php
+                                        switch ($incident['status']) {
+                                            case 'Open':
+                                                echo 'bg-red-100 text-red-800';
+                                                break;
+                                            case 'In Progress':
+                                                echo 'bg-yellow-100 text-yellow-800';
+                                                break;
+                                            case 'Closed':
+                                                echo 'bg-green-100 text-green-800';
+                                                break;
+                                            default:
+                                                echo 'bg-gray-100 text-gray-800';
+                                                break;
                                         }
                                         ?>">
-                                        <?= esc($incident['status']) ?>
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-sm text-gray-900"><?= esc($incident['attack_type']) ?></span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-gray-900">
-                                        <?= date('M j, Y', strtotime($incident['created_at'])) ?>
-                                    </div>
-                                    <div class="text-xs text-gray-500">
-                                        <?= date('H:i', strtotime($incident['created_at'])) ?>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="/incidents/<?= $incident['id'] ?>" 
-                                       class="text-blue-600 hover:text-blue-800 transition-colors" 
-                                       title="View Incident">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                            <?= esc($incident['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-sm text-gray-900"><?= esc($incident['attack_type']) ?></span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">
+                                            <?= date('M j, Y', strtotime($incident['created_at'])) ?>
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            <?= date('H:i', strtotime($incident['created_at'])) ?>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <a href="/incidents/<?= $incident['id'] ?>"
+                                            class="text-blue-600 hover:text-blue-800 transition-colors"
+                                            title="View Incident">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -209,166 +227,162 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Chart configurations
-const chartColors = {
-    critical: '#ef4444',
-    high: '#f97316',
-    medium: '#eab308',
-    low: '#3b82f6',
-    new: '#3b82f6',
-    inProgress: '#eab308',
-    closed: '#22c55e'
-};
+    // Chart configurations
+    const chartColors = {
+        critical: '#ef4444',
+        high: '#f97316',
+        medium: '#eab308',
+        low: '#3b82f6',
+        open: '#ef4444',
+        inProgress: '#eab308',
+        closed: '#22c55e'
+    };
 
-// Severity Distribution Chart
-const severityCtx = document.getElementById('severityChart').getContext('2d');
-new Chart(severityCtx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Critical', 'High', 'Medium', 'Low'],
-        datasets: [{
-            data: [
-                <?= $stats['by_severity']['Critical'] ?>,
-                <?= $stats['by_severity']['High'] ?>,
-                <?= $stats['by_severity']['Medium'] ?>,
-                <?= $stats['by_severity']['Low'] ?>
-            ],
-            backgroundColor: [
-                chartColors.critical,
-                chartColors.high,
-                chartColors.medium,
-                chartColors.low
-            ],
-            borderWidth: 2,
-            borderColor: '#fff'
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    padding: 20,
-                    usePointStyle: true
-                }
-            }
-        }
-    }
-});
-
-// Status Distribution Chart
-const statusCtx = document.getElementById('statusChart').getContext('2d');
-new Chart(statusCtx, {
-    type: 'pie',
-    data: {
-        labels: ['New', 'In Progress', 'Closed'],
-        datasets: [{
-            data: [
-                <?= $stats['by_status']['New'] ?>,
-                <?= $stats['by_status']['In Progress'] ?>,
-                <?= $stats['by_status']['Closed'] ?>
-            ],
-            backgroundColor: [
-                chartColors.new,
-                chartColors.inProgress,
-                chartColors.closed
-            ],
-            borderWidth: 2,
-            borderColor: '#fff'
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    padding: 20,
-                    usePointStyle: true
-                }
-            }
-        }
-    }
-});
-
-// Trend Chart (Demo data)
-const trendCtx = document.getElementById('trendChart').getContext('2d');
-new Chart(trendCtx, {
-    type: 'line',
-    data: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        datasets: [
-            {
-                label: 'Critical',
-                data: [2, 4, 1, 3],
-                borderColor: chartColors.critical,
-                backgroundColor: chartColors.critical + '20',
-                tension: 0.4
-            },
-            {
-                label: 'High',
-                data: [5, 7, 4, 6],
-                borderColor: chartColors.high,
-                backgroundColor: chartColors.high + '20',
-                tension: 0.4
-            },
-            {
-                label: 'Medium',
-                data: [8, 12, 9, 11],
-                borderColor: chartColors.medium,
-                backgroundColor: chartColors.medium + '20',
-                tension: 0.4
-            },
-            {
-                label: 'Low',
-                data: [3, 5, 2, 4],
-                borderColor: chartColors.low,
-                backgroundColor: chartColors.low + '20',
-                tension: 0.4
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top',
-                labels: {
-                    usePointStyle: true,
-                    padding: 20
-                }
-            }
+    // Severity Distribution Chart
+    const severityCtx = document.getElementById('severityChart').getContext('2d');
+    new Chart(severityCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Critical', 'High', 'Medium', 'Low'],
+            datasets: [{
+                data: [
+                    <?= $stats['by_severity']['Critical'] ?>,
+                    <?= $stats['by_severity']['High'] ?>,
+                    <?= $stats['by_severity']['Medium'] ?>,
+                    <?= $stats['by_severity']['Low'] ?>
+                ],
+                backgroundColor: [
+                    chartColors.critical,
+                    chartColors.high,
+                    chartColors.medium,
+                    chartColors.low
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
         },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
                 }
             }
         }
-    }
-});
+    });
 
-// Export functions
-function exportReport(type) {
-    if (type === 'excel') {
-        showInfoAlert('Export Report', 'Exporting incident report to Excel format (Demo Mode)');
-        // In production: window.location.href = '/reports/incidents/export/excel';
-    } else if (type === 'pdf') {
-        showInfoAlert('Export Report', 'Exporting incident report to PDF format (Demo Mode)');
-        // In production: window.location.href = '/reports/incidents/export/pdf';
-    }
-}
+    // Status Distribution Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Open', 'In Progress', 'Closed'],
+            datasets: [{
+                data: [
+                    <?= $stats['by_status']['Open'] ?>,
+                    <?= $stats['by_status']['In Progress'] ?>,
+                    <?= $stats['by_status']['Closed'] ?>
+                ],
+                backgroundColor: [
+                    chartColors.open,
+                    chartColors.inProgress,
+                    chartColors.closed
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
 
-// Auto-refresh charts every 5 minutes
-setInterval(function() {
-    console.log('Charts would be refreshed with new data');
-}, 300000);
+    // Trend Chart (Demo data)
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                    label: 'Critical',
+                    data: [2, 4, 1, 3],
+                    borderColor: chartColors.critical,
+                    backgroundColor: chartColors.critical + '20',
+                    tension: 0.4
+                },
+                {
+                    label: 'High',
+                    data: [5, 7, 4, 6],
+                    borderColor: chartColors.high,
+                    backgroundColor: chartColors.high + '20',
+                    tension: 0.4
+                },
+                {
+                    label: 'Medium',
+                    data: [8, 12, 9, 11],
+                    borderColor: chartColors.medium,
+                    backgroundColor: chartColors.medium + '20',
+                    tension: 0.4
+                },
+                {
+                    label: 'Low',
+                    data: [3, 5, 2, 4],
+                    borderColor: chartColors.low,
+                    backgroundColor: chartColors.low + '20',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Export functions
+    function exportReport(type) {
+        if (type === 'pdf') {
+            showInfoAlert('Export Report', 'Exporting incident report to PDF format (Demo Mode)');
+            // In production: window.location.href = '/reports/incidents/export/pdf';
+        }
+    }
+
+    // Auto-refresh charts every 5 minutes
+    setInterval(function() {
+        console.log('Charts would be refreshed with new data');
+    }, 300000);
 </script>
 
 <?= $this->endSection() ?>

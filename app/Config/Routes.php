@@ -36,8 +36,10 @@ $routes->post('/incidents/add-comment', 'Incidents::addComment');
 $routes->get('/reports', 'Reports::index');
 $routes->get('/reports/generate', 'Reports::index'); // Added route for report generation
 $routes->get('/reports/incidentsExcel', 'Reports::incidentsExcel');
-// kalau mau nanti ditambah PDF
 $routes->get('/reports/incidentsPdf', 'Reports::incidentsPdf');
+$routes->get('/reports/incidentsReport', 'Reports::incidentsReport');
+$routes->get('/reports/threatsReport', 'Reports::threatsReport');
+$routes->get('/reports/executiveDashboard', 'Reports::executiveDashboard');
 
 // =====================
 // Threat Intelligence
@@ -160,6 +162,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('/incidents', 'Incidents::index');
     $routes->get('/reports', 'Reports::index');
     $routes->get('/reports/generate', 'Reports::index'); // Added protected route for report generation
+    $routes->get('/reports/incidentsReport', 'Reports::incidentsReport');
+    $routes->get('/reports/threatsReport', 'Reports::threatsReport');
+    $routes->get('/reports/executiveDashboard', 'Reports::executiveDashboard');
     $routes->get('/asset-management', 'Assets::index');
     $routes->get('/alerts', 'Alerts::index');
     $routes->get('/threats', 'Threats::index');

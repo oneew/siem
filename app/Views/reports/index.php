@@ -17,9 +17,21 @@
                     <i class="fas fa-file-excel mr-1 sm:mr-2"></i>
                     Ekspor Excel
                 </a>
-                <a href="/reports/generate" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
-                    <i class="fas fa-plus mr-1 sm:mr-2"></i>
-                    Buat Laporan
+                <a href="/reports/incidentsPdf" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-file-pdf mr-1 sm:mr-2"></i>
+                    Ekspor PDF
+                </a>
+                <a href="/reports/incidentsReport" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-file-alt mr-1 sm:mr-2"></i>
+                    Laporan Insiden
+                </a>
+                <a href="/reports/threatsReport" class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-bug mr-1 sm:mr-2"></i>
+                    Laporan Ancaman
+                </a>
+                <a href="/reports/executiveDashboard" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-chart-bar mr-1 sm:mr-2"></i>
+                    Dashboard Eksekutif
                 </a>
             </div>
         </div>
@@ -288,17 +300,18 @@
             new Chart(trendsCtx, {
                 type: 'line',
                 data: {
-                    labels: <?= $trend_data['dates'] ?>,
+                    // Convert PHP arrays to JSON for JavaScript
+                    labels: <?= json_encode($trend_data['dates']) ?>,
                     datasets: [{
                         label: 'Insiden',
-                        data: <?= $trend_data['incidents_trend'] ?>,
+                        data: <?= json_encode($trend_data['incidents_trend']) ?>,
                         borderColor: 'rgb(59, 130, 246)',
                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
                         tension: 0.3,
                         fill: true
                     }, {
                         label: 'Alert',
-                        data: <?= $trend_data['alerts_trend'] ?>,
+                        data: <?= json_encode($trend_data['alerts_trend']) ?>,
                         borderColor: 'rgb(245, 158, 11)',
                         backgroundColor: 'rgba(245, 158, 11, 0.1)',
                         tension: 0.3,
@@ -469,4 +482,3 @@
 </script>
 
 <?= $this->endSection() ?>
-```

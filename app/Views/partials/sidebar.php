@@ -1,4 +1,9 @@
 <aside class="sidebar flex flex-col h-screen fixed top-0 left-0 z-100 transition-transform duration-300 ease-in-out lg:translate-x-0 bg-white shadow-xl" id="sidebar">
+    <!-- Add toggle button at the top -->
+    <div class="sidebar-toggle absolute top-4 -right-3 bg-white rounded-full shadow-lg p-1 cursor-pointer hidden lg:block z-50" id="sidebarToggle">
+        <i class="fas fa-chevron-left text-gray-600 text-sm"></i>
+    </div>
+
     <div class="sidebar-header py-6 px-5 border-b border-gray-200 flex items-center gap-3 flex-shrink-0">
         <div class="sidebar-logo-icon w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md">
             <i class="fas fa-shield-alt text-white text-xl"></i>

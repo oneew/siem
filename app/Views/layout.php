@@ -16,6 +16,9 @@
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,10 +28,10 @@
 
 <body class="bg-gray-100">
 
-    <div class="admin-layout">
+    <div class="admin-layout flex">
         <?= $this->include('partials/sidebar') ?>
 
-        <div class="main-content">
+        <div class="main-content flex-grow transition-all duration-300 lg:ml-0" id="main-content">
             <?= $this->include('partials/navbar') ?>
 
             <main class="page-content">

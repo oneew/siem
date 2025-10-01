@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const mainContent = document.getElementById('main-content');
 
     // Periksa preferensi tema yang disimpan atau ikuti preferensi OS
     const savedTheme = localStorage.getItem('theme');
@@ -38,6 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         applyTheme(newTheme);
+    }
+
+    // Function to update main content margin based on sidebar state
+    function updateMainContentMargin() {
+        if (window.innerWidth >= 1024) { // lg breakpoint
+            if (sidebar.classList.contains('lg:-translate-x-full')) {
+                mainContent.classList.remove('lg:ml-64');
+                mainContent.classList.add('lg:ml-0');
+            } else {
+                mainContent.classList.remove('lg:ml-0');
+                mainContent.classList.add('lg:ml-64');
+            }
+        } else {
+            mainContent.classList.remove('lg:ml-64');
+            mainContent.classList.add('lg:ml-0');
+        }
     }
 
     const toggleSidebar = () => {
@@ -75,6 +93,28 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggle.addEventListener('click', toggleTheme);
     }
 
+    // Handle sidebar toggle button
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('lg:-translate-x-full');
+            
+            // Update icon based on sidebar state
+            const toggleIcon = sidebarToggle.querySelector('i');
+            if (sidebar.classList.contains('lg:-translate-x-full')) {
+                toggleIcon.classList.remove('fa-chevron-left');
+                toggleIcon.classList.add('fa-chevron-right');
+                localStorage.setItem('sidebarCollapsed', 'true');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-right');
+                toggleIcon.classList.add('fa-chevron-left');
+                localStorage.setItem('sidebarCollapsed', 'false');
+            }
+            
+            // Update main content margin
+            updateMainContentMargin();
+        });
+    }
+
     // Tutup sidebar saat mengklik di luar pada layar besar
     document.addEventListener('click', (e) => {
         const isClickInsideSidebar = sidebar.contains(e.target);
@@ -102,7 +142,25 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.classList.add('hidden');
             body.style.overflow = '';
         }
+        // Update main content margin on resize
+        updateMainContentMargin();
     });
+
+    // Initialize sidebar state based on localStorage
+    const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isSidebarCollapsed && sidebarToggle) {
+        sidebar.classList.add('lg:-translate-x-full');
+        const toggleIcon = sidebarToggle.querySelector('i');
+        if (toggleIcon) {
+            toggleIcon.classList.remove('fa-chevron-left');
+            toggleIcon.classList.add('fa-chevron-right');
+        }
+    }
+    
+    // Initial update of main content margin
+    if (mainContent) {
+        updateMainContentMargin();
+    }
 });
 
 // Fungsi bantu SweetAlert2
