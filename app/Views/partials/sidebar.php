@@ -44,6 +44,12 @@
                             <span class="font-medium">Ancaman Aktif</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="/monitoring" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'monitoring') ? 'active bg-teal-50 text-teal-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
+                            <i class="fas fa-desktop icon w-5 text-center text-teal-500"></i>
+                            <span class="font-medium">Monitoring Aset</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 

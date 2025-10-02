@@ -13,6 +13,10 @@
                 <p class="text-gray-600 mt-1 text-sm">Laporan keamanan dan analitik data yang komprehensif</p>
             </div>
             <div class="flex flex-wrap gap-2 sm:gap-3">
+                <a href="/reports/print-all" target="_blank" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
+                    <i class="fas fa-print mr-1 sm:mr-2"></i>
+                    Cetak Semua Laporan
+                </a>
                 <a href="/reports/incidentsExcel" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg flex items-center shadow-md transition-colors text-sm">
                     <i class="fas fa-file-excel mr-1 sm:mr-2"></i>
                     Ekspor Excel

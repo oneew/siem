@@ -9,12 +9,20 @@ class IncidentModel extends Model
     protected $table = 'incidents';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'title', 'description', 'source_ip', 'severity', 'status', 
-        'resolution_notes', 'resolved_at', 'evidence_collected', 
-        'created_at', 'updated_at'
+        'title',
+        'description',
+        'source_ip',
+        'attack_type',
+        'severity',
+        'status',
+        'resolution_notes',
+        'resolved_at',
+        'evidence_collected',
+        'created_at',
+        'updated_at'
     ];
     protected $useTimestamps = true;
-    
+
     protected $validationRules = [
         'title' => 'required|max_length[255]',
         'description' => 'required',
@@ -22,7 +30,7 @@ class IncidentModel extends Model
         'status' => 'required|in_list[Open,In Progress,Closed]',
         'source_ip' => 'required|valid_ip'
     ];
-    
+
     protected $validationMessages = [
         'title' => [
             'required' => 'Incident title is required',
@@ -44,23 +52,23 @@ class IncidentModel extends Model
             'valid_ip' => 'Please provide a valid IP address'
         ]
     ];
-    
+
     // Override the insert method to add better error handling
     public function insert($data = null, bool $returnID = true)
     {
         // Log the data being inserted
         log_message('debug', 'Attempting to insert incident data: ' . json_encode($data));
-        
+
         try {
             $result = parent::insert($data, $returnID);
-            
+
             if ($result === false) {
                 // Log the errors
                 $errors = $this->errors();
                 log_message('error', 'Failed to insert incident. Validation errors: ' . json_encode($errors));
                 return false;
             }
-            
+
             log_message('debug', 'Incident inserted successfully with ID: ' . $result);
             return $result;
         } catch (\Exception $e) {

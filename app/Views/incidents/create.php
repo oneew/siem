@@ -88,7 +88,7 @@
 
                 <!-- Horizontal Row for Source IP, Severity, and Status -->
                 <div class="form-group md:col-span-2">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <!-- Source IP Field -->
                         <div class="form-group">
                             <label class="block text-sm font-medium text-gray-700 mb-2 required">
@@ -101,6 +101,26 @@
                                 placeholder="192.168.1.100"
                                 value="<?= old('source_ip') ?>">
                             <p class="mt-1 text-sm text-gray-500">Alamat IP dari sumber ancaman</p>
+                        </div>
+
+                        <!-- Attack Type Field -->
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Tipe Serangan
+                            </label>
+                            <select name="attack_type"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                                <option value="">Pilih Tipe Serangan</option>
+                                <option value="Web Defacement" <?= old('attack_type') == 'Web Defacement' ? 'selected' : '' ?>>Web Defacement</option>
+                                <option value="Phishing" <?= old('attack_type') == 'Phishing' ? 'selected' : '' ?>>Phishing</option>
+                                <option value="Ransomware" <?= old('attack_type') == 'Ransomware' ? 'selected' : '' ?>>Ransomware</option>
+                                <option value="DDoS" <?= old('attack_type') == 'DDoS' ? 'selected' : '' ?>>DDoS</option>
+                                <option value="Malware" <?= old('attack_type') == 'Malware' ? 'selected' : '' ?>>Malware</option>
+                                <option value="SQL Injection" <?= old('attack_type') == 'SQL Injection' ? 'selected' : '' ?>>SQL Injection</option>
+                                <option value="Brute Force" <?= old('attack_type') == 'Brute Force' ? 'selected' : '' ?>>Brute Force</option>
+                                <option value="Insider Threat" <?= old('attack_type') == 'Insider Threat' ? 'selected' : '' ?>>Insider Threat</option>
+                            </select>
+                            <p class="mt-1 text-sm text-gray-500">Jenis serangan yang terjadi</p>
                         </div>
 
                         <!-- Severity Field -->

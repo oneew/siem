@@ -192,6 +192,95 @@ class Reports extends BaseController
         return redirect()->back()->with('success', 'Excel export completed successfully');
     }
 
+    public function webDefacementReport($id)
+    {
+        $model = new IncidentModel();
+        $incident = $model->find($id);
+
+        if (!$incident) {
+            return redirect()->back()->with('error', 'Incident not found');
+        }
+
+        // Set the attack type if not already set
+        if (empty($incident['attack_type'])) {
+            $incident['attack_type'] = 'Web Defacement';
+        }
+
+        return view('reports/web_defacement_report', ['incident' => $incident]);
+    }
+
+    public function incidentReport($id)
+    {
+        $model = new IncidentModel();
+        $incident = $model->find($id);
+
+        if (!$incident) {
+            return redirect()->back()->with('error', 'Incident not found');
+        }
+
+        return view('reports/incident_report', ['incident' => $incident]);
+    }
+
+    public function printAllReports()
+    {
+        $incidentModel = new IncidentModel();
+        $alertModel = new AlertModel();
+        $threatModel = new ThreatModel();
+        $assetModel = new AssetModel();
+
+        // Get all data needed for reports
+        $data['incidents'] = $incidentModel->orderBy('created_at', 'DESC')->findAll();
+        $data['alerts'] = $alertModel->orderBy('created_at', 'DESC')->findAll();
+        $data['threats'] = $threatModel->orderBy('created_at', 'DESC')->findAll();
+        $data['assets'] = $assetModel->orderBy('created_at', 'DESC')->findAll();
+
+        // Executive Summary Statistics
+        $data['executive_summary'] = [
+            'total_incidents' => $incidentModel->countAll(),
+            'open_incidents' => $incidentModel->where('status !=', 'Closed')->countAllResults(),
+            'critical_incidents' => $incidentModel->where('severity', 'Critical')->countAllResults(),
+            'total_alerts' => $alertModel->countAll(),
+            'active_alerts' => $alertModel->where('status', 'Active')->countAllResults(),
+            'total_threats' => $threatModel->countAll(),
+            'active_threats' => $threatModel->where('status', 'Active')->countAllResults(),
+            'total_assets' => $assetModel->countAll(),
+            'vulnerable_assets' => $assetModel->where('vulnerability_status', 'Vulnerable')->countAllResults()
+        ];
+
+        // Trend Data (Last 30 days)
+        $data['trend_data'] = $this->generateTrendData($incidentModel, $alertModel);
+
+        // Risk Assessment
+        $data['risk_metrics'] = $this->calculateRiskMetrics($incidentModel, $alertModel, $assetModel);
+
+        // Statistics for incidents report
+        $data['incidents_stats'] = [
+            'by_severity' => [
+                'Critical' => $incidentModel->where('severity', 'Critical')->countAllResults(),
+                'High' => $incidentModel->where('severity', 'High')->countAllResults(),
+                'Medium' => $incidentModel->where('severity', 'Medium')->countAllResults(),
+                'Low' => $incidentModel->where('severity', 'Low')->countAllResults()
+            ],
+            'by_status' => [
+                'Open' => $incidentModel->where('status', 'Open')->countAllResults(),
+                'In Progress' => $incidentModel->where('status', 'In Progress')->countAllResults(),
+                'Closed' => $incidentModel->where('status', 'Closed')->countAllResults()
+            ]
+        ];
+
+        // Statistics for threats report
+        $data['threats_stats'] = [
+            'by_type' => [
+                'IP' => $threatModel->where('ioc_type', 'IP')->countAllResults(),
+                'Domain' => $threatModel->where('ioc_type', 'Domain')->countAllResults(),
+                'Hash' => $threatModel->where('ioc_type', 'Hash')->countAllResults(),
+                'URL' => $threatModel->where('ioc_type', 'URL')->countAllResults()
+            ]
+        ];
+
+        return view('reports/print_all', $data);
+    }
+
     private function generateTrendData($incidentModel, $alertModel)
     {
         // Generate trend data for the last 7 days

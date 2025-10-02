@@ -40,6 +40,9 @@ $routes->get('/reports/incidentsPdf', 'Reports::incidentsPdf');
 $routes->get('/reports/incidentsReport', 'Reports::incidentsReport');
 $routes->get('/reports/threatsReport', 'Reports::threatsReport');
 $routes->get('/reports/executiveDashboard', 'Reports::executiveDashboard');
+$routes->get('/reports/web-defacement/(:num)', 'Reports::webDefacementReport/$1');
+$routes->get('/reports/incident/(:num)', 'Reports::incidentReport/$1');
+$routes->get('/reports/print-all', 'Reports::printAllReports');
 
 // =====================
 // Threat Intelligence
@@ -83,6 +86,14 @@ $routes->get('/asset-management/edit/(:num)', 'Assets::edit/$1');
 $routes->get('/asset-management/(:num)/edit', 'Assets::edit/$1');  // Added route for editing asset details with ID first
 $routes->post('/asset-management/(:num)', 'Assets::update/$1');  // Fixed: Changed from /asset-management/update/(:num) to /asset-management/(:num) to match form action
 $routes->get('/asset-management/delete/(:num)', 'Assets::delete/$1');  // Changed from POST to GET to match link usage
+
+// =====================
+// Asset Monitoring
+// =====================
+$routes->get('/monitoring', 'Monitoring::index');
+$routes->get('/monitoring/asset/(:num)', 'Monitoring::asset/$1');
+$routes->post('/monitoring/check-security/(:num)', 'Monitoring::checkSecurity/$1');
+
 // =====================
 // Digital Forensics
 // =====================
@@ -145,6 +156,17 @@ $routes->get('/test-templating', 'TestTemplating::index');
 // CSS Test
 // =====================
 $routes->get('/css-test', 'CssTest::index');
+
+// =====================
+// Test
+// =====================
+$routes->get('/test/incidents', 'Test::incidents');
+$routes->get('/test/incident/(:num)', 'Test::incident/$1');
+
+// =====================
+// Debug
+// =====================
+$routes->get('/debug/print-all-data', 'Debug::printAllData');
 
 // Auth
 $routes->get('/login', 'Auth::login');

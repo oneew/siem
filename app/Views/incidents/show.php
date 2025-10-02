@@ -220,6 +220,22 @@
                     <i class="fas fa-file-export mr-2 text-gray-500"></i>
                     Ekspor Data
                 </button>
+                <!-- Web Defacement Report Button - Only show for Web Defacement incidents -->
+                <?php if (isset($incident['attack_type']) && trim($incident['attack_type']) === 'Web Defacement'): ?>
+                    <a href="/reports/web-defacement/<?= $incident['id'] ?>"
+                        target="_blank"
+                        class="w-full text-left px-4 py-2 text-sm text-blue-700 hover:bg-blue-50 rounded-lg transition-colors flex items-center">
+                        <i class="fas fa-print mr-2 text-blue-500"></i>
+                        Cetak Laporan Web Defacement
+                    </a>
+                <?php endif; ?>
+                <!-- General Print Report Button -->
+                <a href="/reports/incident/<?= $incident['id'] ?>"
+                    target="_blank"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center">
+                    <i class="fas fa-print mr-2 text-gray-500"></i>
+                    Cetak Laporan Insiden
+                </a>
                 <hr class="my-2">
                 <a href="/incidents/edit/<?= $incident['id'] ?>" class="w-full text-left px-4 py-2 text-sm text-yellow-700 hover:bg-yellow-50 rounded-lg transition-colors flex items-center">
                     <i class="fas fa-edit mr-2 text-yellow-500"></i>
