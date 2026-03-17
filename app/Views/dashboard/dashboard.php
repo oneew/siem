@@ -1,226 +1,117 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Enhanced Dashboard Header -->
-<div class="mb-8">
-  <!-- Main Header Card -->
-  <div class="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 rounded-2xl shadow-xl overflow-hidden">
-    <div class="relative px-8 py-6">
-      <!-- Background Pattern -->
-      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-      <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full transform translate-x-32 -translate-y-32"></div>
-      
-      <!-- Header Content -->
-      <div class="relative flex flex-col lg:flex-row items-center justify-between gap-6">
-        <!-- Status Indicators -->
-        <div class="flex flex-wrap items-center gap-4">
-          <!-- System Status -->
-          <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white border-opacity-20">
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-2">
-                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
-                <span class="text-white font-semibold text-sm">Sistem Aktif</span>
-              </div>
-              <div class="w-px h-6 bg-white bg-opacity-30"></div>
-              <div class="text-right">
-                <div class="text-white font-bold text-lg">99.9%</div>
-                <div class="text-blue-200 text-xs">Uptime</div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Alert Level -->
-          <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white border-opacity-20">
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-2">
-                <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-lg"></div>
-                <span class="text-white font-semibold text-sm">Tingkat Peringatan</span>
-              </div>
-              <div class="w-px h-6 bg-white bg-opacity-30"></div>
-              <div class="text-right">
-                <div class="text-white font-bold text-lg">RENDAH</div>
-                <div class="text-blue-200 text-xs">Ancaman</div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Quick Access Menu -->
-          <div class="relative">
-            <button class="w-12 h-12 bg-white bg-opacity-10 backdrop-blur-sm hover:bg-opacity-20 rounded-xl border border-white border-opacity-20 flex items-center justify-center transition-all duration-200 group" onclick="toggleQuickMenu()">
-              <i class="fas fa-ellipsis-v text-white group-hover:scale-110 transition-transform"></i>
-            </button>
-            
-            <!-- Quick Menu Dropdown -->
-            <div id="quickMenu" class="hidden absolute right-0 top-14 w-48 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
-              <div class="p-2">
-                <a href="/certificates" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-certificate w-4 text-blue-600"></i>
-                  <span>Sertifikat Elektronik</span>
-                </a>
-                <a href="/signatures" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-signature w-4 text-emerald-600"></i>
-                  <span>Tanda Tangan</span>
-                </a>
-                <a href="/jamming" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-broadcast-tower w-4 text-red-600"></i>
-                  <span>Jamming</span>
-                </a>
-                <a href="/incidents/create" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-plus w-4 text-orange-600"></i>
-                  <span>Insiden Baru</span>
-                </a>
-                <div class="border-t border-gray-200 my-2"></div>
-                <a href="/settings" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-cog w-4 text-gray-600"></i>
-                  <span>Pengaturan</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="mb-6 flex justify-between items-end">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 leading-tight"><?= esc($title) ?></h1>
     </div>
-    
-    <!-- Bottom Stats Bar -->
-    <div class="bg-black bg-opacity-20 px-8 py-4">
-      <div class="flex flex-wrap items-center justify-between gap-4 text-sm">
-        <div class="flex flex-wrap items-center gap-6">
-          <div class="flex items-center space-x-2 text-blue-200" title="Total Endpoint">
-            <i class="fas fa-server w-4"></i>
-            <span>12 Titik Akhir</span>
-          </div>
-          <div class="flex items-center space-x-2 text-blue-200" title="Total Insiden">
-            <i class="fas fa-shield-alt w-4"></i>
-            <span><?= $totalIncidents ?> Insiden</span>
-          </div>
-          <div class="flex items-center space-x-2 text-blue-200" title="Sertifikat Aktif">
-            <i class="fas fa-certificate w-4"></i>
-            <span><?= $activeCertificates ?> Sertifikat Aktif</span>
-          </div>
-          <div class="flex items-center space-x-2 text-blue-200" title="Jamming Aktif">
-            <i class="fas fa-broadcast-tower w-4"></i>
-            <span><?= $activeJammings ?> Jamming Signal</span>
-          </div>
-        </div>
-        <div class="text-blue-200">
-          <span>Skor Keamanan: </span>
-          <span class="text-white font-bold">A+</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- Integrated Cyber Security & Persandian Metrics -->
+<!-- TIER 1: Top Cards (4 Kolom) -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
   
-  <!-- Cyber Security: Threats & Incidents -->
-  <div class="dashboard-card bg-gradient-to-br from-white to-red-50 border-l-4 border-red-500">
+  <!-- Security Posture Score -->
+  <div class="dashboard-card border-l-4 <?= $securityScore >= 80 ? 'border-green-500' : ($securityScore >= 50 ? 'border-yellow-500' : 'border-red-500') ?>">
     <div class="flex items-center justify-between p-6">
       <div>
-        <p class="text-sm font-medium text-red-700 mb-1">Ancaman & Insiden</p>
+        <p class="text-sm font-medium text-gray-500 mb-1">Security Posture Score</p>
         <div class="flex items-baseline space-x-2">
-            <p class="text-3xl font-bold text-gray-900"><?= $totalThreats ?></p>
-            <span class="text-xs text-red-600 font-semibold bg-red-100 px-2 py-0.5 rounded-full"><?= $openIncidents ?> Terbuka</span>
+            <p class="text-3xl font-bold <?= $securityScore >= 80 ? 'text-green-600' : ($securityScore >= 50 ? 'text-yellow-600' : 'text-red-600') ?>">
+                <?= $securityScore ?>%
+            </p>
         </div>
-        <p class="text-xs text-gray-500 mt-1">Kritis: <?= $criticalIncidents ?></p>
+        <p class="text-xs text-gray-400 mt-1">Berdasarkan kalkulasi metrik aktif</p>
       </div>
-      <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-bug text-red-600 text-xl"></i>
+      <div class="w-12 h-12 <?= $securityScore >= 80 ? 'bg-green-100 text-green-600' : ($securityScore >= 50 ? 'bg-yellow-100 text-yellow-600' : 'bg-red-100 text-red-600') ?> rounded-lg flex items-center justify-center">
+        <i class="fas fa-shield-alt text-xl"></i>
       </div>
     </div>
   </div>
 
-  <!-- Cyber Security: Active Defense -->
+  <!-- Active Critical Alerts -->
+  <div class="dashboard-card border-l-4 border-red-500 <?= $criticalAlerts > 0 ? 'animate-pulse' : '' ?>">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Active Critical Alerts</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold <?= $criticalAlerts > 0 ? 'text-red-600' : 'text-gray-900' ?>">
+                <?= $criticalAlerts ?>
+            </p>
+        </div>
+        <p class="text-xs text-red-500 mt-1 font-semibold">
+           <?= $criticalAlerts > 0 ? 'Segera lakukan mitigasi!' : 'Sistem aman saat ini' ?>
+        </p>
+      </div>
+      <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Pentest Projects -->
+  <div class="dashboard-card border-l-4 border-purple-500">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Open Pentest Projects</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold text-gray-900"><?= $openPentests ?></p>
+        </div>
+        <p class="text-xs text-gray-400 mt-1">Proyek Red Team berjalan</p>
+      </div>
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center shadow-inner">
+        <i class="fas fa-user-ninja text-purple-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Malicious Files Detected -->
   <div class="dashboard-card border-l-4 border-amber-500">
     <div class="flex items-center justify-between p-6">
       <div>
-        <p class="text-sm font-medium text-amber-700 mb-1">Operasi Aktif</p>
+        <p class="text-sm font-medium text-gray-500 mb-1">Malicious Files Detected</p>
         <div class="flex items-baseline space-x-2">
-            <p class="text-3xl font-bold text-gray-900"><?= $activeJammings + $ongoingPentests ?></p>
-            <span class="text-xs text-amber-600 font-semibold bg-amber-100 px-2 py-0.5 rounded-full">Berjalan</span>
+            <p class="text-3xl font-bold text-amber-600"><?= $maliciousFiles ?></p>
         </div>
-        <div class="flex items-center space-x-3 mt-1 text-xs text-gray-500">
-            <span><i class="fas fa-broadcast-tower text-amber-500 mr-1"></i><?= $activeJammings ?> Jamming</span>
-            <span><i class="fas fa-shield-alt text-green-500 mr-1"></i><?= $ongoingPentests ?> Pentest</span>
-        </div>
+        <p class="text-xs text-gray-400 mt-1">DFIR Stats (Bulan ini)</p>
       </div>
       <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-satellite-dish text-amber-600 text-xl"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Persandian: Electronic Certificates -->
-  <div class="dashboard-card border-l-4 border-blue-500">
-    <div class="flex items-center justify-between p-6">
-      <div>
-        <p class="text-sm font-medium text-blue-700 mb-1">Sertifikat Elektronik</p>
-        <div class="flex items-baseline space-x-2">
-            <p class="text-3xl font-bold text-gray-900"><?= $activeCertificates ?></p>
-            <span class="text-xs text-blue-600 font-semibold bg-blue-100 px-2 py-0.5 rounded-full">Aktif</span>
-        </div>
-        <p class="text-xs text-orange-500 mt-1 font-medium"><i class="fas fa-exclamation-triangle mr-1"></i> <?= $expiringCertificates ?> Kedaluwarsa dlm 30 hr</p>
-      </div>
-      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shadow-inner">
-        <i class="fas fa-certificate text-blue-600 text-xl"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Persandian: Digital Signatures -->
-  <div class="dashboard-card border-l-4 border-emerald-500">
-    <div class="flex items-center justify-between p-6">
-      <div>
-        <p class="text-sm font-medium text-emerald-700 mb-1">Tanda Tangan (TTE)</p>
-        <div class="flex items-baseline space-x-2">
-            <p class="text-3xl font-bold text-gray-900"><?= number_format($totalSignaturesToday) ?></p>
-        </div>
-        <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-arrow-up mr-1"></i> Transaksi hari ini</p>
-      </div>
-      <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-signature text-emerald-600 text-xl"></i>
+        <i class="fas fa-biohazard text-amber-600 text-xl"></i>
       </div>
     </div>
   </div>
 
 </div>
 
-<!-- Main Content Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-  <!-- Recent Incidents Table -->
-  <div class="lg:col-span-2">
-    <div class="dashboard-card">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-            <i class="fas fa-list-alt mr-2 text-gray-500"></i>
-            Insiden Terbaru
-          </h3>
-          <a href="/incidents" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lihat semua</a>
-        </div>
+<!-- TIER 2: Middle Section (2 Kolom) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+  
+  <!-- Kiri: Insiden & Kasus Aktif -->
+  <div class="dashboard-card flex flex-col h-full">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+          <i class="fas fa-ticket-alt mr-2 text-blue-500"></i>
+          Insiden & Kasus Aktif
+        </h3>
+        <a href="/incidents-v2" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lihat Semua</a>
       </div>
-      
-      <div class="overflow-x-auto">
-        <table class="w-full modern-table">
-          <thead>
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insiden</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sumber</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tingkat Keparahan</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <?php foreach($latestIncidents as $i): ?>
+    </div>
+    <div class="flex-1 overflow-x-auto">
+      <table class="w-full modern-table">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Judul Kasus</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keparahan</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <?php if(!empty($activeIncidents)): ?>
+            <?php foreach($activeIncidents as $i): ?>
             <tr class="hover:bg-gray-50 transition-colors">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-gray-900"><?= esc($i['title']) ?></div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-600 font-mono"><?= esc($i['source_ip']) ?></div>
-              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">#<?= $i['id'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= esc($i['title']) ?></td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <?php
                 $severityColors = [
@@ -229,135 +120,100 @@
                   'High' => 'bg-orange-100 text-orange-800',
                   'Critical' => 'bg-red-100 text-red-800'
                 ];
-                $severityIndo = [
-                  'Low' => 'Rendah',
-                  'Medium' => 'Sedang', 
-                  'High' => 'Tinggi',
-                  'Critical' => 'Kritis'
-                ];
                 ?>
-                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $severityColors[$i['severity']] ?? 'bg-gray-100 text-gray-800' ?>">
-                  <?= esc($severityIndo[$i['severity']] ?? $i['severity']) ?>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $severityColors[$i['severity']] ?? 'bg-gray-100' ?>">
+                  <?= esc($i['severity']) ?>
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <?php
-                $statusColors = [
-                  'Open' => 'bg-blue-100 text-blue-800',
-                  'In Progress' => 'bg-yellow-100 text-yellow-800',
-                  'Resolved' => 'bg-green-100 text-green-800',
-                  'Closed' => 'bg-gray-100 text-gray-800'
-                ];
-                $statusIndo = [
-                  'Open' => 'Terbuka',
-                  'In Progress' => 'Sedang Diproses',
-                  'Resolved' => 'Terselesaikan',
-                  'Closed' => 'Ditutup'
-                ];
-                ?>
-                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $statusColors[$i['status']] ?? 'bg-gray-100 text-gray-800' ?>">
-                  <?= esc($statusIndo[$i['status']] ?? $i['status']) ?>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                  <?= esc($i['status']) ?>
                 </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <?= date('M j, H:i', strtotime($i['created_at'])) ?>
               </td>
             </tr>
             <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-      
-      <?php if (empty($latestIncidents)): ?>
-      <div class="text-center py-12">
-        <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
-        <p class="text-gray-500">Tidak ada insiden terbaru</p>
-      </div>
-      <?php endif; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="4" class="px-6 py-8 text-center text-sm text-gray-500">Tidak ada kasus aktif saat ini.</td>
+            </tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Sidebar Charts & Info -->
-  <div class="space-y-6">
-    <!-- Severity Distribution Chart -->
-    <div class="dashboard-card">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <i class="fas fa-chart-pie mr-2 text-gray-500"></i>
-          Distribusi Keparahan
-        </h3>
+  <!-- Kanan: Live Threat Feed & SSE -->
+  <div class="dashboard-card bg-gradient-to-br from-gray-900 to-slate-900 border border-slate-700 flex flex-col h-full relative overflow-hidden text-white">
+    <div class="px-6 py-4 border-b border-slate-700 flex justify-between items-center z-10">
+      <h3 class="text-lg font-semibold text-white flex items-center">
+        <i class="fas fa-satellite-dish mr-2 text-red-500 animate-pulse"></i>
+        Live Global Threats (SSE)
+      </h3>
+      <span class="flex h-3 w-3 relative">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+      </span>
+    </div>
+    <div class="p-0 flex-1 flex flex-col relative z-10">
+      <!-- Radar Map Background -->
+      <div class="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">
+        <div class="w-64 h-64 border border-green-500 rounded-full animate-[ping_3s_linear_infinite]"></div>
+        <div class="w-48 h-48 border border-green-500 rounded-full absolute"></div>
+        <div class="w-32 h-32 border border-green-500 rounded-full absolute"></div>
       </div>
-      <div class="p-6">
-        <div class="relative">
-          <canvas id="severityChart" height="200"></canvas>
-        </div>
+      
+      <!-- Feed Container -->
+      <div id="liveThreatFeed" class="flex-1 overflow-y-auto p-4 space-y-3 z-10 font-mono text-xs max-h-[300px]">
+        <div class="text-green-500 text-center py-4">Menunggu stream intelijen ancaman...</div>
       </div>
     </div>
+  </div>
 
-    <!-- Quick Actions -->
-    <div class="dashboard-card">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <i class="fas fa-bolt mr-2 text-gray-500"></i>
-          Aksi Cepat
-        </h3>
-      </div>
-      <div class="p-6 space-y-3">
-        <a href="/certificates" class="w-full btn btn-primary bg-blue-600 hover:bg-blue-700 text-white">
-          <i class="fas fa-certificate mr-2"></i>
-          Sertifikat Elektronik
-        </a>
-        <a href="/signatures" class="w-full btn btn-secondary bg-emerald-600 hover:bg-emerald-700 text-white border-none">
-          <i class="fas fa-signature mr-2"></i>
-          Tanda Tangan (TTE)
-        </a>
-        <a href="/jamming" class="w-full btn btn-success bg-red-600 hover:bg-red-700 text-white border-none">
-          <i class="fas fa-broadcast-tower mr-2"></i>
-          Pantau Jamming
-        </a>
-        <a href="/incidents/create" class="w-full btn btn-warning bg-amber-500 hover:bg-amber-600 text-white mt-4 border-none">
-          <i class="fas fa-plus mr-2"></i>
-          Lapor Insiden
-        </a>
-      </div>
-    </div>
+</div>
 
-    <!-- System Health -->
-    <div class="dashboard-card">
-      <div class="px-6 py-4 border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <i class="fas fa-heart mr-2 text-gray-500"></i>
-          Kesehatan Sistem
-        </h3>
-      </div>
-      <div class="p-6 space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Database</span>
-          <div class="flex items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span class="text-sm font-medium text-green-600">Sehat</span>
-          </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Layanan API</span>
-          <div class="flex items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span class="text-sm font-medium text-green-600">Aktif</span>
-          </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Pemantauan</span>
-          <div class="flex items-center space-x-2">
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span class="text-sm font-medium text-green-600">Berjalan</span>
-          </div>
-        </div>
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-600">Cadangan Terakhir</span>
-          <span class="text-sm text-gray-500">2 jam yang lalu</span>
-        </div>
-      </div>
+<!-- TIER 3: Bottom Section (Temuan Kerentanan) -->
+<div class="dashboard-card mb-8">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+        <i class="fas fa-spider mr-2 text-red-500"></i>
+        Temuan Kerentanan (Vulnerabilities) Terbaru dari Red Team
+      </h3>
+      <a href="/vulnerabilities" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Buka Red Team Deck</a>
     </div>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full modern-table">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">VUL-ID</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target Aset</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Kerentanan</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keparahan</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Ditemukan</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <?php foreach($recentVulnerabilities as $v): ?>
+        <tr class="hover:bg-red-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500"><?= esc($v['id']) ?></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?= esc($v['target']) ?></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600"><?= esc($v['type']) ?></td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <?php
+            $sevBadge = $v['severity'] === 'Critical' ? 'bg-red-100 text-red-800 font-bold' : 
+                       ($v['severity'] === 'High' ? 'bg-orange-100 text-orange-800' : 
+                       ($v['severity'] === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'));
+            ?>
+            <span class="inline-flex px-2 py-1 text-xs rounded-full <?= $sevBadge ?>">
+              <?= esc($v['severity']) ?>
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= date('d F Y', strtotime($v['date'])) ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -446,42 +302,10 @@
 }
 </style>
 <script>
-// Enhanced Dashboard Header Functions
-function toggleQuickMenu() {
-  const menu = document.getElementById('quickMenu');
-  const isHidden = menu.classList.contains('hidden');
-  
-  if (isHidden) {
-    menu.classList.remove('hidden');
-    menu.classList.add('quick-menu-slide');
-    // Close menu when clicking outside
-    setTimeout(() => {
-      document.addEventListener('click', closeQuickMenuOnOutside);
-    }, 100);
-  } else {
-    menu.classList.add('hidden');
-    menu.classList.remove('quick-menu-slide');
-    document.removeEventListener('click', closeQuickMenuOnOutside);
-  }
-}
-
-function closeQuickMenuOnOutside(event) {
-  const menu = document.getElementById('quickMenu');
-  const button = event.target.closest('button');
-  
-  if (!menu.contains(event.target) && !button) {
-    menu.classList.add('hidden');
-    menu.classList.remove('quick-menu-slide');
-    document.removeEventListener('click', closeQuickMenuOnOutside);
-  }
-}
-
-// Header status updates
+// Header system status updates for new UI
 function updateSystemStatus() {
-  // Simulate real-time status updates
   const statusIndicators = document.querySelectorAll('.animate-pulse');
   statusIndicators.forEach(indicator => {
-    // Add subtle color changes to indicate activity
     indicator.style.opacity = '0.7';
     setTimeout(() => {
       indicator.style.opacity = '1';
@@ -489,157 +313,118 @@ function updateSystemStatus() {
   });
 }
 
-// Auto-update system status every 5 seconds
 setInterval(updateSystemStatus, 5000);
 
-// Enhanced header animations on load
+// Basic entrance animations for UI
 function initializeHeaderAnimations() {
-  const headerElements = document.querySelectorAll('.header-card, .bg-gradient-to-r');
+  const headerElements = document.querySelectorAll('.dashboard-card');
   headerElements.forEach((element, index) => {
     element.style.opacity = '0';
-    element.style.transform = 'translateY(-20px)';
+    element.style.transform = 'translateY(-10px)';
     
     setTimeout(() => {
-      element.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      element.style.transition = 'all 0.5s ease';
       element.style.opacity = '1';
       element.style.transform = 'translateY(0)';
-    }, index * 150);
+    }, index * 100);
   });
 }
 
-// Enhanced Severity Distribution Chart
-const ctx = document.getElementById('severityChart');
-const severityChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: <?= str_replace(['Low', 'Medium', 'High', 'Critical'], ['Rendah', 'Sedang', 'Tinggi', 'Kritis'], $severityLabels) ?>,
-    datasets: [{
-      data: <?= $severityCounts ?>,
-      backgroundColor: [
-        '#10B981', // Green for Low
-        '#F59E0B', // Yellow for Medium  
-        '#F97316', // Orange for High
-        '#EF4444'  // Red for Critical
-      ],
-      borderWidth: 0,
-      hoverBorderWidth: 2,
-      hoverBorderColor: '#ffffff'
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '60%',
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          padding: 20,
-          usePointStyle: true,
-          pointStyle: 'circle',
-          font: {
-            size: 12
-          }
-        }
-      },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#e5e7eb',
-        borderWidth: 1,
-        cornerRadius: 8,
-        displayColors: false
-      }
-    },
-    interaction: {
-      intersect: false,
-      mode: 'index'
-    },
-    animation: {
-      animateRotate: true,
-      animateScale: true,
-      duration: 1000
-    }
-  }
-});
-
-// Auto-refresh functionality
-let lastUpdateTime = new Date();
-
-function updateLastUpdatedTime() {
-  const now = new Date();
-  const timeString = now.toLocaleTimeString('en-US', { 
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
-  document.getElementById('lastUpdated').textContent = timeString;
-  lastUpdateTime = now;
-}
-
-// Update time every second
-setInterval(updateLastUpdatedTime, 1000);
-
-// Auto-refresh dashboard data every 30 seconds
-setInterval(function() {
-  console.log('Dashboard would refresh data from server');
-  // In production: fetch('/dashboard/data').then(data => updateDashboard(data));
-}, 30000);
-
-// Smooth scroll for quick action links
+// Smooth loading state for action links
 document.querySelectorAll('a[href^="/"]').forEach(link => {
   link.addEventListener('click', function(e) {
-    // Add loading state for better UX
-    const button = this;
-    const originalText = button.innerHTML;
-    
-    if (button.classList.contains('btn-primary') || 
-        button.classList.contains('btn-secondary') || 
-        button.classList.contains('btn-success')) {
+    if (this.classList.contains('btn-primary') || 
+        this.classList.contains('btn-secondary') || 
+        this.classList.contains('btn-success')) {
       
-      button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
-      button.style.pointerEvents = 'none';
+      const originalText = this.innerHTML;
+      this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+      this.style.pointerEvents = 'none';
       
       setTimeout(() => {
-        button.innerHTML = originalText;
-        button.style.pointerEvents = 'auto';
+        this.innerHTML = originalText;
+        this.style.pointerEvents = 'auto';
       }, 1500);
     }
   });
 });
 
-// Initialize dashboard
-document.addEventListener('DOMContentLoaded', function() {
-  updateLastUpdatedTime();
-  initializeHeaderAnimations();
-  
-  // Add entrance animations for cards
-  const cards = document.querySelectorAll('.grid > div');
-  cards.forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-      card.style.transition = 'all 0.5s ease';
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
-    }, (index * 100) + 600); // Delay after header animation
-  });
-  
-  // Initialize header status pulse animation
-  updateSystemStatus();
-  
-  console.log('Enhanced SIEM Dashboard initialized successfully');
+// Set IDs for updating values dynamically
+document.querySelectorAll('.text-3xl.font-bold').forEach((el, index) => {
+    if(index === 0) el.id = 'secScoreTxt';
 });
 
-// Responsive chart resize
-window.addEventListener('resize', function() {
-  if (severityChart) {
-    severityChart.resize();
+// Real-time SSE Logic
+function initSSE() {
+  if (typeof(EventSource) !== "undefined") {
+    // Only subscribe if we are on the dashboard
+    const source = new EventSource("/dashboard/stream");
+    const feedContainer = document.getElementById("liveThreatFeed");
+    
+    source.onmessage = function(event) {
+      if(feedContainer.innerHTML.includes('Menunggu')) {
+          feedContainer.innerHTML = '';
+      }
+      
+      const payload = JSON.parse(event.data);
+      
+      // Update UI elements from payload
+      const scoreTxt = document.getElementById('secScoreTxt');
+      if(scoreTxt && payload.security_score) {
+          scoreTxt.innerHTML = payload.security_score + '%';
+          if(payload.security_score < 60) scoreTxt.className = 'text-3xl font-bold text-red-600';
+          else if(payload.security_score < 80) scoreTxt.className = 'text-3xl font-bold text-yellow-600';
+          else scoreTxt.className = 'text-3xl font-bold text-green-600';
+      }
+      
+      const threat = payload.threat_map;
+      
+      // Build Threat Feed Item
+      const severityColor = threat.severity === 'Critical' ? 'text-red-500' : (threat.severity === 'High' ? 'text-orange-500' : 'text-yellow-400');
+      const timeStr = new Date(threat.timestamp).toLocaleTimeString();
+      
+      const logEntry = document.createElement('div');
+      logEntry.className = `p-2 rounded bg-black/40 border-l-2 ${threat.severity === 'Critical' ? 'border-red-500' : 'border-orange-500'} animate-fade-in`;
+      logEntry.innerHTML = `
+        <div class="flex justify-between items-center mb-1">
+            <span class="text-[10px] text-gray-400">[${timeStr}]</span>
+            <span class="text-[10px] font-bold ${severityColor} uppercase">${threat.severity}</span>
+        </div>
+        <div class="flex items-center text-sm">
+            <i class="fas fa-crosshairs text-green-400 mr-2"></i>
+            <span class="text-gray-200">Attack deteksi dari <span class="font-bold text-white">${threat.source}</span></span>
+        </div>
+        <div class="text-[10px] text-gray-400 mt-1">Proto: ${threat.protocol} | Lat: ${threat.lat}, Lon: ${threat.lon}</div>
+      `;
+      
+      feedContainer.insertBefore(logEntry, feedContainer.firstChild);
+      
+      // Keep only last 10 entries
+      if (feedContainer.children.length > 10) {
+          feedContainer.removeChild(feedContainer.lastChild);
+      }
+    };
+  } else {
+    document.getElementById("liveThreatFeed").innerHTML = "Browser Anda tidak mendukung Server-Sent Events.";
   }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initializeHeaderAnimations();
+  updateSystemStatus();
+  initSSE();
+  console.log('New Integrated SIEM Dashboard initialized successfully');
 });
 </script>
+
+<style>
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeInSlide 0.3s ease-out forwards;
+}
+</style>
 
 <?= $this->endSection() ?>

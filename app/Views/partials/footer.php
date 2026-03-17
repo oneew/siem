@@ -99,10 +99,23 @@
   function showToast(type, message) {
     window.showAdvancedToast(type, type.charAt(0).toUpperCase() + type.slice(1), message);
   }
+  // Theme Toggle Button Logic
+  const themeToggleGrp = document.getElementById('themeToggleBtn');
+  if(themeToggleGrp) {
+    themeToggleGrp.addEventListener('click', function() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+    });
+  }
 </script>
 
 <!-- Enhanced Footer -->
-<footer class="footer bg-white border-t border-gray-200 mt-auto" role="contentinfo">
+<footer class="footer bg-white dark:bg-siem-darkcard border-t border-gray-200 dark:border-siem-darkborder mt-auto transition-colors duration-300" role="contentinfo">
   <div class="footer-container max-w-full mx-auto px-6 py-6">
     <div class="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
       <!-- Left Side - Copyright & Links -->

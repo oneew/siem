@@ -21,5 +21,31 @@
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // Enable class-based dark mode
+      theme: {
+        extend: {
+          colors: {
+            siem: {
+              primary: '#4f46e5', // Indigo 600
+              accent: '#8b5cf6', // Purple 500
+              darkbg: '#0f172a', // Slate 900
+              darkcard: '#1e293b', // Slate 800
+              darkborder: '#334155', // Slate 700
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script>
+    // System Theme Initialization to prevent Flash of Unstyled Content (FOUC)
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-gray-50 dark:bg-siem-darkbg min-h-screen flex flex-col transition-colors duration-300 text-gray-900 dark:text-gray-200">

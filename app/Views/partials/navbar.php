@@ -1,5 +1,5 @@
 <!-- Enhanced Header -->
-<header class="header bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20">
+<header class="header bg-white dark:bg-siem-darkcard shadow-sm border-b border-gray-200 dark:border-siem-darkborder sticky top-0 z-20 transition-colors duration-300">
   <div class="flex items-center justify-between px-6 py-4 w-full">
     <!-- Left Side - Page Title & Breadcrumb -->
     <div class="flex items-center space-x-4">
@@ -26,10 +26,40 @@
     <div class="flex items-center space-x-4">
       <!-- Quick Actions -->
       <div class="hidden md:flex items-center space-x-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Toggle Dark Mode">
+          <i class="fas fa-moon text-lg hidden dark:block"></i>
+          <i class="fas fa-sun text-lg block dark:hidden"></i>
+        </button>
         <!-- Security Status -->
         <div class="flex items-center space-x-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg">
           <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           <span class="text-sm font-medium text-green-700">Secure</span>
+        </div>
+
+        <!-- RBAC Role Badge + Switcher -->
+        <div class="relative group">
+          <?php
+            $currentRole = session()->get('role') ?? 'admin';
+            $roleLabels = ['admin' => 'SOC Analyst', 'c_level' => 'C-Level', 'red_team' => 'Pentester'];
+            $roleColors = ['admin' => 'bg-blue-100 text-blue-700 border-blue-200', 'c_level' => 'bg-purple-100 text-purple-700 border-purple-200', 'red_team' => 'bg-red-100 text-red-700 border-red-200'];
+            $roleIcons  = ['admin' => 'fa-shield-alt', 'c_level' => 'fa-crown', 'red_team' => 'fa-crosshairs'];
+          ?>
+          <button class="flex items-center gap-1.5 px-3 py-1.5 border rounded-lg text-xs font-bold <?= $roleColors[$currentRole] ?? 'bg-gray-100 text-gray-700 border-gray-200' ?> cursor-pointer hover:opacity-80 transition">
+            <i class="fas <?= $roleIcons[$currentRole] ?? 'fa-user' ?>"></i>
+            <?= $roleLabels[$currentRole] ?? 'Unknown' ?>
+            <i class="fas fa-chevron-down text-[9px] opacity-60"></i>
+          </button>
+          <!-- Role Dropdown -->
+          <div class="hidden group-hover:block absolute right-0 mt-1 w-40 bg-white dark:bg-siem-darkcard border border-gray-200 dark:border-siem-darkborder rounded-xl shadow-xl z-50 py-1">
+            <p class="px-3 pt-2 pb-1 text-[10px] text-gray-400 font-bold uppercase">Switch Role (Demo)</p>
+            <a href="/dashboard/switch-role" class="flex items-center gap-2 px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800 transition">
+              <i class="fas fa-sync-alt text-blue-400 text-[10px]"></i> Ganti ke Role Berikut
+            </a>
+            <div class="border-t border-gray-100 dark:border-siem-darkborder mt-1 pt-1 px-3 pb-2">
+              <p class="text-[10px] text-gray-400">Urutan: SOC → C-Level → Pentester</p>
+            </div>
+          </div>
         </div>
         
         <!-- Notification Bell -->

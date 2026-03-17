@@ -12,4 +12,8 @@
 
     <!-- The footer includes scripts and </body>.
          We must close the wrappers BEFORE </body> inside footer, OR we close them here and let footer NOT render </body> -->
+    
+    <!-- AI Assistant Widget -->
+    <?= $this->include('partials/ai_assistant') ?>
+
     <?= $this->include('partials/footer') ?>

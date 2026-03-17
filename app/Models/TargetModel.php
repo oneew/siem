@@ -4,19 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PlaybookModel extends Model
+class TargetModel extends Model
 {
-    protected $table            = 'playbooks';
+    protected $table            = 'targets';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     
-    // Requested Fields: id, tactic_name, mitre_attack_id, description, command_examples
+    // id, target_name, ip_address_or_url, environment, criticality_level
     protected $allowedFields    = [
-        'tactic_name', 
-        'mitre_attack_id', 
-        'description', 
-        'command_examples'
+        'target_name', 
+        'ip_address_or_url', 
+        'environment', 
+        'criticality_level'
     ];
 
     protected $useTimestamps = true;

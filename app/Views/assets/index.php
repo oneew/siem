@@ -1,279 +1,108 @@
 <?= $this->extend('layout') ?>
-
 <?= $this->section('content') ?>
-<div class="flex-1 flex flex-col overflow-hidden">
-    <div class="bg-white shadow-sm border-b border-gray-200 p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-server text-blue-600 mr-3"></i>
-                    <?= $title ?>
-                </h1>
-                <p class="text-gray-600 mt-1">Kelola dan pantau aset jaringan serta titik akhir (endpoints)</p>
-            </div>
-            <a href="/asset-management/create" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
-                <i class="fas fa-plus mr-2"></i>
-                Tambah Aset Baru
-            </a>
-        </div>
+
+<div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 leading-tight">
+            <i class="fas fa-network-wired text-green-500 mr-2"></i> Manajemen Aset (Asset Discovery)
+        </h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lakukan pemindaian jaringan (*Ping Sweep* / Nmap) untuk menemukan perangkat yang terhubung dalam subnet.</p>
     </div>
+</div>
 
-    <!-- Statistics Cards -->
-    <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-blue-100 text-sm font-medium">Total Aset</h3>
-                        <p class="text-3xl font-bold"><?= $stats['total_assets'] ?></p>
-                    </div>
-                    <div class="bg-blue-400 bg-opacity-30 p-3 rounded-lg">
-                        <i class="fas fa-server text-2xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-green-100 text-sm font-medium">Aset Online</h3>
-                        <p class="text-3xl font-bold"><?= $stats['online_assets'] ?></p>
-                    </div>
-                    <div class="bg-green-400 bg-opacity-30 p-3 rounded-lg">
-                        <i class="fas fa-check-circle text-2xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-red-100 text-sm font-medium">Aset Kritis</h3>
-                        <p class="text-3xl font-bold"><?= $stats['critical_assets'] ?></p>
-                    </div>
-                    <div class="bg-red-400 bg-opacity-30 p-3 rounded-lg">
-                        <i class="fas fa-exclamation-triangle text-2xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl p-6 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-orange-100 text-sm font-medium">Kerentanan</h3>
-                        <p class="text-3xl font-bold"><?= $stats['vulnerabilities'] ?></p>
-                    </div>
-                    <div class="bg-orange-400 bg-opacity-30 p-3 rounded-lg">
-                        <i class="fas fa-shield-alt text-2xl"></i>
-                    </div>
-                </div>
-            </div>
+<div class="card p-6 mb-6 border border-gray-200 dark:border-siem-darkborder rounded-xl bg-white dark:bg-siem-darkcard shadow-sm">
+    <form id="scanForm" onsubmit="runScan(event)" class="flex gap-4 items-end">
+        <div class="flex-1">
+            <label class="form-label text-sm text-gray-700 dark:text-gray-300">Target Subnet (CIDR)</label>
+            <input type="text" name="subnet" required class="form-input bg-gray-50 dark:bg-siem-darkbg border border-gray-300 dark:border-siem-darkborder w-full p-2.5 rounded-lg text-sm text-gray-800 dark:text-gray-200" placeholder="e.g. 192.168.1.0/24" value="192.168.1.0/24">
         </div>
+        <button type="submit" id="scanBtn" class="btn btn-primary whitespace-nowrap px-6">
+            <i class="fas fa-satellite-dish mr-2"></i> Mulai Pemindaian
+        </button>
+    </form>
+</div>
 
-        <!-- Assets Table -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-list mr-2 text-gray-600"></i>
-                    Inventaris Aset
-                </h2>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-200">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Info Aset</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tipe</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">IP Address</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kekritisan</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kerentanan</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pemindaian Terakhir</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php foreach ($assets as $asset): ?>
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div>
-                                    <div class="font-medium text-gray-900"><?= esc($asset['asset_name']) ?></div>
-                                    <div class="text-sm text-gray-500"><?= esc($asset['operating_system']) ?></div>
-                                    <div class="text-xs text-gray-400"><?= esc($asset['location']) ?></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php 
-                                    switch($asset['asset_type']) {
-                                        case 'Server': echo 'bg-blue-100 text-blue-800'; break;
-                                        case 'Endpoint': echo 'bg-green-100 text-green-800'; break;
-                                        case 'Network Device': echo 'bg-purple-100 text-purple-800'; break;
-                                        case 'Mobile': echo 'bg-pink-100 text-pink-800'; break;
-                                        case 'IoT Device': echo 'bg-orange-100 text-orange-800'; break;
-                                        default: echo 'bg-gray-100 text-gray-800'; break;
-                                    }
-                                    ?>">
-                                    <?php 
-                                    if (!function_exists('getAssetTypeIndo')) {
-                                        function getAssetTypeIndo($type) {
-                                            switch($type) {
-                                                case 'Server': return 'Server';
-                                                case 'Endpoint': return 'Titik Akhir (Endpoint)';
-                                                case 'Network Device': return 'Perangkat Jaringan';
-                                                case 'Mobile': return 'Perangkat Seluler';
-                                                case 'IoT Device': return 'Perangkat IoT';
-                                                default: return $type;
-                                            }
-                                        }
-                                    }
-                                    echo esc(getAssetTypeIndo($asset['asset_type']));
-                                    ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="font-mono text-sm text-gray-900"><?= esc($asset['ip_address']) ?></div>
-                                <div class="text-xs text-gray-500"><?= esc($asset['mac_address']) ?></div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php 
-                                    switch($asset['status']) {
-                                        case 'Online': echo 'bg-green-100 text-green-800'; break;
-                                        case 'Offline': echo 'bg-red-100 text-red-800'; break;
-                                        case 'Maintenance': echo 'bg-yellow-100 text-yellow-800'; break;
-                                        case 'Decommissioned': echo 'bg-gray-100 text-gray-800'; break;
-                                        default: echo 'bg-gray-100 text-gray-800'; break;
-                                    }
-                                    ?>">
-                                    <i class="fas fa-circle text-xs mr-1"></i>
-                                    <?php 
-                                    if (!function_exists('getAssetStatusIndo')) {
-                                        function getAssetStatusIndo($status) {
-                                            switch($status) {
-                                                case 'Online': return 'Online';
-                                                case 'Offline': return 'Offline';
-                                                case 'Maintenance': return 'Pemeriharaan';
-                                                case 'Decommissioned': return 'Dinonaktifkan';
-                                                default: return $status;
-                                            }
-                                        }
-                                    }
-                                    echo esc(getAssetStatusIndo($asset['status']));
-                                    ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php 
-                                    switch($asset['criticality']) {
-                                        case 'Critical': echo 'bg-red-100 text-red-800'; break;
-                                        case 'High': echo 'bg-orange-100 text-orange-800'; break;
-                                        case 'Medium': echo 'bg-yellow-100 text-yellow-800'; break;
-                                        case 'Low': echo 'bg-blue-100 text-blue-800'; break;
-                                        default: echo 'bg-gray-100 text-gray-800'; break;
-                                    }
-                                    ?>">
-                                    <?php 
-                                    if (!function_exists('getAssetCriticalityIndo')) {
-                                        function getAssetCriticalityIndo($criticality) {
-                                            switch($criticality) {
-                                                case 'Critical': return 'Kritis';
-                                                case 'High': return 'Tinggi';
-                                                case 'Medium': return 'Sedang';
-                                                case 'Low': return 'Rendah';
-                                                default: return $criticality;
-                                            }
-                                        }
-                                    }
-                                    echo esc(getAssetCriticalityIndo($asset['criticality']));
-                                    ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php 
-                                    switch($asset['vulnerability_status']) {
-                                        case 'Vulnerable': echo 'bg-red-100 text-red-800'; break;
-                                        case 'Secure': echo 'bg-green-100 text-green-800'; break;
-                                        case 'Patching Required': echo 'bg-orange-100 text-orange-800'; break;
-                                        case 'Unknown': echo 'bg-gray-100 text-gray-800'; break;
-                                        default: echo 'bg-gray-100 text-gray-800'; break;
-                                    }
-                                    ?>">
-                                    <?php 
-                                    if (!function_exists('getAssetVulnIndo')) {
-                                        function getAssetVulnIndo($vuln) {
-                                            switch($vuln) {
-                                                case 'Vulnerable': return 'Rentan';
-                                                case 'Secure': return 'Aman';
-                                                case 'Patching Required': return 'Butuh Patch';
-                                                case 'Unknown': return 'Tidak Diketahui';
-                                                default: return $vuln;
-                                            }
-                                        }
-                                    }
-                                    echo esc(getAssetVulnIndo($asset['vulnerability_status']));
-                                    ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-900">
-                                    <?= isset($asset['last_scan']) ? date('j M Y', strtotime($asset['last_scan'])) : 'Tidak Pernah' ?>
-                                </div>
-                                <div class="text-xs text-gray-500">
-                                    <?= isset($asset['last_scan']) ? date('H:i', strtotime($asset['last_scan'])) : '' ?>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <a href="/asset-management/<?= $asset['id'] ?>" 
-                                       class="text-blue-600 hover:text-blue-800 transition-colors" 
-                                        title="Lihat Detail">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="/asset-management/<?= $asset['id'] ?>/edit" 
-                                       class="text-yellow-600 hover:text-yellow-800 transition-colors" 
-                                       title="Edit Aset">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button onclick="if(confirm('Apakah Anda yakin ingin menghapus aset ini?')) { 
-                                                window.location.href='/asset-management/<?= $asset['id'] ?>/delete' 
-                                            }"
-                                            class="text-red-600 hover:text-red-800 transition-colors" 
-                                            title="Hapus Aset">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        
-                        <?php if (empty($assets)): ?>
-                        <tr>
-                            <td colspan="8" class="px-6 py-12 text-center">
-                                <div class="text-gray-400">
-                                    <i class="fas fa-server text-4xl mb-4"></i>
-                                    <p class="text-lg font-medium">Tidak ada aset ditemukan</p>
-                                    <p class="text-sm">Mulai dengan menambahkan aset jaringan atau titik akhir pertama Anda</p>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="card overflow-hidden border border-gray-200 dark:border-siem-darkborder rounded-xl bg-white dark:bg-siem-darkcard shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full modern-table text-left" id="assetsTable">
+            <thead class="bg-gray-50 dark:bg-gray-800/50">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">IP Address</th>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hostname</th>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">MAC Address</th>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">OS Name</th>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Open Ports</th>
+                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                </tr>
+            </thead>
+            <tbody id="assetsBody" class="divide-y divide-gray-100 dark:divide-siem-darkborder">
+                <tr>
+                    <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-laptop-network text-4xl mb-3 block opacity-50"></i>
+                        Belum ada pemindaian yang dilakukan. Masukkan subnet dan mulai pemindaian.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
-// Auto-refresh asset status every 30 seconds
-setInterval(function() {
-    // In a real implementation, this would update asset status via AJAX
-    console.log('Asset status refresh triggered');
-}, 30000);
+    function runScan(e) {
+        e.preventDefault();
+        const form = document.getElementById('scanForm');
+        const btn = document.getElementById('scanBtn');
+        const tbody = document.getElementById('assetsBody');
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memindai Jaringan...';
+        btn.disabled = true;
+
+        // Show Skeleton Loading
+        tbody.innerHTML = Array(4).fill(0).map(() => `
+            <tr class="animate-pulse">
+                <td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 skeleton"></div></td>
+                <td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 skeleton"></div></td>
+                <td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-36 skeleton"></div></td>
+                <td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-28 skeleton"></div></td>
+                <td class="px-6 py-4"><div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-16 skeleton"></div></td>
+                <td class="px-6 py-4"><div class="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-16 skeleton"></div></td>
+            </tr>
+        `).join('');
+
+        const formData = new FormData(form);
+
+        fetch('/assets/scan', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            btn.innerHTML = '<i class="fas fa-satellite-dish mr-2"></i> Mulai Pemindaian';
+            btn.disabled = false;
+
+            if (data.status === 'success') {
+                tbody.innerHTML = '';
+                data.data.forEach(asset => {
+                    const statusClass = asset.status === 'Online' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400' : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400';
+                    const osIcon = asset.os.includes('Windows') ? 'fa-windows text-blue-500' : (asset.os.includes('Linux') ? 'fa-linux text-yellow-500' : 'fa-desktop text-gray-500');
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-siem-darkbg transition-colors animate-fade-in text-sm text-gray-700 dark:text-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap font-mono text-blue-600 dark:text-blue-400 font-medium">${asset.ip}</td>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold">${asset.hostname}</td>
+                            <td class="px-6 py-4 whitespace-nowrap font-mono text-xs">${asset.mac}</td>
+                            <td class="px-6 py-4 whitespace-nowrap flex items-center gap-2"><i class="fab ${osIcon}"></i> ${asset.os}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-xs"><span class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">${asset.ports}</span></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-full ${statusClass}">${asset.status}</span>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        });
+    }
 </script>
 
 <?= $this->endSection() ?>

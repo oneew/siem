@@ -4,28 +4,23 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class IncidentModel extends Model
+class WebsiteMonitorModel extends Model
 {
-    protected $table            = 'incidents';
+    protected $table            = 'website_monitors';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    
-    // Requested Fields: id, case_title, severity, status, description, created_at, closed_at
     protected $allowedFields    = [
-        'case_title', 
-        'severity', 
-        'status', 
-        'description', 
-        'closed_at'
+        'url', 'name', 'expected_hash', 'last_status', 'last_checked', 'is_active'
     ];
+
+    protected bool $allowEmptyInserts = false;
 
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at'; // Keeping for CI4 standard
-    // closed_at is handled manually in close_case()
+    protected $updatedField  = 'updated_at';
 }
