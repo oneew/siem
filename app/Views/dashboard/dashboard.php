@@ -12,33 +12,6 @@
       
       <!-- Header Content -->
       <div class="relative flex flex-col lg:flex-row items-center justify-between gap-6">
-        <div class="flex items-center space-x-6">
-          <!-- Logo/Icon -->
-          <div class="w-16 h-16 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-            <i class="fas fa-shield-alt text-2xl text-white"></i>
-          </div>
-          
-          <!-- Title Section -->
-          <div>
-            <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">
-              Pusat Operasi Keamanan
-            </h1>
-            <p class="text-blue-100 text-lg font-medium">
-              Pemantauan waktu nyata & intelijen ancaman
-            </p>
-            <div class="flex flex-wrap items-center gap-4 mt-2">
-              <div class="flex items-center space-x-2 text-blue-200 text-sm">
-                <i class="fas fa-clock w-4"></i>
-                <span>Sinkronisasi terakhir: <span id="lastUpdated" class="font-medium"><?= date('H:i:s') ?></span></span>
-              </div>
-              <div class="flex items-center space-x-2 text-blue-200 text-sm">
-                <i class="fas fa-calendar w-4"></i>
-                <span><?= date('M j, Y') ?></span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
         <!-- Status Indicators -->
         <div class="flex flex-wrap items-center gap-4">
           <!-- System Status -->
@@ -80,17 +53,21 @@
             <!-- Quick Menu Dropdown -->
             <div id="quickMenu" class="hidden absolute right-0 top-14 w-48 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
               <div class="p-2">
+                <a href="/certificates" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-certificate w-4 text-blue-600"></i>
+                  <span>Sertifikat Elektronik</span>
+                </a>
+                <a href="/signatures" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-signature w-4 text-emerald-600"></i>
+                  <span>Tanda Tangan</span>
+                </a>
+                <a href="/jamming" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-broadcast-tower w-4 text-red-600"></i>
+                  <span>Jamming</span>
+                </a>
                 <a href="/incidents/create" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-plus w-4 text-blue-600"></i>
+                  <i class="fas fa-plus w-4 text-orange-600"></i>
                   <span>Insiden Baru</span>
-                </a>
-                <a href="/alerts" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-bell w-4 text-orange-600"></i>
-                  <span>Lihat Peringatan</span>
-                </a>
-                <a href="/reports" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <i class="fas fa-chart-line w-4 text-green-600"></i>
-                  <span>Buat Laporan</span>
                 </a>
                 <div class="border-t border-gray-200 my-2"></div>
                 <a href="/settings" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
@@ -108,17 +85,21 @@
     <div class="bg-black bg-opacity-20 px-8 py-4">
       <div class="flex flex-wrap items-center justify-between gap-4 text-sm">
         <div class="flex flex-wrap items-center gap-6">
-          <div class="flex items-center space-x-2 text-blue-200">
+          <div class="flex items-center space-x-2 text-blue-200" title="Total Endpoint">
             <i class="fas fa-server w-4"></i>
             <span>12 Titik Akhir</span>
           </div>
-          <div class="flex items-center space-x-2 text-blue-200">
-            <i class="fas fa-network-wired w-4"></i>
-            <span>3 Jaringan</span>
+          <div class="flex items-center space-x-2 text-blue-200" title="Total Insiden">
+            <i class="fas fa-shield-alt w-4"></i>
+            <span><?= $totalIncidents ?> Insiden</span>
           </div>
-          <div class="flex items-center space-x-2 text-blue-200">
-            <i class="fas fa-eye w-4"></i>
-            <span><?= $totalIncidents ?> Insiden Terpantau</span>
+          <div class="flex items-center space-x-2 text-blue-200" title="Sertifikat Aktif">
+            <i class="fas fa-certificate w-4"></i>
+            <span><?= $activeCertificates ?> Sertifikat Aktif</span>
+          </div>
+          <div class="flex items-center space-x-2 text-blue-200" title="Jamming Aktif">
+            <i class="fas fa-broadcast-tower w-4"></i>
+            <span><?= $activeJammings ?> Jamming Signal</span>
           </div>
         </div>
         <div class="text-blue-200">
@@ -130,79 +111,79 @@
   </div>
 </div>
 
-<!-- Security Metrics Cards -->
+<!-- Integrated Cyber Security & Persandian Metrics -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-  <!-- Total Incidents -->
-  <div class="dashboard-card">
+  
+  <!-- Cyber Security: Threats & Incidents -->
+  <div class="dashboard-card bg-gradient-to-br from-white to-red-50 border-l-4 border-red-500">
     <div class="flex items-center justify-between p-6">
       <div>
-        <p class="text-sm font-medium text-gray-500 mb-1">Total Insiden</p>
-        <p class="text-3xl font-bold text-gray-900"><?= $totalIncidents ?></p>
-        <p class="text-xs text-gray-400 mt-1">Sepanjang waktu</p>
-      </div>
-      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-exclamation-triangle text-blue-600 text-xl"></i>
-      </div>
-    </div>
-  </div>
-
-  <!-- Open Incidents -->
-  <div class="dashboard-card">
-    <div class="flex items-center justify-between p-6">
-      <div>
-        <p class="text-sm font-medium text-gray-500 mb-1">Insiden Terbuka</p>
-        <p class="text-3xl font-bold text-orange-600"><?= $openIncidents ?></p>
-        <p class="text-xs text-gray-400 mt-1">Sedang Aktif</p>
-      </div>
-      <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-clock text-orange-600 text-xl"></i>
-      </div>
-    </div>
-    <div class="px-6 pb-6">
-      <div class="w-full bg-gray-200 rounded-full h-2">
-        <div class="bg-orange-500 h-2 rounded-full" style="width: <?= $totalIncidents > 0 ? ($openIncidents / $totalIncidents * 100) : 0 ?>%"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Resolved Incidents -->
-  <div class="dashboard-card">
-    <div class="flex items-center justify-between p-6">
-      <div>
-        <p class="text-sm font-medium text-gray-500 mb-1">Terselesaikan</p>
-        <p class="text-3xl font-bold text-green-600"><?= $closedIncidents ?></p>
-        <p class="text-xs text-green-500 mt-1">+12% minggu ini</p>
-      </div>
-      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-check-circle text-green-600 text-xl"></i>
-      </div>
-    </div>
-    <div class="px-6 pb-6">
-      <div class="w-full bg-gray-200 rounded-full h-2">
-        <div class="bg-green-500 h-2 rounded-full" style="width: <?= $totalIncidents > 0 ? ($closedIncidents / $totalIncidents * 100) : 0 ?>%"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Critical Incidents -->
-  <div class="dashboard-card">
-    <div class="flex items-center justify-between p-6">
-      <div>
-        <p class="text-sm font-medium text-gray-500 mb-1">Kritis</p>
-        <p class="text-3xl font-bold text-red-600"><?= $criticalIncidents ?></p>
-        <p class="text-xs text-red-500 mt-1">Butuh perhatian</p>
+        <p class="text-sm font-medium text-red-700 mb-1">Ancaman & Insiden</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold text-gray-900"><?= $totalThreats ?></p>
+            <span class="text-xs text-red-600 font-semibold bg-red-100 px-2 py-0.5 rounded-full"><?= $openIncidents ?> Terbuka</span>
+        </div>
+        <p class="text-xs text-gray-500 mt-1">Kritis: <?= $criticalIncidents ?></p>
       </div>
       <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-        <i class="fas fa-fire text-red-600 text-xl"></i>
+        <i class="fas fa-bug text-red-600 text-xl"></i>
       </div>
     </div>
-    <?php if ($criticalIncidents > 0): ?>
-    <div class="px-6 pb-6 flex items-center space-x-2">
-      <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-      <span class="text-xs text-red-600 font-medium">Tindakan segera diperlukan</span>
-    </div>
-    <?php endif; ?>
   </div>
+
+  <!-- Cyber Security: Active Defense -->
+  <div class="dashboard-card border-l-4 border-amber-500">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-amber-700 mb-1">Operasi Aktif</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold text-gray-900"><?= $activeJammings + $ongoingPentests ?></p>
+            <span class="text-xs text-amber-600 font-semibold bg-amber-100 px-2 py-0.5 rounded-full">Berjalan</span>
+        </div>
+        <div class="flex items-center space-x-3 mt-1 text-xs text-gray-500">
+            <span><i class="fas fa-broadcast-tower text-amber-500 mr-1"></i><?= $activeJammings ?> Jamming</span>
+            <span><i class="fas fa-shield-alt text-green-500 mr-1"></i><?= $ongoingPentests ?> Pentest</span>
+        </div>
+      </div>
+      <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-satellite-dish text-amber-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persandian: Electronic Certificates -->
+  <div class="dashboard-card border-l-4 border-blue-500">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-blue-700 mb-1">Sertifikat Elektronik</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold text-gray-900"><?= $activeCertificates ?></p>
+            <span class="text-xs text-blue-600 font-semibold bg-blue-100 px-2 py-0.5 rounded-full">Aktif</span>
+        </div>
+        <p class="text-xs text-orange-500 mt-1 font-medium"><i class="fas fa-exclamation-triangle mr-1"></i> <?= $expiringCertificates ?> Kedaluwarsa dlm 30 hr</p>
+      </div>
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shadow-inner">
+        <i class="fas fa-certificate text-blue-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persandian: Digital Signatures -->
+  <div class="dashboard-card border-l-4 border-emerald-500">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-emerald-700 mb-1">Tanda Tangan (TTE)</p>
+        <div class="flex items-baseline space-x-2">
+            <p class="text-3xl font-bold text-gray-900"><?= number_format($totalSignaturesToday) ?></p>
+        </div>
+        <p class="text-xs text-emerald-600 mt-1"><i class="fas fa-arrow-up mr-1"></i> Transaksi hari ini</p>
+      </div>
+      <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-signature text-emerald-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Main Content Grid -->
@@ -322,17 +303,21 @@
         </h3>
       </div>
       <div class="p-6 space-y-3">
-        <a href="/incidents/create" class="w-full btn btn-primary">
+        <a href="/certificates" class="w-full btn btn-primary bg-blue-600 hover:bg-blue-700 text-white">
+          <i class="fas fa-certificate mr-2"></i>
+          Sertifikat Elektronik
+        </a>
+        <a href="/signatures" class="w-full btn btn-secondary bg-emerald-600 hover:bg-emerald-700 text-white border-none">
+          <i class="fas fa-signature mr-2"></i>
+          Tanda Tangan (TTE)
+        </a>
+        <a href="/jamming" class="w-full btn btn-success bg-red-600 hover:bg-red-700 text-white border-none">
+          <i class="fas fa-broadcast-tower mr-2"></i>
+          Pantau Jamming
+        </a>
+        <a href="/incidents/create" class="w-full btn btn-warning bg-amber-500 hover:bg-amber-600 text-white mt-4 border-none">
           <i class="fas fa-plus mr-2"></i>
-          Insiden Baru
-        </a>
-        <a href="/alerts" class="w-full btn btn-secondary">
-          <i class="fas fa-bell mr-2"></i>
-          Lihat Peringatan
-        </a>
-        <a href="/reports" class="w-full btn btn-success">
-          <i class="fas fa-chart-line mr-2"></i>
-          Buat Laporan
+          Lapor Insiden
         </a>
       </div>
     </div>
