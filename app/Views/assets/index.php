@@ -9,7 +9,7 @@
                     <i class="fas fa-server text-blue-600 mr-3"></i>
                     <?= $title ?>
                 </h1>
-                <p class="text-gray-600 mt-1">Kelola dan pantau aset jaringan dan endpoint</p>
+                <p class="text-gray-600 mt-1">Kelola dan pantau aset jaringan serta titik akhir (endpoints)</p>
             </div>
             <a href="/asset-management/create" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
                 <i class="fas fa-plus mr-2"></i>
@@ -75,7 +75,7 @@
             <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-900 flex items-center">
                     <i class="fas fa-list mr-2 text-gray-600"></i>
-                    Inventori Aset
+                    Inventaris Aset
                 </h2>
             </div>
 
@@ -85,11 +85,11 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Info Aset</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tipe</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Alamat IP</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">IP Address</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kritikalitas</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kekritisan</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kerentanan</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scan Terakhir</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pemindaian Terakhir</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
@@ -115,30 +115,20 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?php
-                                        switch ($asset['asset_type']) {
-                                            case 'Server':
-                                                echo 'Server';
-                                                break;
-                                            case 'Endpoint':
-                                                echo 'Endpoint';
-                                                break;
-                                            case 'Network Device':
-                                                echo 'Perangkat Jaringan';
-                                                break;
-                                            case 'Mobile':
-                                                echo 'Perangkat Mobile';
-                                                break;
-                                            case 'IoT Device':
-                                                echo 'Perangkat IoT';
-                                                break;
-                                            case 'Database':
-                                                echo 'Database';
-                                                break;
-                                            default:
-                                                echo esc($asset['asset_type']);
-                                                break;
+                                    <?php 
+                                    if (!function_exists('getAssetTypeIndo')) {
+                                        function getAssetTypeIndo($type) {
+                                            switch($type) {
+                                                case 'Server': return 'Server';
+                                                case 'Endpoint': return 'Titik Akhir (Endpoint)';
+                                                case 'Network Device': return 'Perangkat Jaringan';
+                                                case 'Mobile': return 'Perangkat Seluler';
+                                                case 'IoT Device': return 'Perangkat IoT';
+                                                default: return $type;
+                                            }
                                         }
+                                    }
+                                    echo esc(getAssetTypeIndo($asset['asset_type']));
                                     ?>
                                 </span>
                             </td>
@@ -158,7 +148,20 @@
                                     }
                                     ?>">
                                     <i class="fas fa-circle text-xs mr-1"></i>
-                                    <?= $asset['status'] === 'Online' ? 'Online' : ($asset['status'] === 'Offline' ? 'Offline' : ($asset['status'] === 'Maintenance' ? 'Pemeliharaan' : ($asset['status'] === 'Decommissioned' ? 'Didekomisioner' : esc($asset['status'])))) ?>
+                                    <?php 
+                                    if (!function_exists('getAssetStatusIndo')) {
+                                        function getAssetStatusIndo($status) {
+                                            switch($status) {
+                                                case 'Online': return 'Online';
+                                                case 'Offline': return 'Offline';
+                                                case 'Maintenance': return 'Pemeriharaan';
+                                                case 'Decommissioned': return 'Dinonaktifkan';
+                                                default: return $status;
+                                            }
+                                        }
+                                    }
+                                    echo esc(getAssetStatusIndo($asset['status']));
+                                    ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -172,7 +175,20 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= $asset['criticality'] === 'Critical' ? 'Kritis' : ($asset['criticality'] === 'High' ? 'Tinggi' : ($asset['criticality'] === 'Medium' ? 'Sedang' : ($asset['criticality'] === 'Low' ? 'Rendah' : esc($asset['criticality'])))) ?>
+                                    <?php 
+                                    if (!function_exists('getAssetCriticalityIndo')) {
+                                        function getAssetCriticalityIndo($criticality) {
+                                            switch($criticality) {
+                                                case 'Critical': return 'Kritis';
+                                                case 'High': return 'Tinggi';
+                                                case 'Medium': return 'Sedang';
+                                                case 'Low': return 'Rendah';
+                                                default: return $criticality;
+                                            }
+                                        }
+                                    }
+                                    echo esc(getAssetCriticalityIndo($asset['criticality']));
+                                    ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
@@ -186,12 +202,25 @@
                                         default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= $asset['vulnerability_status'] === 'Vulnerable' ? 'Rentan' : ($asset['vulnerability_status'] === 'Secure' ? 'Aman' : ($asset['vulnerability_status'] === 'Patching Required' ? 'Perlu Patch' : ($asset['vulnerability_status'] === 'Unknown' ? 'Tidak Diketahui' : esc($asset['vulnerability_status'])))) ?>
+                                    <?php 
+                                    if (!function_exists('getAssetVulnIndo')) {
+                                        function getAssetVulnIndo($vuln) {
+                                            switch($vuln) {
+                                                case 'Vulnerable': return 'Rentan';
+                                                case 'Secure': return 'Aman';
+                                                case 'Patching Required': return 'Butuh Patch';
+                                                case 'Unknown': return 'Tidak Diketahui';
+                                                default: return $vuln;
+                                            }
+                                        }
+                                    }
+                                    echo esc(getAssetVulnIndo($asset['vulnerability_status']));
+                                    ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
-                                    <?= isset($asset['last_scan']) ? date('M j, Y', strtotime($asset['last_scan'])) : 'Tidak Pernah' ?>
+                                    <?= isset($asset['last_scan']) ? date('j M Y', strtotime($asset['last_scan'])) : 'Tidak Pernah' ?>
                                 </div>
                                 <div class="text-xs text-gray-500">
                                     <?= isset($asset['last_scan']) ? date('H:i', strtotime($asset['last_scan'])) : '' ?>
@@ -201,7 +230,7 @@
                                 <div class="flex space-x-2">
                                     <a href="/asset-management/<?= $asset['id'] ?>" 
                                        class="text-blue-600 hover:text-blue-800 transition-colors" 
-                                       title="Lihat Detail">
+                                        title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     <a href="/asset-management/<?= $asset['id'] ?>/edit" 
@@ -227,7 +256,7 @@
                                 <div class="text-gray-400">
                                     <i class="fas fa-server text-4xl mb-4"></i>
                                     <p class="text-lg font-medium">Tidak ada aset ditemukan</p>
-                                    <p class="text-sm">Mulai dengan menambahkan aset jaringan atau endpoint pertama Anda</p>
+                                    <p class="text-sm">Mulai dengan menambahkan aset jaringan atau titik akhir pertama Anda</p>
                                 </div>
                             </td>
                         </tr>

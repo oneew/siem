@@ -4,7 +4,7 @@
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-900"><?= esc($title) ?></h1>
     <a href="<?= base_url('/playbooks') ?>" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-        <i class="fas fa-arrow-left"></i> Kembali ke Playbook
+        <i class="fas fa-arrow-left"></i> Kembali ke Buku Panduan
     </a>
 </div>
 
@@ -60,16 +60,16 @@
         </div>
         
         <div class="mb-6">
-            <label for="required_tools" class="block text-sm font-medium text-gray-700 mb-1">Alat yang Diperlukan</label>
+            <label for="required_tools" class="block text-sm font-medium text-gray-700 mb-1">Alat yang Dibutuhkan</label>
             <textarea name="required_tools" id="required_tools" rows="2"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
         
         <div class="mb-6">
-            <label for="estimated_time" class="block text-sm font-medium text-gray-700 mb-1">Perkiraan Waktu</label>
+            <label for="estimated_time" class="block text-sm font-medium text-gray-700 mb-1">Estimasi Waktu</label>
             <input type="text" name="estimated_time" id="estimated_time"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="contoh: 2-4 jam">
+                placeholder="mis., 2-4 jam">
         </div>
         
         <div class="mb-6">
@@ -85,7 +85,7 @@
                 Batal
             </a>
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Buat Playbook
+                Buat Buku Panduan
             </button>
         </div>
     </form>

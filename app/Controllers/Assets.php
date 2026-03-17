@@ -83,7 +83,6 @@ class Assets extends BaseController
         return view('assets/edit', $data);
     }
 
-    // Updated to match the new route: /asset-management/(:num) with POST method and _method=PUT
     public function update($id)
     {
         $model = new AssetModel();
@@ -107,7 +106,6 @@ class Assets extends BaseController
         }
     }
 
-    // Updated to match the new route: /asset-management/delete/(:num) with GET method
     public function delete($id)
     {
         $model = new AssetModel();

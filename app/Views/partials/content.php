@@ -1,5 +1,5 @@
 <!-- Enhanced Main Content -->
-<main class="main-content bg-gray-50 flex-1 overflow-auto">
+<main class="bg-gray-50">
   <section class="page-content p-6">
     <!-- Alert Messages -->
     <?php if (session()->getFlashdata('success')): ?>

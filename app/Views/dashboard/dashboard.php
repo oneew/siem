@@ -1,597 +1,660 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-<div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Hero Section with Key Metrics -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-lg text-white p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-
-        <div class="relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 sm:mb-6">
-                <div class="flex items-center space-x-3 sm:space-x-4">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-shield-alt text-2xl sm:text-3xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-2xl sm:text-3xl font-bold">Pusat Operasi Keamanan</h1>
-                        <p class="text-blue-200 mt-1 text-sm sm:text-base">Pemantauan real-time & intelijen ancaman</p>
-                        <div class="flex flex-wrap items-center space-x-3 sm:space-x-4 text-xs text-blue-200 mt-2">
-                            <span><i class="far fa-clock mr-1"></i>Sinkron terakhir: <?= date('H:i:s') ?></span>
-                            <span><i class="far fa-calendar-alt mr-1"></i><?= date('j M Y') ?></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-2 mt-4 md:mt-0">
-                    <div class="bg-black/20 rounded-lg px-3 py-1 sm:px-4 sm:py-2 text-center">
-                        <p class="font-bold text-base sm:text-lg">99.9%</p>
-                        <p class="text-xs text-blue-200">Waktu Aktif</p>
-                    </div>
-                    <div class="bg-black/20 rounded-lg px-3 py-1 sm:px-4 sm:py-2 text-center">
-                        <p class="font-bold text-base sm:text-lg text-yellow-300">RENDAH</p>
-                        <p class="text-xs text-blue-200">Ancaman</p>
-                    </div>
-                    <button class="w-8 h-8 sm:w-10 sm:h-10 bg-black/20 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                </div>
+<!-- Enhanced Dashboard Header -->
+<div class="mb-8">
+  <!-- Main Header Card -->
+  <div class="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 rounded-2xl shadow-xl overflow-hidden">
+    <div class="relative px-8 py-6">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full transform translate-x-32 -translate-y-32"></div>
+      
+      <!-- Header Content -->
+      <div class="relative flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="flex items-center space-x-6">
+          <!-- Logo/Icon -->
+          <div class="w-16 h-16 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+            <i class="fas fa-shield-alt text-2xl text-white"></i>
+          </div>
+          
+          <!-- Title Section -->
+          <div>
+            <h1 class="text-3xl font-bold text-white mb-1 tracking-tight">
+              Pusat Operasi Keamanan
+            </h1>
+            <p class="text-blue-100 text-lg font-medium">
+              Pemantauan waktu nyata & intelijen ancaman
+            </p>
+            <div class="flex flex-wrap items-center gap-4 mt-2">
+              <div class="flex items-center space-x-2 text-blue-200 text-sm">
+                <i class="fas fa-clock w-4"></i>
+                <span>Sinkronisasi terakhir: <span id="lastUpdated" class="font-medium"><?= date('H:i:s') ?></span></span>
+              </div>
+              <div class="flex items-center space-x-2 text-blue-200 text-sm">
+                <i class="fas fa-calendar w-4"></i>
+                <span><?= date('M j, Y') ?></span>
+              </div>
             </div>
-
-            <div class="border-t border-white/20 pt-3 sm:pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center text-sm gap-2">
-                <div class="flex flex-wrap gap-3 sm:gap-6">
-                    <span><i class="fas fa-desktop mr-1 sm:mr-2"></i><?= $totalIncidents ?> Insiden</span>
-                    <span><i class="fas fa-bell mr-1 sm:mr-2"></i><?= $totalAlerts ?> Peringatan</span>
-                    <span><i class="fas fa-virus mr-1 sm:mr-2"></i><?= $totalThreats ?> Ancaman</span>
-                </div>
-                <div>
-                    <span class="font-semibold">Skor Keamanan: A+</span>
-                </div>
-            </div>
+          </div>
         </div>
-    </div>
-
-    <!-- Key Metrics Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-6">
-        <!-- Incidents Card -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-5 hover:shadow-xl transition-shadow">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs sm:text-sm text-gray-500">Total Insiden</p>
-                    <p class="text-2xl sm:text-3xl font-bold text-gray-800"><?= $totalIncidents ?></p>
-                    <p class="text-xs text-gray-400"><?= $openIncidents ?> terbuka, <?= $criticalIncidents ?> kritis</p>
-                </div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-blue-100 rounded-lg text-blue-500 text-lg sm:text-xl">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
+        
+        <!-- Status Indicators -->
+        <div class="flex flex-wrap items-center gap-4">
+          <!-- System Status -->
+          <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white border-opacity-20">
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                <span class="text-white font-semibold text-sm">Sistem Aktif</span>
+              </div>
+              <div class="w-px h-6 bg-white bg-opacity-30"></div>
+              <div class="text-right">
+                <div class="text-white font-bold text-lg">99.9%</div>
+                <div class="text-blue-200 text-xs">Uptime</div>
+              </div>
             </div>
-            <div class="mt-3">
-                <div class="w-full bg-gray-200 rounded-full h-1.5">
-                    <div class="bg-blue-600 h-1.5 rounded-full" style="width: <?= $totalIncidents > 0 ? min(100, ($openIncidents / $totalIncidents) * 100) : 0 ?>%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">Tingkat insiden terbuka</p>
+          </div>
+          
+          <!-- Alert Level -->
+          <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white border-opacity-20">
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-lg"></div>
+                <span class="text-white font-semibold text-sm">Tingkat Peringatan</span>
+              </div>
+              <div class="w-px h-6 bg-white bg-opacity-30"></div>
+              <div class="text-right">
+                <div class="text-white font-bold text-lg">RENDAH</div>
+                <div class="text-blue-200 text-xs">Ancaman</div>
+              </div>
             </div>
-        </div>
-
-        <!-- Alerts Card -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-5 hover:shadow-xl transition-shadow">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs sm:text-sm text-gray-500">Peringatan Aktif</p>
-                    <p class="text-2xl sm:text-3xl font-bold text-gray-800"><?= $activeAlerts ?></p>
-                    <p class="text-xs text-gray-400"><?= $criticalAlerts ?> kritis</p>
-                </div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-orange-100 rounded-lg text-orange-500 text-lg sm:text-xl">
-                    <i class="fas fa-bell"></i>
-                </div>
-            </div>
-            <div class="mt-3">
-                <div class="w-full bg-gray-200 rounded-full h-1.5">
-                    <div class="bg-orange-500 h-1.5 rounded-full" style="width: <?= $totalAlerts > 0 ? min(100, ($activeAlerts / $totalAlerts) * 100) : 0 ?>%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">Tingkat peringatan aktif</p>
-            </div>
-        </div>
-
-        <!-- Threats Card -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-5 hover:shadow-xl transition-shadow">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs sm:text-sm text-gray-500">Ancaman Aktif</p>
-                    <p class="text-2xl sm:text-3xl font-bold text-gray-800"><?= $activeThreats ?></p>
-                    <p class="text-xs text-gray-400"><?= $highSeverityThreats ?> tingkat tinggi</p>
-                </div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-red-100 rounded-lg text-red-500 text-lg sm:text-xl">
-                    <i class="fas fa-virus"></i>
-                </div>
-            </div>
-            <div class="mt-3">
-                <div class="w-full bg-gray-200 rounded-full h-1.5">
-                    <div class="bg-red-500 h-1.5 rounded-full" style="width: <?= $totalThreats > 0 ? min(100, ($activeThreats / $totalThreats) * 100) : 0 ?>%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">Tingkat ancaman aktif</p>
-            </div>
-        </div>
-
-        <!-- Resolved Card -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-5 hover:shadow-xl transition-shadow">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs sm:text-sm text-gray-500">Diselesaikan</p>
-                    <p class="text-2xl sm:text-3xl font-bold text-gray-800"><?= $closedIncidents ?></p>
-                    <p class="text-xs text-green-500 font-semibold">+<?= $resolutionRate ?>% tingkat penyelesaian</p>
-                </div>
-                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-green-100 rounded-lg text-green-500 text-lg sm:text-xl">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-            </div>
-            <div class="mt-3">
-                <div class="w-full bg-gray-200 rounded-full h-1.5">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: <?= $resolutionRate ?>%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-1">Tingkat penyelesaian</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <!-- Recent Incidents -->
-        <div class="lg:col-span-2 bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-exclamation-triangle mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Insiden Terbaru
-                </h3>
-                <a href="/incidents" class="text-blue-600 hover:text-blue-800 text-xs sm:text-sm">
-                    Lihat semua <i class="fas fa-arrow-right ml-1"></i>
+          </div>
+          
+          <!-- Quick Access Menu -->
+          <div class="relative">
+            <button class="w-12 h-12 bg-white bg-opacity-10 backdrop-blur-sm hover:bg-opacity-20 rounded-xl border border-white border-opacity-20 flex items-center justify-center transition-all duration-200 group" onclick="toggleQuickMenu()">
+              <i class="fas fa-ellipsis-v text-white group-hover:scale-110 transition-transform"></i>
+            </button>
+            
+            <!-- Quick Menu Dropdown -->
+            <div id="quickMenu" class="hidden absolute right-0 top-14 w-48 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50">
+              <div class="p-2">
+                <a href="/incidents/create" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-plus w-4 text-blue-600"></i>
+                  <span>Insiden Baru</span>
                 </a>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-xs sm:text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Insiden</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Tingkat Keparahan</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Status</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($latestIncidents)): ?>
-                            <?php foreach ($latestIncidents as $incident): ?>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-3 sm:px-6 py-2 sm:py-4 font-medium text-gray-900 max-w-[120px] sm:max-w-xs truncate" title="<?= esc($incident['title']) ?>">
-                                        <?= esc($incident['title']) ?>
-                                    </th>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full
-                                        <?php
-                                        switch ($incident['severity']) {
-                                            case 'Critical':
-                                                echo 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'High':
-                                                echo 'bg-orange-100 text-orange-800';
-                                                break;
-                                            case 'Medium':
-                                                echo 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'Low':
-                                                echo 'bg-blue-100 text-blue-800';
-                                                break;
-                                            default:
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                        }
-                                        ?>">
-                                            <?= esc($incident['severity']) ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full
-                                        <?php
-                                        switch ($incident['status']) {
-                                            case 'Open':
-                                                echo 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'In Progress':
-                                                echo 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'Closed':
-                                                echo 'bg-green-100 text-green-800';
-                                                break;
-                                            default:
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                        }
-                                        ?>">
-                                            <?= esc($incident['status']) ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4 whitespace-nowrap">
-                                        <?= date('j M, H:i', strtotime($incident['created_at'])) ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-                                    <i class="fas fa-info-circle text-gray-400 text-xl mb-2"></i>
-                                    <p>Belum ada insiden yang tercatat</p>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Severity Distribution -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-chart-pie mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Tingkat Keparahan Insiden
-                </h3>
-            </div>
-            <div class="p-3 sm:p-6">
-                <canvas id="severityChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Secondary Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
-        <!-- Recent Alerts -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-bell mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Peringatan Terbaru
-                </h3>
-                <a href="/alerts" class="text-blue-600 hover:text-blue-800 text-xs sm:text-sm">
-                    Lihat semua <i class="fas fa-arrow-right ml-1"></i>
+                <a href="/alerts" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-bell w-4 text-orange-600"></i>
+                  <span>Lihat Peringatan</span>
                 </a>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-xs sm:text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Peringatan</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Prioritas</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($latestAlerts)): ?>
-                            <?php foreach ($latestAlerts as $alert): ?>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-3 sm:px-6 py-2 sm:py-4 font-medium text-gray-900 max-w-[100px] sm:max-w-xs truncate" title="<?= esc($alert['alert_name']) ?>">
-                                        <?= esc($alert['alert_name']) ?>
-                                    </th>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full
-                                        <?php
-                                        switch ($alert['priority']) {
-                                            case 'Critical':
-                                                echo 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'High':
-                                                echo 'bg-orange-100 text-orange-800';
-                                                break;
-                                            case 'Medium':
-                                                echo 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'Low':
-                                                echo 'bg-blue-100 text-blue-800';
-                                                break;
-                                            default:
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                        }
-                                        ?>">
-                                            <?= esc($alert['priority']) ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full
-                                        <?php
-                                        switch ($alert['status']) {
-                                            case 'Active':
-                                                echo 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'Investigating':
-                                                echo 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'Closed':
-                                                echo 'bg-green-100 text-green-800';
-                                                break;
-                                            case 'False Positive':
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                            default:
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                        }
-                                        ?>">
-                                            <?= esc($alert['status']) ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3" class="px-4 py-6 text-center text-gray-500">
-                                    <i class="fas fa-info-circle text-gray-400 text-xl mb-2"></i>
-                                    <p>Belum ada peringatan yang tercatat</p>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Alert Priority Distribution -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-chart-bar mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Prioritas Peringatan
-                </h3>
-            </div>
-            <div class="p-3 sm:p-6">
-                <canvas id="priorityChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Threat Severity Distribution -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-biohazard mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Tingkat Keparahan Ancaman
-                </h3>
-            </div>
-            <div class="p-3 sm:p-6">
-                <canvas id="threatSeverityChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tertiary Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
-        <!-- Recent Threats -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-skull-crossbones mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Ancaman Terbaru
-                </h3>
-                <a href="/threats" class="text-blue-600 hover:text-blue-800 text-xs sm:text-sm">
-                    Lihat semua <i class="fas fa-arrow-right ml-1"></i>
+                <a href="/reports" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-chart-line w-4 text-green-600"></i>
+                  <span>Buat Laporan</span>
                 </a>
+                <div class="border-t border-gray-200 my-2"></div>
+                <a href="/settings" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                  <i class="fas fa-cog w-4 text-gray-600"></i>
+                  <span>Pengaturan</span>
+                </a>
+              </div>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-xs sm:text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Ancaman</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Tipe</th>
-                            <th scope="col" class="px-3 sm:px-6 py-2 sm:py-3">Tingkat Keparahan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($latestThreats)): ?>
-                            <?php foreach ($latestThreats as $threat): ?>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-3 sm:px-6 py-2 sm:py-4 font-medium text-gray-900 max-w-[100px] sm:max-w-xs truncate" title="<?= esc($threat['ioc_value']) ?>">
-                                        <?= esc($threat['ioc_value']) ?>
-                                    </th>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800">
-                                            <?= esc($threat['ioc_type']) ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                        <span class="inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-medium rounded-full
-                                        <?php
-                                        switch ($threat['severity']) {
-                                            case 'Critical':
-                                                echo 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'High':
-                                                echo 'bg-orange-100 text-orange-800';
-                                                break;
-                                            case 'Medium':
-                                                echo 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'Low':
-                                                echo 'bg-blue-100 text-blue-800';
-                                                break;
-                                            default:
-                                                echo 'bg-gray-100 text-gray-800';
-                                                break;
-                                        }
-                                        ?>">
-                                            <?= esc($threat['severity']) ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3" class="px-4 py-6 text-center text-gray-500">
-                                    <i class="fas fa-info-circle text-gray-400 text-xl mb-2"></i>
-                                    <p>Belum ada ancaman yang tercatat</p>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+          </div>
         </div>
-
-        <!-- Top Source IPs -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-network-wired mr-1.5 sm:mr-2 text-gray-600"></i>
-                    IP Sumber Teratas
-                </h3>
-            </div>
-            <div class="p-3 sm:p-6">
-                <?php if (!empty($topIncidentIPs)): ?>
-                    <div class="space-y-3">
-                        <?php foreach ($topIncidentIPs as $ip): ?>
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-700"><?= esc($ip['source_ip']) ?></span>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <?= $ip['count'] ?> insiden
-                                </span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full" style="width: <?= ($ip['count'] / max(array_column($topIncidentIPs, 'count')) * 100) ?>%"></div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php else: ?>
-                    <div class="text-center py-6 text-gray-500">
-                        <i class="fas fa-info-circle text-gray-400 text-xl mb-2"></i>
-                        <p>Belum ada IP sumber yang tercatat</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- Top Threat Types -->
-        <div class="bg-white rounded-lg sm:rounded-xl shadow-lg overflow-hidden">
-            <div class="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-900 flex items-center">
-                    <i class="fas fa-virus mr-1.5 sm:mr-2 text-gray-600"></i>
-                    Tipe Ancaman Teratas
-                </h3>
-            </div>
-            <div class="p-3 sm:p-6">
-                <?php if (!empty($topThreatTypes)): ?>
-                    <div class="space-y-3">
-                        <?php foreach ($topThreatTypes as $threat): ?>
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-700"><?= esc($threat['threat_type']) ?></span>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    <?= $threat['count'] ?> ancaman
-                                </span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-red-600 h-2 rounded-full" style="width: <?= ($threat['count'] / max(array_column($topThreatTypes, 'count')) * 100) ?>%"></div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php else: ?>
-                    <div class="text-center py-6 text-gray-500">
-                        <i class="fas fa-info-circle text-gray-400 text-xl mb-2"></i>
-                        <p>Belum ada tipe ancaman yang tercatat</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
+      </div>
     </div>
+    
+    <!-- Bottom Stats Bar -->
+    <div class="bg-black bg-opacity-20 px-8 py-4">
+      <div class="flex flex-wrap items-center justify-between gap-4 text-sm">
+        <div class="flex flex-wrap items-center gap-6">
+          <div class="flex items-center space-x-2 text-blue-200">
+            <i class="fas fa-server w-4"></i>
+            <span>12 Titik Akhir</span>
+          </div>
+          <div class="flex items-center space-x-2 text-blue-200">
+            <i class="fas fa-network-wired w-4"></i>
+            <span>3 Jaringan</span>
+          </div>
+          <div class="flex items-center space-x-2 text-blue-200">
+            <i class="fas fa-eye w-4"></i>
+            <span><?= $totalIncidents ?> Insiden Terpantau</span>
+          </div>
+        </div>
+        <div class="text-blue-200">
+          <span>Skor Keamanan: </span>
+          <span class="text-white font-bold">A+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Security Metrics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- Total Incidents -->
+  <div class="dashboard-card">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Total Insiden</p>
+        <p class="text-3xl font-bold text-gray-900"><?= $totalIncidents ?></p>
+        <p class="text-xs text-gray-400 mt-1">Sepanjang waktu</p>
+      </div>
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-exclamation-triangle text-blue-600 text-xl"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Incidents -->
+  <div class="dashboard-card">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Insiden Terbuka</p>
+        <p class="text-3xl font-bold text-orange-600"><?= $openIncidents ?></p>
+        <p class="text-xs text-gray-400 mt-1">Sedang Aktif</p>
+      </div>
+      <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-clock text-orange-600 text-xl"></i>
+      </div>
+    </div>
+    <div class="px-6 pb-6">
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="bg-orange-500 h-2 rounded-full" style="width: <?= $totalIncidents > 0 ? ($openIncidents / $totalIncidents * 100) : 0 ?>%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resolved Incidents -->
+  <div class="dashboard-card">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Terselesaikan</p>
+        <p class="text-3xl font-bold text-green-600"><?= $closedIncidents ?></p>
+        <p class="text-xs text-green-500 mt-1">+12% minggu ini</p>
+      </div>
+      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+      </div>
+    </div>
+    <div class="px-6 pb-6">
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="bg-green-500 h-2 rounded-full" style="width: <?= $totalIncidents > 0 ? ($closedIncidents / $totalIncidents * 100) : 0 ?>%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Critical Incidents -->
+  <div class="dashboard-card">
+    <div class="flex items-center justify-between p-6">
+      <div>
+        <p class="text-sm font-medium text-gray-500 mb-1">Kritis</p>
+        <p class="text-3xl font-bold text-red-600"><?= $criticalIncidents ?></p>
+        <p class="text-xs text-red-500 mt-1">Butuh perhatian</p>
+      </div>
+      <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+        <i class="fas fa-fire text-red-600 text-xl"></i>
+      </div>
+    </div>
+    <?php if ($criticalIncidents > 0): ?>
+    <div class="px-6 pb-6 flex items-center space-x-2">
+      <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+      <span class="text-xs text-red-600 font-medium">Tindakan segera diperlukan</span>
+    </div>
+    <?php endif; ?>
+  </div>
+</div>
+
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Recent Incidents Table -->
+  <div class="lg:col-span-2">
+    <div class="dashboard-card">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-list-alt mr-2 text-gray-500"></i>
+            Insiden Terbaru
+          </h3>
+          <a href="/incidents" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Lihat semua</a>
+        </div>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full modern-table">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insiden</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sumber</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tingkat Keparahan</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <?php foreach($latestIncidents as $i): ?>
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900"><?= esc($i['title']) ?></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-600 font-mono"><?= esc($i['source_ip']) ?></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <?php
+                $severityColors = [
+                  'Low' => 'bg-green-100 text-green-800',
+                  'Medium' => 'bg-yellow-100 text-yellow-800', 
+                  'High' => 'bg-orange-100 text-orange-800',
+                  'Critical' => 'bg-red-100 text-red-800'
+                ];
+                $severityIndo = [
+                  'Low' => 'Rendah',
+                  'Medium' => 'Sedang', 
+                  'High' => 'Tinggi',
+                  'Critical' => 'Kritis'
+                ];
+                ?>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $severityColors[$i['severity']] ?? 'bg-gray-100 text-gray-800' ?>">
+                  <?= esc($severityIndo[$i['severity']] ?? $i['severity']) ?>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <?php
+                $statusColors = [
+                  'Open' => 'bg-blue-100 text-blue-800',
+                  'In Progress' => 'bg-yellow-100 text-yellow-800',
+                  'Resolved' => 'bg-green-100 text-green-800',
+                  'Closed' => 'bg-gray-100 text-gray-800'
+                ];
+                $statusIndo = [
+                  'Open' => 'Terbuka',
+                  'In Progress' => 'Sedang Diproses',
+                  'Resolved' => 'Terselesaikan',
+                  'Closed' => 'Ditutup'
+                ];
+                ?>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $statusColors[$i['status']] ?? 'bg-gray-100 text-gray-800' ?>">
+                  <?= esc($statusIndo[$i['status']] ?? $i['status']) ?>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <?= date('M j, H:i', strtotime($i['created_at'])) ?>
+              </td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+      
+      <?php if (empty($latestIncidents)): ?>
+      <div class="text-center py-12">
+        <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
+        <p class="text-gray-500">Tidak ada insiden terbaru</p>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <!-- Sidebar Charts & Info -->
+  <div class="space-y-6">
+    <!-- Severity Distribution Chart -->
+    <div class="dashboard-card">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <i class="fas fa-chart-pie mr-2 text-gray-500"></i>
+          Distribusi Keparahan
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="relative">
+          <canvas id="severityChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-card">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <i class="fas fa-bolt mr-2 text-gray-500"></i>
+          Aksi Cepat
+        </h3>
+      </div>
+      <div class="p-6 space-y-3">
+        <a href="/incidents/create" class="w-full btn btn-primary">
+          <i class="fas fa-plus mr-2"></i>
+          Insiden Baru
+        </a>
+        <a href="/alerts" class="w-full btn btn-secondary">
+          <i class="fas fa-bell mr-2"></i>
+          Lihat Peringatan
+        </a>
+        <a href="/reports" class="w-full btn btn-success">
+          <i class="fas fa-chart-line mr-2"></i>
+          Buat Laporan
+        </a>
+      </div>
+    </div>
+
+    <!-- System Health -->
+    <div class="dashboard-card">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          <i class="fas fa-heart mr-2 text-gray-500"></i>
+          Kesehatan Sistem
+        </h3>
+      </div>
+      <div class="p-6 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-600">Database</span>
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span class="text-sm font-medium text-green-600">Sehat</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-600">Layanan API</span>
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span class="text-sm font-medium text-green-600">Aktif</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-600">Pemantauan</span>
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span class="text-sm font-medium text-green-600">Berjalan</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-600">Cadangan Terakhir</span>
+          <span class="text-sm text-gray-500">2 jam yang lalu</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* Enhanced Dashboard Header Styles */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Glass morphism effect */
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse animation for status indicators */
+@keyframes statusPulse {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% { 
+    opacity: 0.8;
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+  }
+}
+
+.animate-status-pulse {
+  animation: statusPulse 2s infinite;
+}
+
+/* Header card hover effects */
+.header-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Quick menu animation */
+.quick-menu-slide {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .header-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+</style>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Incident Severity Distribution Chart
-        const severityCtx = document.getElementById('severityChart').getContext('2d');
-        new Chart(severityCtx, {
-            type: 'doughnut',
-            data: {
-                labels: <?= $severityLabels ?>,
-                datasets: [{
-                    label: 'Insiden berdasarkan Tingkat Keparahan',
-                    data: <?= $severityCounts ?>,
-                    backgroundColor: [
-                        '#60a5fa', // Rendah
-                        '#facc15', // Sedang
-                        '#f97316', // Tinggi
-                        '#ef4444' // Kritis
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
-                }
-            }
-        });
+// Enhanced Dashboard Header Functions
+function toggleQuickMenu() {
+  const menu = document.getElementById('quickMenu');
+  const isHidden = menu.classList.contains('hidden');
+  
+  if (isHidden) {
+    menu.classList.remove('hidden');
+    menu.classList.add('quick-menu-slide');
+    // Close menu when clicking outside
+    setTimeout(() => {
+      document.addEventListener('click', closeQuickMenuOnOutside);
+    }, 100);
+  } else {
+    menu.classList.add('hidden');
+    menu.classList.remove('quick-menu-slide');
+    document.removeEventListener('click', closeQuickMenuOnOutside);
+  }
+}
 
-        // Alert Priority Distribution Chart
-        const priorityCtx = document.getElementById('priorityChart').getContext('2d');
-        new Chart(priorityCtx, {
-            type: 'bar',
-            data: {
-                labels: <?= $priorityLabels ?>,
-                datasets: [{
-                    label: 'Peringatan berdasarkan Prioritas',
-                    data: <?= $priorityCounts ?>,
-                    backgroundColor: [
-                        '#60a5fa', // Rendah
-                        '#facc15', // Sedang
-                        '#f97316', // Tinggi
-                        '#ef4444' // Kritis
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+function closeQuickMenuOnOutside(event) {
+  const menu = document.getElementById('quickMenu');
+  const button = event.target.closest('button');
+  
+  if (!menu.contains(event.target) && !button) {
+    menu.classList.add('hidden');
+    menu.classList.remove('quick-menu-slide');
+    document.removeEventListener('click', closeQuickMenuOnOutside);
+  }
+}
 
-        // Threat Severity Distribution Chart
-        const threatSeverityCtx = document.getElementById('threatSeverityChart').getContext('2d');
-        new Chart(threatSeverityCtx, {
-            type: 'pie',
-            data: {
-                labels: <?= $threatSeverityLabels ?>,
-                datasets: [{
-                    label: 'Ancaman berdasarkan Tingkat Keparahan',
-                    data: <?= $threatSeverityCounts ?>,
-                    backgroundColor: [
-                        '#60a5fa', // Rendah
-                        '#facc15', // Sedang
-                        '#f97316', // Tinggi
-                        '#ef4444' // Kritis
-                    ],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    }
-                }
-            }
-        });
-    });
+// Header status updates
+function updateSystemStatus() {
+  // Simulate real-time status updates
+  const statusIndicators = document.querySelectorAll('.animate-pulse');
+  statusIndicators.forEach(indicator => {
+    // Add subtle color changes to indicate activity
+    indicator.style.opacity = '0.7';
+    setTimeout(() => {
+      indicator.style.opacity = '1';
+    }, 200);
+  });
+}
+
+// Auto-update system status every 5 seconds
+setInterval(updateSystemStatus, 5000);
+
+// Enhanced header animations on load
+function initializeHeaderAnimations() {
+  const headerElements = document.querySelectorAll('.header-card, .bg-gradient-to-r');
+  headerElements.forEach((element, index) => {
+    element.style.opacity = '0';
+    element.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+      element.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+    }, index * 150);
+  });
+}
+
+// Enhanced Severity Distribution Chart
+const ctx = document.getElementById('severityChart');
+const severityChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: <?= str_replace(['Low', 'Medium', 'High', 'Critical'], ['Rendah', 'Sedang', 'Tinggi', 'Kritis'], $severityLabels) ?>,
+    datasets: [{
+      data: <?= $severityCounts ?>,
+      backgroundColor: [
+        '#10B981', // Green for Low
+        '#F59E0B', // Yellow for Medium  
+        '#F97316', // Orange for High
+        '#EF4444'  // Red for Critical
+      ],
+      borderWidth: 0,
+      hoverBorderWidth: 2,
+      hoverBorderColor: '#ffffff'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '60%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          font: {
+            size: 12
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        borderColor: '#e5e7eb',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: false
+      }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 1000
+    }
+  }
+});
+
+// Auto-refresh functionality
+let lastUpdateTime = new Date();
+
+function updateLastUpdatedTime() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('en-US', { 
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  document.getElementById('lastUpdated').textContent = timeString;
+  lastUpdateTime = now;
+}
+
+// Update time every second
+setInterval(updateLastUpdatedTime, 1000);
+
+// Auto-refresh dashboard data every 30 seconds
+setInterval(function() {
+  console.log('Dashboard would refresh data from server');
+  // In production: fetch('/dashboard/data').then(data => updateDashboard(data));
+}, 30000);
+
+// Smooth scroll for quick action links
+document.querySelectorAll('a[href^="/"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    // Add loading state for better UX
+    const button = this;
+    const originalText = button.innerHTML;
+    
+    if (button.classList.contains('btn-primary') || 
+        button.classList.contains('btn-secondary') || 
+        button.classList.contains('btn-success')) {
+      
+      button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading...';
+      button.style.pointerEvents = 'none';
+      
+      setTimeout(() => {
+        button.innerHTML = originalText;
+        button.style.pointerEvents = 'auto';
+      }, 1500);
+    }
+  });
+});
+
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+  updateLastUpdatedTime();
+  initializeHeaderAnimations();
+  
+  // Add entrance animations for cards
+  const cards = document.querySelectorAll('.grid > div');
+  cards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+      card.style.transition = 'all 0.5s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, (index * 100) + 600); // Delay after header animation
+  });
+  
+  // Initialize header status pulse animation
+  updateSystemStatus();
+  
+  console.log('Enhanced SIEM Dashboard initialized successfully');
+});
+
+// Responsive chart resize
+window.addEventListener('resize', function() {
+  if (severityChart) {
+    severityChart.resize();
+  }
+});
 </script>
 
 <?= $this->endSection() ?>

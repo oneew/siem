@@ -9,16 +9,16 @@
                     <i class="fas fa-server text-blue-600 mr-3"></i>
                     Detail Aset
                 </h1>
-                <p class="text-gray-600 mt-1">Informasi lengkap dan status keamanan</p>
+                <p class="text-gray-600 mt-1">Informasi komprehensif dan status keamanan</p>
             </div>
             <div class="flex space-x-3">
                 <a href="/asset-management/<?= $asset['id'] ?>/edit" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-edit mr-2"></i>
-                    Ubah Aset
+                    Edit Aset
                 </a>
                 <a href="/asset-management" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
-                    Kembali ke Daftar Aset
+                    Kembali
                 </a>
             </div>
         </div>
@@ -26,7 +26,7 @@
 
     <div class="flex-1 p-6">
         <div class="max-w-6xl mx-auto">
-            <!-- Header Aset -->
+            <!-- Asset Header -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
                 <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
                     <div class="flex items-center justify-between">
@@ -36,27 +36,26 @@
                         </div>
                         <div class="text-right">
                             <span class="inline-flex px-4 py-2 text-sm font-medium rounded-full
-                                <?php
-                                switch ($asset['status']) {
-                                    case 'Online':
-                                        echo 'bg-green-500 text-white';
-                                        break;
-                                    case 'Offline':
-                                        echo 'bg-red-500 text-white';
-                                        break;
-                                    case 'Maintenance':
-                                        echo 'bg-yellow-500 text-white';
-                                        break;
-                                    case 'Decommissioned':
-                                        echo 'bg-gray-500 text-white';
-                                        break;
-                                    default:
-                                        echo 'bg-gray-500 text-white';
-                                        break;
+                                <?php 
+                                switch($asset['status']) {
+                                    case 'Online': echo 'bg-green-500 text-white'; break;
+                                    case 'Offline': echo 'bg-red-500 text-white'; break;
+                                    case 'Maintenance': echo 'bg-yellow-500 text-white'; break;
+                                    case 'Decommissioned': echo 'bg-gray-500 text-white'; break;
+                                    default: echo 'bg-gray-500 text-white'; break;
                                 }
                                 ?>">
                                 <i class="fas fa-circle text-xs mr-2"></i>
-                                <?= esc($asset['status']) ?>
+                                <?php
+                                $statusIndo = $asset['status'];
+                                switch($asset['status']) {
+                                    case 'Online': $statusIndo = 'Online'; break;
+                                    case 'Offline': $statusIndo = 'Offline'; break;
+                                    case 'Maintenance': $statusIndo = 'Pemeliharaan'; break;
+                                    case 'Decommissioned': $statusIndo = 'Dinonaktifkan'; break;
+                                }
+                                echo esc($statusIndo);
+                                ?>
                             </span>
                             <div class="text-sm text-blue-100 mt-2">
                                 ID Aset: #<?= $asset['id'] ?>
@@ -67,7 +66,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Informasi Dasar -->
+                <!-- Basic Information -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                         <h3 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -78,39 +77,38 @@
                     <div class="p-6">
                         <div class="space-y-4">
                             <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="font-medium text-gray-600">Jenis Aset:</span>
+                                <span class="font-medium text-gray-600">Tipe Aset:</span>
                                 <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php
-                                    switch ($asset['asset_type']) {
-                                        case 'Server':
-                                            echo 'bg-blue-100 text-blue-800';
-                                            break;
-                                        case 'Endpoint':
-                                            echo 'bg-green-100 text-green-800';
-                                            break;
-                                        case 'Network Device':
-                                            echo 'bg-purple-100 text-purple-800';
-                                            break;
-                                        case 'Mobile':
-                                            echo 'bg-pink-100 text-pink-800';
-                                            break;
-                                        case 'IoT Device':
-                                            echo 'bg-orange-100 text-orange-800';
-                                            break;
-                                        default:
-                                            echo 'bg-gray-100 text-gray-800';
-                                            break;
+                                    <?php 
+                                    switch($asset['asset_type']) {
+                                        case 'Server': echo 'bg-blue-100 text-blue-800'; break;
+                                        case 'Endpoint': echo 'bg-green-100 text-green-800'; break;
+                                        case 'Network Device': echo 'bg-purple-100 text-purple-800'; break;
+                                        case 'Mobile': echo 'bg-pink-100 text-pink-800'; break;
+                                        case 'IoT Device': echo 'bg-orange-100 text-orange-800'; break;
+                                        default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['asset_type']) ?>
+                                    <?php
+                                    $typeIndo = $asset['asset_type'];
+                                    switch($asset['asset_type']) {
+                                        case 'Server': $typeIndo = 'Server'; break;
+                                        case 'Endpoint': $typeIndo = 'Titik Akhir (Endpoint)'; break;
+                                        case 'Network Device': $typeIndo = 'Perangkat Jaringan'; break;
+                                        case 'Mobile': $typeIndo = 'Perangkat Seluler'; break;
+                                        case 'IoT Device': $typeIndo = 'Perangkat IoT'; break;
+                                        case 'Database': $typeIndo = 'Database'; break;
+                                    }
+                                    echo esc($typeIndo);
+                                    ?>
                                 </span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="font-medium text-gray-600">Alamat IP:</span>
+                                <span class="font-medium text-gray-600">IP Address:</span>
                                 <span class="font-mono text-gray-900"><?= esc($asset['ip_address']) ?></span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100">
-                                <span class="font-medium text-gray-600">Alamat MAC:</span>
+                                <span class="font-medium text-gray-600">MAC Address:</span>
                                 <span class="font-mono text-gray-900"><?= esc($asset['mac_address']) ?></span>
                             </div>
                             <div class="flex justify-between py-2 border-b border-gray-100">
@@ -122,35 +120,34 @@
                                 <span class="text-gray-900"><?= esc($asset['owner']) ?></span>
                             </div>
                             <div class="flex justify-between py-2">
-                                <span class="font-medium text-gray-600">Kritikalitas:</span>
+                                <span class="font-medium text-gray-600">Kekritisan:</span>
                                 <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
-                                    <?php
-                                    switch ($asset['criticality']) {
-                                        case 'Critical':
-                                            echo 'bg-red-100 text-red-800';
-                                            break;
-                                        case 'High':
-                                            echo 'bg-orange-100 text-orange-800';
-                                            break;
-                                        case 'Medium':
-                                            echo 'bg-yellow-100 text-yellow-800';
-                                            break;
-                                        case 'Low':
-                                            echo 'bg-blue-100 text-blue-800';
-                                            break;
-                                        default:
-                                            echo 'bg-gray-100 text-gray-800';
-                                            break;
+                                    <?php 
+                                    switch($asset['criticality']) {
+                                        case 'Critical': echo 'bg-red-100 text-red-800'; break;
+                                        case 'High': echo 'bg-orange-100 text-orange-800'; break;
+                                        case 'Medium': echo 'bg-yellow-100 text-yellow-800'; break;
+                                        case 'Low': echo 'bg-blue-100 text-blue-800'; break;
+                                        default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['criticality']) ?>
+                                    <?php
+                                    $criticalityIndo = $asset['criticality'];
+                                    switch($asset['criticality']) {
+                                        case 'Critical': $criticalityIndo = 'Kritis'; break;
+                                        case 'High': $criticalityIndo = 'Tinggi'; break;
+                                        case 'Medium': $criticalityIndo = 'Sedang'; break;
+                                        case 'Low': $criticalityIndo = 'Rendah'; break;
+                                    }
+                                    echo esc($criticalityIndo);
+                                    ?>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Status Keamanan -->
+                <!-- Security Status -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                         <h3 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -160,90 +157,87 @@
                     </div>
                     <div class="p-6">
                         <div class="space-y-6">
-                            <!-- Status Kerentanan -->
+                            <!-- Vulnerability Status -->
                             <div class="text-center">
                                 <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4
-                                    <?php
-                                    switch ($asset['vulnerability_status']) {
-                                        case 'Vulnerable':
-                                            echo 'bg-red-100';
-                                            break;
-                                        case 'Secure':
-                                            echo 'bg-green-100';
-                                            break;
-                                        case 'Patching Required':
-                                            echo 'bg-orange-100';
-                                            break;
-                                        case 'Unknown':
-                                            echo 'bg-gray-100';
-                                            break;
-                                        default:
-                                            echo 'bg-gray-100';
-                                            break;
+                                    <?php 
+                                    switch($asset['vulnerability_status']) {
+                                        case 'Vulnerable': echo 'bg-red-100'; break;
+                                        case 'Secure': echo 'bg-green-100'; break;
+                                        case 'Patching Required': echo 'bg-orange-100'; break;
+                                        case 'Unknown': echo 'bg-gray-100'; break;
+                                        default: echo 'bg-gray-100'; break;
                                     }
                                     ?>">
-                                    <i class="fas <?php
-                                                    switch ($asset['vulnerability_status']) {
-                                                        case 'Vulnerable':
-                                                            echo 'fa-exclamation-triangle text-red-600 text-2xl';
-                                                            break;
-                                                        case 'Secure':
-                                                            echo 'fa-shield-alt text-green-600 text-2xl';
-                                                            break;
-                                                        case 'Patching Required':
-                                                            echo 'fa-tools text-orange-600 text-2xl';
-                                                            break;
-                                                        case 'Unknown':
-                                                            echo 'fa-question text-gray-600 text-2xl';
-                                                            break;
-                                                        default:
-                                                            echo 'fa-question text-gray-600 text-2xl';
-                                                            break;
-                                                    }
-                                                    ?>"></i>
+                                    <i class="fas <?php 
+                                        switch($asset['vulnerability_status']) {
+                                            case 'Vulnerable': echo 'fa-exclamation-triangle text-red-600 text-2xl'; break;
+                                            case 'Secure': echo 'fa-shield-alt text-green-600 text-2xl'; break;
+                                            case 'Patching Required': echo 'fa-tools text-orange-600 text-2xl'; break;
+                                            case 'Unknown': echo 'fa-question text-gray-600 text-2xl'; break;
+                                            default: echo 'fa-question text-gray-600 text-2xl'; break;
+                                        }
+                                        ?>"></i>
                                 </div>
                                 <h4 class="text-lg font-semibold text-gray-900">Status Kerentanan</h4>
                                 <span class="inline-flex px-4 py-2 text-sm font-medium rounded-full mt-2
-                                    <?php
-                                    switch ($asset['vulnerability_status']) {
-                                        case 'Vulnerable':
-                                            echo 'bg-red-100 text-red-800';
-                                            break;
-                                        case 'Secure':
-                                            echo 'bg-green-100 text-green-800';
-                                            break;
-                                        case 'Patching Required':
-                                            echo 'bg-orange-100 text-orange-800';
-                                            break;
-                                        case 'Unknown':
-                                            echo 'bg-gray-100 text-gray-800';
-                                            break;
-                                        default:
-                                            echo 'bg-gray-100 text-gray-800';
-                                            break;
+                                    <?php 
+                                    switch($asset['vulnerability_status']) {
+                                        case 'Vulnerable': echo 'bg-red-100 text-red-800'; break;
+                                        case 'Secure': echo 'bg-green-100 text-green-800'; break;
+                                        case 'Patching Required': echo 'bg-orange-100 text-orange-800'; break;
+                                        case 'Unknown': echo 'bg-gray-100 text-gray-800'; break;
+                                        default: echo 'bg-gray-100 text-gray-800'; break;
                                     }
                                     ?>">
-                                    <?= esc($asset['vulnerability_status']) ?>
+                                    <?php
+                                    $vulnStatusIndo = $asset['vulnerability_status'];
+                                    switch($asset['vulnerability_status']) {
+                                        case 'Vulnerable': $vulnStatusIndo = 'Rentan'; break;
+                                        case 'Secure': $vulnStatusIndo = 'Aman'; break;
+                                        case 'Patching Required': $vulnStatusIndo = 'Butuh Patch'; break;
+                                        case 'Unknown': $vulnStatusIndo = 'Tidak Diketahui'; break;
+                                    }
+                                    echo esc($vulnStatusIndo);
+                                    ?>
                                 </span>
                             </div>
 
-                            <!-- Info Scan Terakhir -->
+                            <!-- Last Scan Information -->
                             <div class="border-t border-gray-200 pt-4">
                                 <div class="flex justify-between items-center">
-                                    <span class="font-medium text-gray-600">Pemeriksaan Keamanan Terakhir:</span>
+                                    <span class="font-medium text-gray-600">Pemindaian Keamanan Terakhir:</span>
                                     <span class="text-gray-900">
-                                        <?= isset($asset['last_scan']) && $asset['last_scan'] ?
-                                            date('d M Y \p\u\k\u l H:i', strtotime($asset['last_scan'])) :
-                                            'Belum pernah diperiksa' ?>
+                                        <?= isset($asset['last_scan']) && $asset['last_scan'] ? 
+                                            date('j M Y \p\u\k\u\l H:i', strtotime($asset['last_scan'])) : 
+                                            'Belum pernah dipindai' ?>
                                     </span>
                                 </div>
+                                
+                                <?php if (isset($asset['last_scan']) && $asset['last_scan']): ?>
+                                <div class="mt-2 text-sm text-gray-500">
+                                    <?php
+                                    $scanTime = strtotime($asset['last_scan']);
+                                    $now = time();
+                                    $diff = $now - $scanTime;
+                                    
+                                    if ($diff < 3600) {
+                                        echo floor($diff / 60) . ' menit yang lalu';
+                                    } elseif ($diff < 86400) {
+                                        echo floor($diff / 3600) . ' jam yang lalu';
+                                    } else {
+                                        echo floor($diff / 86400) . ' hari yang lalu';
+                                    }
+                                    ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
 
-                            <!-- Tombol Aksi -->
+                            <!-- Action Buttons -->
                             <div class="border-t border-gray-200 pt-4 space-y-3">
                                 <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
                                     <i class="fas fa-search mr-2"></i>
-                                    Mulai Pemeriksaan Keamanan
+                                    Mulai Pemindaian Keamanan
                                 </button>
                                 <button class="w-full bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center">
                                     <i class="fas fa-download mr-2"></i>
@@ -255,7 +249,7 @@
                 </div>
             </div>
 
-            <!-- Linimasa & Aktivitas -->
+            <!-- Timeline and Activity -->
             <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -265,7 +259,7 @@
                 </div>
                 <div class="p-6">
                     <div class="space-y-4">
-                        <!-- Aset Dibuat -->
+                        <!-- Asset Created -->
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -275,29 +269,29 @@
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-gray-900">Aset terdaftar di sistem</p>
                                 <p class="text-xs text-gray-500">
-                                    <?= isset($asset['created_at']) ? date('d M Y \p\u\k\u l H:i', strtotime($asset['created_at'])) : 'Tidak diketahui' ?>
+                                    <?= isset($asset['created_at']) ? date('j M Y \p\u\k\u\l H:i', strtotime($asset['created_at'])) : 'Tidak Dikehatui' ?>
                                 </p>
                             </div>
                         </div>
 
                         <?php if (isset($asset['last_scan']) && $asset['last_scan']): ?>
-                            <!-- Pemeriksaan Keamanan Terakhir -->
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-shield-alt text-green-600 text-sm"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Pemeriksaan keamanan selesai</p>
-                                    <p class="text-xs text-gray-500">
-                                        <?= date('d M Y \p\u\k\u l H:i', strtotime($asset['last_scan'])) ?>
-                                    </p>
+                        <!-- Last Security Scan -->
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-shield-alt text-green-600 text-sm"></i>
                                 </div>
                             </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">Pemindaian keamanan selesai</p>
+                                <p class="text-xs text-gray-500">
+                                    <?= date('j M Y \p\u\k\u\l H:i', strtotime($asset['last_scan'])) ?>
+                                </p>
+                            </div>
+                        </div>
                         <?php endif; ?>
 
-                        <!-- Aktivitas Demo -->
+                        <!-- Demo Activities -->
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -306,7 +300,7 @@
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-gray-900">Konfigurasi diperbarui</p>
-                                <p class="text-xs text-gray-500">Aktivitas demo - 2 hari lalu</p>
+                                <p class="text-xs text-gray-500">Aktivitas demo - 2 hari yang lalu</p>
                             </div>
                         </div>
 
@@ -318,14 +312,14 @@
                             </div>
                             <div class="flex-1">
                                 <p class="text-sm font-medium text-gray-900">Konektivitas jaringan diverifikasi</p>
-                                <p class="text-xs text-gray-500">Aktivitas demo - 5 hari lalu</p>
+                                <p class="text-xs text-gray-500">Aktivitas demo - 5 hari yang lalu</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Aksi Cepat -->
+            <!-- Quick Actions -->
             <div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -341,7 +335,7 @@
                         </button>
                         <button class="bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
                             <i class="fas fa-network-wired text-xl mb-2"></i>
-                            <span class="text-sm font-medium">Uji Ping</span>
+                            <span class="text-sm font-medium">Tes Ping</span>
                         </button>
                         <button class="bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 py-3 px-4 rounded-lg transition-colors flex flex-col items-center">
                             <i class="fas fa-chart-line text-xl mb-2"></i>
@@ -359,17 +353,17 @@
 </div>
 
 <script>
-    // Fungsi demo untuk aksi cepat
-    document.addEventListener('DOMContentLoaded', function() {
-        const actionButtons = document.querySelectorAll('.bg-blue-50, .bg-green-50, .bg-orange-50, .bg-purple-50');
-
-        actionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const action = this.querySelector('span').textContent;
-                showInfoAlert('Manajemen Aset', `Fungsi ${action} akan diimplementasikan di lingkungan produksi.`);
-            });
+// Demo functionality for quick actions
+document.addEventListener('DOMContentLoaded', function() {
+    const actionButtons = document.querySelectorAll('.bg-blue-50, .bg-green-50, .bg-orange-50, .bg-purple-50');
+    
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const action = this.querySelector('span').textContent;
+            alert(`Fungsi ${action} akan diimplementasikan di lingkungan produksi.`);
         });
     });
+});
 </script>
 
 <?= $this->endSection() ?>

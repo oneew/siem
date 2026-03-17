@@ -9,28 +9,26 @@ class IncidentModel extends Model
     protected $table = 'incidents';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'title',
-        'description',
-        'source_ip',
-        'attack_type',
-        'severity',
-        'status',
-        'resolution_notes',
-        'resolved_at',
-        'evidence_collected',
-        'created_at',
-        'updated_at'
+        'title', 'description', 'source_ip', 'attack_type', 'attack_vector',
+        'severity', 'impact', 'status', 'priority', 'assigned_to',
+        'resolution_notes', 'resolved_at', 'first_detected', 'containment_time',
+        'eradication_time', 'recovery_time', 'lessons_learned', 'tags',
+        'affected_systems', 'evidence_collected', 'created_at', 'updated_at'
     ];
     protected $useTimestamps = true;
-
+    
     protected $validationRules = [
         'title' => 'required|max_length[255]',
         'description' => 'required',
+        'attack_type' => 'in_list[Malware,Phishing,DDoS,Data Breach,Insider Threat,Advanced Persistent Threat,Ransomware,Social Engineering,Physical Security,Other]',
+        'attack_vector' => 'in_list[Email,Web Application,Network,USB/Removable Media,Social Engineering,Physical Access,Third Party,Unknown,Other]',
         'severity' => 'required|in_list[Low,Medium,High,Critical]',
-        'status' => 'required|in_list[Open,In Progress,Closed]',
-        'source_ip' => 'required|valid_ip'
+        'impact' => 'in_list[None,Low,Medium,High,Critical]',
+        'status' => 'required|in_list[New,Assigned,In Progress,Contained,Eradicated,Recovered,Closed]',
+        'priority' => 'in_list[Low,Medium,High,Critical]',
+        'source_ip' => 'valid_ip'
     ];
-
+    
     protected $validationMessages = [
         'title' => [
             'required' => 'Incident title is required',
@@ -45,35 +43,10 @@ class IncidentModel extends Model
         ],
         'status' => [
             'required' => 'Status is required',
-            'in_list' => 'Status must be one of: Open, In Progress, Closed'
+            'in_list' => 'Status must be valid incident response status'
         ],
         'source_ip' => [
-            'required' => 'Source IP address is required',
             'valid_ip' => 'Please provide a valid IP address'
         ]
     ];
-
-    // Override the insert method to add better error handling
-    public function insert($data = null, bool $returnID = true)
-    {
-        // Log the data being inserted
-        log_message('debug', 'Attempting to insert incident data: ' . json_encode($data));
-
-        try {
-            $result = parent::insert($data, $returnID);
-
-            if ($result === false) {
-                // Log the errors
-                $errors = $this->errors();
-                log_message('error', 'Failed to insert incident. Validation errors: ' . json_encode($errors));
-                return false;
-            }
-
-            log_message('debug', 'Incident inserted successfully with ID: ' . $result);
-            return $result;
-        } catch (\Exception $e) {
-            log_message('error', 'Exception during incident insert: ' . $e->getMessage());
-            return false;
-        }
-    }
 }

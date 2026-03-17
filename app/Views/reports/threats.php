@@ -411,10 +411,10 @@ new Chart(confidenceCtx, {
 // Export functions
 function exportReport(type) {
     if (type === 'excel') {
-        showInfoAlert('Export Report', 'Exporting threat intelligence report to Excel format (Demo Mode)');
+        alert('Exporting threat intelligence report to Excel format (Demo Mode)');
         // In production: window.location.href = '/reports/threats/export/excel';
     } else if (type === 'pdf') {
-        showInfoAlert('Export Report', 'Exporting threat intelligence report to PDF format (Demo Mode)');
+        alert('Exporting threat intelligence report to PDF format (Demo Mode)');
         // In production: window.location.href = '/reports/threats/export/pdf';
     }
 }

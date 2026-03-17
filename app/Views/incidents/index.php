@@ -1,189 +1,238 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Header Section -->
-<div class="bg-white shadow-sm border-b border-gray-200 p-6 mb-6">
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                <i class="fas fa-exclamation-triangle text-red-600 mr-3"></i>
-                Manajemen Insiden
-            </h1>
-            <p class="text-gray-600 mt-1">Memantau, mengelola, dan menyelesaikan insiden keamanan</p>
+<div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Header Section -->
+    <div class="bg-white shadow-sm border-b border-gray-200 p-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-exclamation-triangle text-red-600 mr-3"></i>
+                    Manajemen Insiden
+                </h1>
+                <p class="text-gray-600 mt-1">Pantau, kelola, dan tangani insiden keamanan sistem Anda.</p>
+            </div>
+            <div class="flex space-x-3">
+                <a href="/incidents/create" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
+                    <i class="fas fa-plus mr-2"></i>
+                    Buat Insiden
+                </a>
+                <a href="/reports/incidentsExcel?start=<?= esc($_GET['start'] ?? '') ?>&end=<?= esc($_GET['end'] ?? '') ?>" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
+                    <i class="fas fa-file-excel mr-2"></i>
+                    Ekspor Excel
+                </a>
+            </div>
         </div>
-        <div class="flex space-x-3">
-            <a href="/incidents/create" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
-                <i class="fas fa-plus mr-2"></i>
-                Buat Insiden
+    </div>
+
+    <!-- Filters Section -->
+    <div class="bg-gray-50 p-6 border-b border-gray-200">
+        <form method="get" action="/incidents" class="flex flex-wrap items-center gap-4">
+            <div class="flex items-center space-x-2">
+                <label class="text-sm font-medium text-gray-700">Mulai:</label>
+                <input type="date" name="start" value="<?= esc($_GET['start'] ?? '') ?>" class="form-input border-gray-300 rounded-lg shadow-sm px-3 py-2">
+            </div>
+            <div class="flex items-center space-x-2">
+                <label class="text-sm font-medium text-gray-700">Hingga:</label>
+                <input type="date" name="end" value="<?= esc($_GET['end'] ?? '') ?>" class="form-input border-gray-300 rounded-lg shadow-sm px-3 py-2">
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+                <i class="fas fa-filter mr-2"></i>
+                Setel Filter
+            </button>
+            <a href="/incidents" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+                <i class="fas fa-refresh mr-2"></i>
+                Muat Ulang
             </a>
-        </div>
+        </form>
     </div>
-</div>
 
-<!-- Flash Messages -->
-<?= $this->include('components/flash_messages') ?>
+    <!-- Statistics Cards -->
+    <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-red-100 text-sm font-medium">Total Insiden</h3>
+                        <p class="text-3xl font-bold"><?= count($incidents) ?></p>
+                    </div>
+                    <div class="bg-red-400 bg-opacity-30 p-3 rounded-lg">
+                        <i class="fas fa-exclamation-triangle text-2xl"></i>
+                    </div>
+                </div>
+            </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-    <div class="bg-white rounded-xl shadow-lg p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-sm text-gray-500">Total Insiden</p>
-                <p class="text-3xl font-bold text-gray-800"><?= count($incidents) ?></p>
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-orange-100 text-sm font-medium">Belum Ditangani</h3>
+                        <p class="text-3xl font-bold"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'Open')) ?></p>
+                    </div>
+                    <div class="bg-orange-400 bg-opacity-30 p-3 rounded-lg">
+                        <i class="fas fa-clock text-2xl"></i>
+                    </div>
+                </div>
             </div>
-            <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg text-blue-500 text-xl">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-        </div>
-    </div>
-    <div class="bg-white rounded-xl shadow-lg p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-sm text-gray-500">Insiden Terbuka</p>
-                <p class="text-3xl font-bold text-gray-800"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'Open')) ?></p>
-            </div>
-            <div class="w-12 h-12 flex items-center justify-center bg-orange-100 rounded-lg text-orange-500 text-xl">
-                <i class="fas fa-folder-open"></i>
-            </div>
-        </div>
-    </div>
-    <div class="bg-white rounded-xl shadow-lg p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-sm text-gray-500">Dalam Proses</p>
-                <p class="text-3xl font-bold text-gray-800"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'In Progress')) ?></p>
-            </div>
-            <div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-lg text-yellow-500 text-xl">
-                <i class="fas fa-tasks"></i>
-            </div>
-        </div>
-    </div>
-    <div class="bg-white rounded-xl shadow-lg p-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="text-sm text-gray-500">Diselesaikan</p>
-                <p class="text-3xl font-bold text-gray-800"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'Closed')) ?></p>
-            </div>
-            <div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg text-green-500 text-xl">
-                <i class="fas fa-check-circle"></i>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-            <i class="fas fa-list mr-2 text-gray-600"></i>
-            Semua Insiden
-        </h2>
-    </div>
-    <div class="overflow-x-auto">
-        <table class="w-full">
-            <thead class="bg-gray-50 border-b border-gray-200">
-                <tr>
-                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Detail Insiden</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tingkat Keparahan</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Dibuat</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <?php if (!empty($incidents)): ?>
-                    <?php foreach ($incidents as $incident): ?>
+            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-yellow-100 text-sm font-medium">Sedang Diproses</h3>
+                        <p class="text-3xl font-bold"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'In Progress')) ?></p>
+                    </div>
+                    <div class="bg-yellow-400 bg-opacity-30 p-3 rounded-lg">
+                        <i class="fas fa-tasks text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-green-100 text-sm font-medium">Terselesaikan</h3>
+                        <p class="text-3xl font-bold"><?= count(array_filter($incidents, fn($i) => $i['status'] === 'Closed')) ?></p>
+                    </div>
+                    <div class="bg-green-400 bg-opacity-30 p-3 rounded-lg">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <?php if(session()->getFlashdata('success')): ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Incidents Table -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <i class="fas fa-list mr-2 text-gray-600"></i>
+                    Daftar Insiden Tersimpan
+                </h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Detail Insiden</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">IP Sumber</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tingkat Keparahan</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Waktu Dibuat</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Pilihan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach($incidents as $i): ?>
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4">
                                 <div>
-                                    <div class="font-medium text-gray-900"><?= esc($incident['title']) ?></div>
-                                    <div class="text-sm text-gray-500">IP: <?= esc($incident['source_ip'] ?? 'N/A') ?></div>
+                                    <div class="font-medium text-gray-900"><?= esc($i['title']) ?></div>
+                                    <div class="text-sm text-gray-500"><?= esc(substr($i['description'] ?? '', 0, 60)) ?>...</div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
+                                <span class="font-mono text-sm text-gray-900"><?= esc($i['source_ip']) ?: 'N/A' ?></span>
+                            </td>
+                            <td class="px-6 py-4">
                                 <?php
-                                switch ($incident['severity']) {
-                                    case 'Critical':
-                                        echo 'bg-red-100 text-red-800';
-                                        break;
-                                    case 'High':
-                                        echo 'bg-orange-100 text-orange-800';
-                                        break;
-                                    case 'Medium':
-                                        echo 'bg-yellow-100 text-yellow-800';
-                                        break;
-                                    case 'Low':
-                                        echo 'bg-blue-100 text-blue-800';
-                                        break;
-                                    default:
-                                        echo 'bg-gray-100 text-gray-800';
-                                        break;
-                                }
-                                ?>">
-                                    <?= esc($incident['severity']) ?>
+                                $severityIndo = ['Low' => 'Rendah', 'Medium' => 'Sedang', 'High' => 'Tinggi', 'Critical' => 'Kritis'];
+                                $sev = esc($severityIndo[$i['severity']] ?? $i['severity']);
+                                ?>
+                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
+                                    <?php 
+                                    switch($i['severity']) {
+                                        case 'Critical': echo 'bg-red-100 text-red-800'; break;
+                                        case 'High': echo 'bg-orange-100 text-orange-800'; break;
+                                        case 'Medium': echo 'bg-yellow-100 text-yellow-800'; break;
+                                        case 'Low': echo 'bg-blue-100 text-blue-800'; break;
+                                        default: echo 'bg-gray-100 text-gray-800'; break;
+                                    }
+                                    ?>">
+                                    <i class="fas fa-circle text-xs mr-1 mt-0.5"></i>
+                                    <?= $sev ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
                                 <?php
-                                switch ($incident['status']) {
-                                    case 'Open':
-                                        echo 'bg-red-100 text-red-800';
-                                        break;
-                                    case 'In Progress':
-                                        echo 'bg-yellow-100 text-yellow-800';
-                                        break;
-                                    case 'Closed':
-                                        echo 'bg-green-100 text-green-800';
-                                        break;
-                                    default:
-                                        echo 'bg-gray-100 text-gray-800';
-                                        break;
-                                }
-                                ?>">
-                                    <?= esc($incident['status']) ?>
+                                $statusIndo = ['Open' => 'Terbuka', 'In Progress' => 'Sedang Diproses', 'Resolved' => 'Terselesaikan', 'Closed' => 'Ditutup'];
+                                $stat = esc($statusIndo[$i['status']] ?? $i['status']);
+                                ?>
+                                <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full
+                                    <?php 
+                                    switch($i['status']) {
+                                        case 'Open': echo 'bg-red-100 text-red-800'; break;
+                                        case 'In Progress': echo 'bg-yellow-100 text-yellow-800'; break;
+                                        case 'Closed': case 'Resolved': echo 'bg-green-100 text-green-800'; break;
+                                        default: echo 'bg-gray-100 text-gray-800'; break;
+                                    }
+                                    ?>">
+                                    <i class="fas fa-circle text-xs mr-1 mt-0.5"></i>
+                                    <?= $stat ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
-                                    <?= date('j M Y', strtotime($incident['created_at'])) ?>
+                                    <?= date('M j, Y', strtotime($i['created_at'])) ?>
                                 </div>
                                 <div class="text-xs text-gray-500">
-                                    <?= date('H:i', strtotime($incident['created_at'])) ?>
+                                    <?= date('H:i', strtotime($i['created_at'])) ?>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex space-x-2">
-                                    <a href="/incidents/show/<?= $incident['id'] ?>"
-                                        class="text-blue-600 hover:text-blue-800 transition-colors"
-                                        title="Lihat Detail">
+                                    <a href="/incidents/show/<?= $i['id'] ?>" 
+                                       class="text-blue-600 hover:text-blue-800 transition-colors" 
+                                       title="View Details">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="/incidents/edit/<?= $incident['id'] ?>"
-                                        class="text-yellow-600 hover:text-yellow-800 transition-colors"
-                                        title="Edit Insiden">
+                                    <a href="/incidents/edit/<?= $i['id'] ?>" 
+                                       class="text-yellow-600 hover:text-yellow-800 transition-colors" 
+                                       title="Edit Incident">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <button onclick="if(confirm('Apakah Anda yakin ingin menghapus insiden ini? Data tidak dapat dipulihkan.')) { 
+                                                window.location.href='/incidents/delete/<?= $i['id'] ?>' 
+                                            }"
+                                            class="text-red-600 hover:text-red-800 transition-colors" 
+                                            title="Hapus Insiden">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5" class="px-6 py-12 text-center">
-                            <div class="text-gray-400">
-                                <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
-                                <p class="text-lg font-medium">Tidak ada insiden ditemukan</p>
-                                <p class="text-sm">Buat insiden pertama Anda untuk memulai</p>
-                                <a href="/incidents/create" class="mt-4 inline-block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
-                                    <i class="fas fa-plus mr-1"></i> Buat Insiden
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                        <?php endforeach; ?>
+                        
+                        <?php if (empty($incidents)): ?>
+                        <tr>
+                            <td colspan="6" class="px-6 py-12 text-center">
+                                <div class="text-gray-400">
+                                    <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                                    <p class="text-lg font-medium">Tidak ada insiden yang ditemukan</p>
+                                    <p class="text-sm">Silakan buat laporan insiden keamanan pertama Anda</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+// Auto-refresh incident status every 30 seconds
+setInterval(function() {
+    // In a real implementation, this would update incident status via AJAX
+    console.log('Incident status refresh triggered');
+}, 30000);
+</script>
 
 <?= $this->endSection() ?>

@@ -1,121 +1,196 @@
-<aside class="sidebar flex flex-col h-screen fixed top-0 left-0 z-100 transition-transform duration-300 ease-in-out lg:translate-x-0 bg-white shadow-xl" id="sidebar">
-    <!-- Add toggle button at the top -->
-    <div class="sidebar-toggle absolute top-4 -right-3 bg-white rounded-full shadow-lg p-1 cursor-pointer hidden lg:block z-50" id="sidebarToggle">
-        <i class="fas fa-chevron-left text-gray-600 text-sm"></i>
+<!-- Enhanced Sidebar -->
+<aside 
+  class="sidebar fixed inset-y-0 left-0 z-30 bg-white border-r border-gray-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-medium lg:shadow-none"
+  id="sidebar"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <!-- Sidebar Header -->
+  <div class="sidebar-header flex items-center justify-between p-4 border-b border-gray-200 lg:hidden">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 bg-gradient-to-br from-siem-primary to-siem-accent rounded-lg flex items-center justify-center">
+        <i class="fas fa-shield-alt text-white text-sm"></i>
+      </div>
+      <span class="font-bold text-gray-900">SIEM Platform</span>
     </div>
+    <button 
+      class="sidebar-close p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+      id="sidebarClose"
+      aria-label="Close navigation menu"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
 
-    <div class="sidebar-header py-6 px-5 border-b border-gray-200 flex items-center gap-3 flex-shrink-0">
-        <div class="sidebar-logo-icon w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md">
-            <i class="fas fa-shield-alt text-white text-xl"></i>
+  <!-- Navigation Menu -->
+  <nav class="sidebar-nav flex-1 overflow-y-auto scrollbar-hide p-4">
+    <ul class="space-y-1">
+      <!-- Dashboard -->
+      <li>
+        <a href="<?= base_url('dashboard') ?>" class="nav-link flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('dashboard')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+          <i class="fas fa-home w-5 mr-3 <?= (current_url() == base_url('dashboard')) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500' ?> transition-colors"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <!-- APPS & PAGES -->
+      <li>
+        <div class="nav-section mt-6 mb-2">
+          <h3 class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">APPS & PAGES</h3>
         </div>
-        <span class="sidebar-logo-text text-gray-800 text-lg font-bold truncate">Platform SIEM</span>
-    </div>
+        <ul class="space-y-1">
+          <li>
+            <a href="<?= base_url('certificates') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('certificates')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-envelope-open-text w-5 mr-3 <?= (current_url() == base_url('certificates')) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500' ?> transition-colors"></i>
+              <span>Sertifikat Elektronik</span>
+              <i class="fas fa-chevron-right ml-auto text-xs opacity-50"></i>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('signatures') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('signatures')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-key w-5 mr-3 <?= (current_url() == base_url('signatures')) ? 'text-white' : 'text-gray-400 group-hover:text-amber-500' ?> transition-colors"></i>
+              <span>Tanda Tangan</span>
+              <i class="fas fa-chevron-right ml-auto text-xs opacity-50"></i>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('jamming') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('jamming')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-broadcast-tower w-5 mr-3 <?= (current_url() == base_url('jamming')) ? 'text-white' : 'text-gray-400 group-hover:text-red-500' ?> transition-colors"></i>
+              <span>Jamming</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('pentest') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('pentest')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-shield-alt w-5 mr-3 <?= (current_url() == base_url('pentest')) ? 'text-white' : 'text-gray-400 group-hover:text-green-500' ?> transition-colors"></i>
+              <span>Penetration Testing</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('incidents') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('incidents')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-unlock-alt w-5 mr-3 <?= (current_url() == base_url('incidents')) ? 'text-white' : 'text-gray-400 group-hover:text-red-500' ?> transition-colors"></i>
+              <span>Incident Handling</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('alerts') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('alerts')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-bell w-5 mr-3 <?= (current_url() == base_url('alerts')) ? 'text-white' : 'text-gray-400 group-hover:text-amber-500' ?> transition-colors"></i>
+              <span>Alerts</span>
+              <span class="ml-auto bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full">12</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('threats') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('threats')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-bug w-5 mr-3 <?= (current_url() == base_url('threats')) ? 'text-white' : 'text-gray-400 group-hover:text-red-600' ?> transition-colors"></i>
+              <span>Threat Detection</span>
+            </a>
+          </li>
+        </ul>
+      </li>
 
-    <nav class="sidebar-nav flex-grow overflow-y-auto py-4 px-3 custom-scrollbar">
-        <ul>
+      <!-- PARAMETER -->
+      <li>
+        <div class="nav-section mt-6 mb-2">
+          <h3 class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">PARAMETER</h3>
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <a href="<?= base_url('master-data') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('master-data')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-database w-5 mr-3 <?= (current_url() == base_url('master-data')) ? 'text-white' : 'text-gray-400 group-hover:text-indigo-500' ?> transition-colors"></i>
+              <span>Data Master</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- ANALYTICS & REPORTS -->
+      <li>
+        <div class="nav-section mt-6 mb-2">
+          <h3 class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">ANALYTICS & REPORTS</h3>
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <a href="<?= base_url('analytics') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('analytics')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-chart-line w-5 mr-3 <?= (current_url() == base_url('analytics')) ? 'text-white' : 'text-gray-400 group-hover:text-green-500' ?> transition-colors"></i>
+              <span>Analytics</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('reports') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('reports')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-file-chart-line w-5 mr-3 <?= (current_url() == base_url('reports')) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500' ?> transition-colors"></i>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('compliance') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('compliance')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-shield-check w-5 mr-3 <?= (current_url() == base_url('compliance')) ? 'text-white' : 'text-gray-400 group-hover:text-green-600' ?> transition-colors"></i>
+              <span>Compliance</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- LOG -->
+      <li>
+        <div class="nav-section mt-6 mb-2">
+          <h3 class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">LOG</h3>
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <a href="<?= base_url('web-monitor') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('web-monitor')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-search w-5 mr-3 <?= (current_url() == base_url('web-monitor')) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500' ?> transition-colors"></i>
+              <span>Monitoring Website</span>
+              <i class="fas fa-chevron-right ml-auto text-xs opacity-50"></i>
+            </a>
+          </li>
             <li>
-                <a href="/dashboard" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'dashboard') ? 'active bg-blue-100 text-blue-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                    <i class="fas fa-tachometer-alt icon w-5 text-center"></i>
-                    <span class="font-medium">Dasbor</span>
-                </a>
-            </li>
-
-            <li class="mt-6">
-                <h3 class="nav-section-title px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 flex items-center justify-between">
-                    <span>Pemantauan 24/7</span>
-                    <span class="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded-full font-semibold">LANGSUNG</span>
-                </h3>
-                <ul class="space-y-1 mt-1">
-                    <li>
-                        <a href="/incidents" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'incidents') ? 'active bg-red-50 text-red-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-exclamation-triangle icon w-5 text-center text-red-500"></i>
-                            <span class="font-medium">Insiden</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/alerts" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'alerts') ? 'active bg-orange-50 text-orange-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-bell icon w-5 text-center text-orange-500"></i>
-                            <span class="font-medium">Peringatan</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/threats" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'threats') ? 'active bg-purple-50 text-purple-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-virus icon w-5 text-center text-purple-500"></i>
-                            <span class="font-medium">Ancaman Aktif</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/monitoring" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'monitoring') ? 'active bg-teal-50 text-teal-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-desktop icon w-5 text-center text-teal-500"></i>
-                            <span class="font-medium">Monitoring Aset</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="mt-6">
-                <h3 class="nav-section-title px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500 flex items-center justify-between">
-                    <span>Analisis & Respons</span>
-                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-semibold">TINDAKAN</span>
-                </h3>
-                <ul class="space-y-1 mt-1">
-                    <li>
-                        <a href="/reports" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'reports') ? 'active bg-blue-50 text-blue-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-chart-line icon w-5 text-center text-blue-500"></i>
-                            <span class="font-medium">Laporan</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/forensics" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'forensics') ? 'active bg-gray-100 text-gray-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-search icon w-5 text-center text-gray-500"></i>
-                            <span class="font-medium">Forensik</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/playbooks" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'playbooks') ? 'active bg-gray-100 text-gray-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-book icon w-5 text-center text-gray-500"></i>
-                            <span class="font-medium">Playbook</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="mt-6">
-                <h3 class="nav-section-title px-4 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">Manajemen Sistem</h3>
-                <ul class="space-y-1 mt-1">
-                    <li>
-                        <a href="/asset-management" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'asset-management') ? 'active bg-gray-100 text-gray-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                            <i class="fas fa-server icon w-5 text-center text-gray-500"></i>
-                            <span class="font-medium">Aset</span>
-                        </a>
-                    </li>
-                    <?php if (session()->get('role') === 'Administrator'): ?>
-                        <li>
-                            <a href="/users" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'users') ? 'active bg-gray-100 text-gray-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                                <i class="fas fa-users-cog icon w-5 text-center text-gray-500"></i>
-                                <span class="font-medium">Pengguna</span>
-                                <?php
-                                // Count total users for badge
-                                $userModel = new \App\Models\UserModel();
-                                $userCount = $userModel->countAll();
-                                ?>
-                                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-500 rounded-full"><?= $userCount ?></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/settings" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 <?= (current_url(true)->getSegment(1) == 'settings') ? 'active bg-gray-100 text-gray-700 shadow-sm font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' ?>">
-                                <i class="fas fa-cog icon w-5 text-center text-gray-500"></i>
-                                <span class="font-medium">Pengaturan</span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
+              <a href="<?= base_url('logs') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('logs')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+                <i class="fas fa-file-alt w-5 mr-3 <?= (current_url() == base_url('logs')) ? 'text-white' : 'text-gray-400 group-hover:text-gray-600' ?> transition-colors"></i>
+                <span>Security Logs</span>
+              </a>
             </li>
         </ul>
-    </nav>
+      </li>
 
-    <!-- Sidebar Footer -->
-    <div class="sidebar-footer p-4 border-t border-gray-200 bg-gray-50 text-center text-xs text-gray-500">
-        SIEM Platform v2.1.0
-    </div>
+      <!-- SISTEM & AKUN -->
+      <li>
+        <div class="nav-section mt-6 mb-2">
+          <h3 class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">SISTEM & AKUN</h3>
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <a href="<?= base_url('settings') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('settings')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-cog w-5 mr-3 <?= (current_url() == base_url('settings')) ? 'text-white' : 'text-gray-400 group-hover:text-gray-600' ?> transition-colors"></i>
+              <span>Pengaturan Sistem</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('integrations') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('integrations')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="fas fa-plug w-5 mr-3 <?= (current_url() == base_url('integrations')) ? 'text-white' : 'text-gray-400 group-hover:text-purple-500' ?> transition-colors"></i>
+              <span>Integrasi (API)</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('users') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group <?= (current_url() == base_url('users')) ? 'active bg-blue-500 text-white shadow-md' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' ?>">
+              <i class="far fa-user w-5 mr-3 <?= (current_url() == base_url('users')) ? 'text-white' : 'text-gray-400 group-hover:text-blue-500' ?> transition-colors"></i>
+              <span>Manajemen Pengguna</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?= base_url('logout') ?>" class="nav-link flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group text-gray-600 hover:bg-red-50 hover:text-red-600">
+              <i class="fas fa-sign-out-alt w-5 mr-3 text-gray-400 group-hover:text-red-500 transition-colors"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+  </nav>
 </aside>
+
+<!-- Sidebar Overlay for Mobile -->
+<div 
+  class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden"
+  id="sidebarOverlay"
+  aria-hidden="true"
+></div>

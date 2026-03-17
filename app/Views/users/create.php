@@ -1,94 +1,55 @@
 <?= $this->extend('layout') ?>
 <?= $this->section('content') ?>
 
-<!-- Header Section -->
-<div class="bg-white shadow-sm border-b border-gray-200 p-6 mb-6">
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
-                <i class="fas fa-user-plus text-blue-600 mr-3"></i>
-                Tambah Pengguna Baru
-            </h1>
-            <p class="text-gray-600 mt-1">Buat akun pengguna baru dengan izin yang sesuai</p>
-        </div>
-        <div class="flex space-x-3">
-            <a href="/users" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg flex items-center shadow-md transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i>
-                Kembali ke Pengguna
-            </a>
-        </div>
-    </div>
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">
+        <i class="fa-solid fa-user-plus mr-2 text-blue-600"></i>
+        Tambah Pengguna Baru
+    </h1>
+    <a href="/users" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex items-center transition-colors">
+        <i class="fas fa-arrow-left mr-2"></i> Kembali
+    </a>
 </div>
 
-<!-- User Creation Form -->
-<div class="bg-white rounded-xl shadow-lg overflow-hidden">
-    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-            <i class="fas fa-user mr-2 text-gray-600"></i>
-            Detail Pengguna
-        </h2>
-    </div>
-    <div class="p-6">
-        <form method="post" action="/users/store" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Username Field -->
-                <div class="form-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2 required">
-                        Nama Pengguna
-                    </label>
-                    <input type="text"
-                        name="username"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                        required
-                        placeholder="Masukkan nama pengguna"
-                        minlength="3"
-                        maxlength="50">
-                    <p class="mt-1 text-sm text-gray-500">Nama pengguna harus unik dan minimal 3 karakter</p>
-                </div>
-
-                <!-- Role Field -->
-                <div class="form-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2 required">
-                        Peran
-                    </label>
-                    <select name="role"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                        required>
-                        <option value="">Pilih Peran</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Analyst">Analis</option>
-                        <option value="Operator">Operator</option>
-                    </select>
-                    <p class="mt-1 text-sm text-gray-500">Admin memiliki akses penuh, Analis dapat mengelola insiden, Operator hanya dapat melihat</p>
-                </div>
-
-                <!-- Password Field -->
-                <div class="form-group md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2 required">
-                        Kata Sandi
-                    </label>
-                    <input type="password"
-                        name="password"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                        required
-                        placeholder="Masukkan kata sandi"
-                        minlength="6">
-                    <p class="mt-1 text-sm text-gray-500">Kata sandi minimal 6 karakter</p>
-                </div>
-            </div>
-
-            <!-- Form Actions -->
-            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                <a href="/users" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                    Batal
-                </a>
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
-                    <i class="fas fa-save mr-2"></i>
-                    Buat Pengguna
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="bg-white rounded-lg shadow-md p-6">
+    <form method="post" action="/users/store" class="space-y-6">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Username *</label>
+            <input type="text" name="username" required 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Masukkan username" minlength="3" maxlength="50">
+            <p class="mt-1 text-sm text-gray-500">Username harus unik dan minimal 3 karakter</p>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+            <input type="password" name="password" required 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   placeholder="Masukkan password" minlength="6">
+            <p class="mt-1 text-sm text-gray-500">Password minimal 6 karakter</p>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
+            <select name="role" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Pilih Role</option>
+                <option value="Admin">Admin</option>
+                <option value="Analyst">Analyst</option>
+                <option value="Operator">Operator</option>
+            </select>
+            <p class="mt-1 text-sm text-gray-500">Admin memiliki akses penuh, Analyst dapat mengelola incident, Operator hanya bisa melihat</p>
+        </div>
+        
+        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 mt-6">
+            <a href="/users" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors">
+                Batal
+            </a>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md flex items-center transition-colors">
+                <i class="fa-solid fa-save mr-2"></i>
+                Simpan
+            </button>
+        </div>
+    </form>
 </div>
 
 <?= $this->endSection() ?>

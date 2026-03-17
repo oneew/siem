@@ -208,6 +208,11 @@
                 </h2>
             </div>
             <div class="p-6 space-y-3">
+                <a href="/playbooks" class="w-full text-left px-4 py-2 text-sm text-purple-700 hover:bg-purple-50 rounded-lg transition-colors flex items-center shadow-sm border border-purple-100 mb-4 bg-purple-50/50">
+                    <i class="fas fa-book mr-2 text-purple-500"></i>
+                    Jalankan Playbook Terkait
+                </a>
+                
                 <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center">
                     <i class="fas fa-share-alt mr-2 text-gray-500"></i>
                     Bagikan Insiden

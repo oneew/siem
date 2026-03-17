@@ -9,22 +9,13 @@ class AssetModel extends Model
     protected $table = 'assets';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'asset_name',
-        'asset_type',
-        'ip_address',
-        'mac_address',
-        'operating_system',
-        'status',
-        'criticality',
-        'location',
-        'owner',
-        'vulnerability_status',
-        'last_scan'
+        'asset_name', 'asset_type', 'ip_address', 'mac_address', 'operating_system',
+        'status', 'criticality', 'location', 'owner', 'vulnerability_status', 'last_scan'
     ];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
-
+    
     protected $validationRules = [
         'asset_name' => 'required|max_length[200]',
         'asset_type' => 'required|in_list[Server,Endpoint,Network Device,Mobile,IoT Device,Database]',
@@ -33,7 +24,7 @@ class AssetModel extends Model
         'criticality' => 'required|in_list[Low,Medium,High,Critical]',
         'vulnerability_status' => 'in_list[Unknown,Secure,Vulnerable,Patching Required]'
     ];
-
+    
     protected $validationMessages = [
         'asset_name' => [
             'required' => 'Asset name is required',
